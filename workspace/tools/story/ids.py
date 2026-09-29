@@ -30,6 +30,7 @@ WALDWEG, HIRSCHHEIM, FUCHSSCHREIN, URWALD, HIRSCHTHRON, EISENBERG, TIEFGRUBE, TI
 # Chapter 9: Morgenröte
 SALZHAFEN, SCHIFF, KNOCHENRIFF, VERSUNKENE_HALLE, URWALD_BRAND, HIRSCHTHRON_NACHT = 120, 121, 122, 123, 124, 125
 EPILOG_WALL, EPILOG_WEISSENFELS, EPILOG_RABENAU, EPILOG_KAMM = 126, 127, 128, 129
+TAVERNE_SH = 130
 
 NAMES = {
     CAVE: "Erwachenshöhle", RIDGE: "Kiefernkamm", ROAD: "Karrenweg", TREES: "Kiefernwald",
@@ -58,7 +59,7 @@ NAMES = {
     SALZHAFEN: "Salzhafen", SCHIFF: "Die Seeschwalbe", KNOCHENRIFF: "Knochenriff", VERSUNKENE_HALLE: "Versunkene Halle",
     URWALD_BRAND: "Brennender Urwald", HIRSCHTHRON_NACHT: "Hirschthron (Nacht)",
     EPILOG_WALL: "Epilog: Wallfeste", EPILOG_WEISSENFELS: "Epilog: Weißenfels", EPILOG_RABENAU: "Epilog: Rabenau",
-    EPILOG_KAMM: "Epilog: Kiefernkamm",
+    EPILOG_KAMM: "Epilog: Kiefernkamm", TAVERNE_SH: "Der Ertrunkene Mann",
 }
 
 # Act III travel (common event "Reisen"): label, map, x, y, direction, switch that unlocks it
@@ -67,7 +68,7 @@ TRAVEL = [
     ("Waldweg (Tiefenwald)", WALDWEG, 1, 20, 6, 'C7: Chapter Done'),
     ("Hirschheim", HIRSCHHEIM, 21, 36, 8, 'C8: Hirschheim'),
     ("Eisenberg", EISENBERG, 20, 30, 8, 'C8: Eisenberg'),
-    ("Salzhafen", SALZHAFEN, 4, 20, 6, 'C9: Salzhafen'),
+    ("Salzhafen", SALZHAFEN, 1, 11, 6, 'C9: Salzhafen'),
     ("Wachtburg", WACHTBURG, 24, 46, 8, 'C7: Chapter Done'),
     ("Wallfeste", WALLFESTE, 21, 32, 8, 'C7: Chapter Done'),
 ]

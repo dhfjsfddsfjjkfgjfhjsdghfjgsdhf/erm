@@ -48,6 +48,19 @@ class Registry:
         n = max(self.size, max(self.names) if self.names else 0)
         return [''] + [self.names.get(i, '') for i in range(1, n + 1)]
 
+def seed_registries(path):
+    """Pins switch and variable ids of an earlier build (names -> ids), so new chapters only append."""
+    if not os.path.exists(path):
+        return
+    reg = json.load(open(path, encoding='utf-8'))
+    for R, key in ((SW, 'switches'), (VAR, 'variables')):
+        for i, n in reg[key].items():
+            i = int(i)
+            if n in R.ids and R.ids[n] != i:
+                raise ValueError(f'{key}: {n} already has id {R.ids[n]}, frozen id {i}')
+            R.ids[n] = i
+            R.names[i] = n
+
 SW = Registry('switch', 100, {1: 'Vessel Active', 2: 'Daytime', 3: 'Night', 4: 'Night Raid (quiet)'})
 VAR = Registry('variable', 100, {1: 'Breakthrough Gate', 2: 'Deaths', 3: 'Money Lost', 4: 'Days Passed', 5: 'Hour',
                                  6: 'Minute'})

@@ -4,7 +4,7 @@ Rank bands: ch.7 C (LV 31-40, breakthrough to B at the Web-Weaver), ch.8 B (41-4
 breakthrough to A against Gōen). EXP follows the story's curve (about a quarter of the rank table's suggestion).
 The Calamities are <Demon>: each Dawn Regalia the party holds cancels one rank of difference against them."""
 from story import db
-from story.common import Ev, KANTA, HANMA, FALIN, npc_speaker
+from story.common import Ev, KANTA, HANMA, FALIN, npc_speaker, SW
 from story.cast import YUKINO
 from story.db import (eff, trait, skill, enemy, act, drop, stats, weak, item,
                       ADD_STATE, REMOVE_STATE, BUFF, DEBUFF, REC_HP,
@@ -337,21 +337,24 @@ def troops(put):
     t("Klinge & Agenten", [(e["Spinnenkreis-Agent"], 220, Y), (e["Spinnenkreis-Klinge"], 420, Y + 6),
                            (e["Spinnenkreis-Agent"], 620, Y)])
     t("Spinnenkreis-Klingen x2", [(e["Spinnenkreis-Klinge"], 300, Y), (e["Spinnenkreis-Klinge"], 530, Y)])
-    bt = Ev()
-    bt.say(npc_speaker("Tsumugi", "People2", 1), ["Clause one: the little vessel's light belongs to the",
-                                                  "Web. It was written before you woke, darling."])
-    bt.se('Twine', 90, 80)
-    bt.text(["Silk wraps Kanta from shoulder to heel and pulls tight.", "Somewhere above, the Morgendom's bells begin to ring."],
-            background=1, position=1)
-    bt.say(HANMA, ["My Lord! The dawn seal is right above us: use it!"], 'command')
-    bt.se('Magic3', 90, 80)
-    bt.flash((255, 240, 200, 255), 60)
-    bt.text(["The sigils drink the light of the seal. The silk burns",
-             "away, and the light that comes back out of Kanta is no",
-             "longer one weapon or three, but a ring of them."], background=1, position=1)
-    bt.breakthrough()
-    bt.say(KANTA, ["I didn't sign anything."], 'fierce')
-    bt.say(npc_speaker("Tsumugi", "People2", 1), ["…That's not in the contract."])
+    S_BB = SW('C7: Breakthrough B')
+    def tsumugi_break(bt):
+        bt.say(npc_speaker("Tsumugi", "People2", 1), ["Clause one: the little vessel's light belongs to the",
+                                                      "Web. It was written before you woke, darling."])
+        bt.se('Twine', 90, 80)
+        bt.text(["Silk wraps Kanta from shoulder to heel and pulls tight.", "Somewhere above, the Morgendom's bells begin to ring."],
+                background=1, position=1)
+        bt.say(HANMA, ["My Lord! The dawn seal is right above us: use it!"], 'command')
+        bt.se('Magic3', 90, 80)
+        bt.flash((255, 240, 200, 255), 60)
+        bt.text(["The sigils drink the light of the seal. The silk burns",
+                 "away, and the light that comes back out of Kanta is no",
+                 "longer one weapon or three, but a ring of them."], background=1, position=1)
+        bt.breakthrough()
+        bt.say(KANTA, ["I didn't sign anything."], 'fierce')
+        bt.say(npc_speaker("Tsumugi", "People2", 1), ["…That's not in the contract."])
+        bt.switch(S_BB)
+    bt = Ev().if_switch(S_BB, False, tsumugi_break)
     t("Tsumugi", [(e["Seidenkokon"], 190, Y), (e["Tsumugi"], 420, Y + 20), (e["Seidenkokon"], 650, Y)],
       [db.troop_page(bt, turn=(2, 0))])
     # ---- chapter 8
@@ -391,10 +394,9 @@ def troops(put):
     t("Fomorer & Sirene", [(e["Fomorer"], 300, Y), (e["Sirene"], 530, Y - 20)])
     t("Ketos", [(e["Ketos"], 408, Y + 20)])
     sh = Ev()
-    sh.say(npc_speaker("Shigure", "Actor2", 0), ["The girl with the regalia. Kagerō said you would come",
-                                                 "this way. He asked me to drown you gently."])
     sh.say(YUKINO, ["…Shigure. You were our lance."])
-    sh.say(npc_speaker("Shigure", "Actor2", 0), ["Was I? I don't remember. I'm sorry. That is the truth."])
+    sh.say(npc_speaker("Shigure", "Actor2", 0), ["Was I? …The sea is so loud, Yuki. I can't hear anything",
+                                                 "else any more."])
     t("Shigure", [(e["Kraken"], 250, Y), (e["Shigure"], 470, Y + 20)], [db.troop_page(sh, turn=(0, 0))])
     fc = Ev()
     fc.say(HANMA, ["The Aschenkrone. It hates him. He wears it anyway,", "because it frightens the others."], 'stern')

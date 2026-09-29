@@ -117,5 +117,17 @@ null,
 {"id":115,"expanded":false,"name":"Eisenberg","order":69,"parentId":0,"scrollX":960,"scrollY":816},
 {"id":116,"expanded":false,"name":"Tiefgrube","order":70,"parentId":0,"scrollX":960,"scrollY":816},
 {"id":117,"expanded":false,"name":"Untere Tiefgrube","order":71,"parentId":0,"scrollX":960,"scrollY":816},
-{"id":118,"expanded":false,"name":"Trollhalle","order":72,"parentId":0,"scrollX":672,"scrollY":624}
+{"id":118,"expanded":false,"name":"Trollhalle","order":72,"parentId":0,"scrollX":672,"scrollY":624},
+null,
+{"id":120,"expanded":false,"name":"Salzhafen","order":73,"parentId":0,"scrollX":1152,"scrollY":864},
+{"id":121,"expanded":false,"name":"Die Seeschwalbe","order":74,"parentId":0,"scrollX":720,"scrollY":432},
+{"id":122,"expanded":false,"name":"Knochenriff","order":75,"parentId":0,"scrollX":1104,"scrollY":816},
+{"id":123,"expanded":false,"name":"Versunkene Halle","order":76,"parentId":0,"scrollX":816,"scrollY":768},
+{"id":124,"expanded":false,"name":"Brennender Urwald","order":77,"parentId":0,"scrollX":1008,"scrollY":960},
+{"id":125,"expanded":false,"name":"Hirschthron (Nacht)","order":78,"parentId":0,"scrollX":768,"scrollY":720},
+{"id":126,"expanded":false,"name":"Epilog: Wallfeste","order":79,"parentId":0,"scrollX":1176,"scrollY":864},
+{"id":127,"expanded":false,"name":"Epilog: Weißenfels","order":80,"parentId":0,"scrollX":1104,"scrollY":960},
+{"id":128,"expanded":false,"name":"Epilog: Rabenau","order":81,"parentId":0,"scrollX":720,"scrollY":720},
+{"id":129,"expanded":false,"name":"Epilog: Kiefernkamm","order":82,"parentId":0,"scrollX":600,"scrollY":648},
+{"id":130,"expanded":false,"name":"Der Ertrunkene Mann","order":83,"parentId":0,"scrollX":480,"scrollY":336}
 ]

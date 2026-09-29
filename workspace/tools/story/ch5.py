@@ -1024,6 +1024,11 @@ def drachenhalle():
     el.text(["The dragon goes up through the roof of the hall in a",
              "storm of sparks, and the citadel of Weißenfels is lit",
              "gold from within for the first time in six years."])
+    el.text(["Where the dragon lay, a single scale as big as a shield,",
+             "still warm."])
+    el.armor(FA["Drachenschuppe"], 1)
+    el.notice(["Received the \\C[6]Drachenschuppe\\C[0] (a rank A accessory:",
+               "it will fit when you have grown into it)."])
     el.say(RIN, ["…Kanta. Falin. Hanma. This is the Asahina crest: my",
                  "brother's. He'd want it on somebody who fights."])
     el.armor(FA["Königliches Wappen"], 1)

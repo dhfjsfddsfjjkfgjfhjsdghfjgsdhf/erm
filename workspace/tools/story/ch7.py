@@ -483,6 +483,10 @@ def arena():
                    "and the Kaiserarena comes to its feet. Eight years. Gone,",
                    "to a vessel, a ghost, a living armor and a saint."])
         e.say(GOKI, ["Well. Well well. Worth it. Go on, girl, take your sword."])
+        e.text(["Gōki takes the champion's wreath off his own head and",
+                "drops it on Kanta's."])
+        e.armor(FA["Siegerkranz"], 1)
+        e.notice(["Received the \\C[6]Siegerkranz\\C[0]."])
         e.say(EMPRESS, ["The champions of the Sonnwende! Come up, come up. The",
                         "prize: an old sword from our vault. The Morgenklinge,",
                         "the heralds tell me. Isn't it pretty?"])
@@ -697,6 +701,7 @@ def spinnenhalle():
                    "to be, my Lord. Rank B, no more. That sword burns her to",
                    "hold. Take it back."], 'command')
     el.battle(T3["Tsumugi"])
+    el.if_switch(SW('C7: Breakthrough B'), False, late_break_b)
     el.switch(S_TSUMUGI)
     el.wait(20)
     el.se('Collapse3')
@@ -732,6 +737,15 @@ def spinnenhalle():
 # ---------------------------------------------------------------------------
 # 107  Gilde Lichtenhall; 108 Zur Arenatreppe
 # ---------------------------------------------------------------------------
+def late_break_b(e):
+    """The breakthrough to B still happens if the Web-Weaver fell before the troop page ran."""
+    e.say(HANMA, ["My Lord, the seal is still ringing. Take it, now!"], 'command')
+    e.se('Magic3', 90, 80)
+    e.flash((255, 240, 200, 255), 60)
+    e.breakthrough()
+    e.switch(SW('C7: Breakthrough B'))
+
+
 def gen_room(seed, rug, furniture):
     g = Gen(20, 14, 3, seed=seed)
     T.interior(g, [(2, 2, 17, 12)], *INS.WOOD_WALL, INS.WOOD)

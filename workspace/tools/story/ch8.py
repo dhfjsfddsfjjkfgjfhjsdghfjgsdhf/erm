@@ -225,6 +225,10 @@ def hirschheim():
     for y in range(18, 22):
         mb.add("East Road", 43, y, [pg(Ev().se('Move1', 60).transfer(FUCHSSCHREIN, 12, 38, 8, 0), trigger=1, priority=0)])
     def south(e):
+        e.if_switch(SW('C9: Urwald Burns'), True,
+                    lambda b: (b.se('Move1', 60), b.transfer(URWALD_BRAND, 20, 1, 2, 0)),
+                    lambda b: south_before_fire(b))
+    def south_before_fire(e):
         e.if_switch(S_MUKURO, True, lambda b: (b.se('Move1', 60), b.transfer(URWALD, 20, 1, 2, 0)),
                     lambda b: b.if_script("$gameSwitches.value(%d) && $gameSwitches.value(%d)" % (S_LATERNE, S_HORN),
                                           lambda c: (c.se('Move1', 60), c.transfer(URWALD, 20, 1, 2, 0)),
