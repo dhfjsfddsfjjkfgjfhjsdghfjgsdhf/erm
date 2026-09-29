@@ -358,49 +358,49 @@ def enemies(put, start):
             "<Rank: D>\n<Role: boss>\n<Attack Die: d10>\n<Armor: 8>",
             drops=[drop(1, MS["D"], 1), drop(3, ARMORS["Wallschild"], 1)], extra=[weak(THUNDER, 1.5)]))
     # ---------------------------------------------------------------- ch.5 Weißenfels (party D)
-    e(enemy(67, "Wyvern", "Wyvern", 260, stats(240, 240, 230, 110, 100, 150), 65, 40,
+    e(enemy(67, "Wyvern", "Wyvern", 370, stats(300, 300, 230, 110, 100, 190), 65, 40,
             [act(1, 4), act(s["Giftstachel"], 4), act(s["Wing Buffet"], 2)],
             "<Rank: D>\n<Attack Die: d10>\n<Attack Stat: DEX>",
             drops=[drop(1, MS["D"], 4)], extra=[weak(ICE, 1.5), weak(THUNDER, 1.5)]))
-    e(enemy(68, "Vampirknecht", "Vampirknecht", 230, stats(220, 240, 210, 150, 240, 200), 60, 70,
+    e(enemy(68, "Vampirknecht", "Vampirknecht", 390, stats(345, 375, 210, 150, 240, 310), 60, 70,
             [act(1, 4), act(s["Blutsaugen"], 4), act(s["Bannblick"], 2)],
             "<Rank: D>\n<Attack Die: d8>\n<Attack Stat: DEX>\n<Miasma>",
             drops=[drop(1, MS["D"], 5), drop(1, ITEMS["Elixier"], 6)],
             extra=[weak(LIGHT), weak(FIRE, 1.5), trait(11, DARK, 0.0)]))
-    e(enemy(69, "Leere Hülle", "Leere_Huelle", 270, stats(240, 150, 270, 100, 60, 120), 60, 0,
+    e(enemy(69, "Leere Hülle", "Leere_Huelle", 460, stats(435, 270, 270, 100, 60, 215), 60, 0,
             [act(1, 5), act(s["Shield Bash"], 3), act(s["Crushing Swing"], 2)],
             "<Rank: D>\n<Attack Die: d10>\n<Armor: 10>",
             drops=[drop(1, MS["D"], 5)], extra=[weak(THUNDER, 1.5), weak(LIGHT, 1.5), trait(11, DARK, 0.0)]))
-    e(enemy(70, "Aschenschmied", "Aschenschmied", 1200, stats(330, 200, 340, 200, 220, 300), 450, 400,
+    e(enemy(70, "Aschenschmied", "Aschenschmied", 1200, stats(420, 255, 340, 200, 220, 385), 680, 400,
             [act(s["Schmiedehammer"], 5), act(s["Glutfunken"], 3), act(s["Härten"], 1)],
-            "<Rank: C>\n<Role: elite>\n<Attack Die: d10>\n<Armor: 8>",
+            "<Rank: D>\n<Role: elite>\n<Attack Die: d10>\n<Armor: 8>",
             drops=[drop(1, MS["C"], 1), drop(2, WEAPONS["Messingbrecher"], 1)],
             extra=[weak(ICE, 1.5), trait(11, FIRE, 0.0)]))
-    e(enemy(71, "Der Eiserne Prinz", "Eiserner_Prinz", 2400, stats(340, 280, 350, 260, 320, 200), 800, 0,
+    e(enemy(71, "Der Eiserne Prinz", "Eiserner_Prinz", 2400, stats(370, 305, 350, 260, 320, 220), 1200, 0,
             [act(s["Königsklinge"], 5), act(1, 3), act(s["Schildwall"], 1), act(s["Heerruf"], 1)],
-            "<Rank: C>\n<Role: boss>\n<Attack Die: d10>\n<Armor: 10>",
+            "<Rank: D>\n<Role: boss>\n<Attack Die: d10>\n<Armor: 10>",
             drops=[drop(1, MS["C"], 1)], extra=[weak(LIGHT, 1.5), trait(11, DARK, 0.5)]))
     # ---------------------------------------------------------------- ch.6 the siege (party D -> C)
-    e(enemy(72, "Messingsoldat", "Messingsoldat", 360, stats(310, 250, 320, 150, 120, 100), 50, 60,
+    e(enemy(72, "Messingsoldat", "Messingsoldat", 340, stats(615, 495, 320, 150, 120, 200), 80, 60,
             [act(1, 4), act(s["Hellebarde"], 4), act(s["Shield Bash"], 2)],
-            "<Rank: C>\n<Role: minion>\n<Attack Die: d10>\n<Armor: 8>",
+            "<Rank: D>\n<Role: minion>\n<Attack Die: d10>\n<Armor: 8>",
             drops=[drop(1, MS["C"], 10)], extra=[weak(THUNDER, 1.5)]))
-    e(enemy(73, "Oni-Söldner", "Oni", 380, stats(350, 250, 350, 150, 200, 120), 110, 150,
+    e(enemy(73, "Oni-Söldner", "Oni", 570, stats(495, 350, 350, 150, 200, 170), 160, 150,
             [act(1, 4), act(s["Keulenschlag"], 4), act(s["Terrible Roar"], 1)],
-            "<Rank: C>\n<Attack Die: d12>", drops=[drop(1, MS["C"], 6)], extra=[weak(LIGHT, 1.5)]))
-    e(enemy(74, "Oni-Hauptmann", "Oni_Hauptmann", 1000, stats(380, 270, 370, 200, 300, 180), 350, 400,
+            "<Rank: D>\n<Attack Die: d12>", drops=[drop(1, MS["C"], 6)], extra=[weak(LIGHT, 1.5)]))
+    e(enemy(74, "Oni-Hauptmann", "Oni_Hauptmann", 1000, stats(330, 235, 370, 200, 300, 155), 520, 400,
             [act(1, 4), act(s["Keulenschlag"], 4), act(s["Heerruf"], 2), act(s["Terrible Roar"], 1)],
-            "<Rank: C>\n<Role: elite>\n<Attack Die: d12>\n<Armor: 6>\n<Demon>",
+            "<Rank: D>\n<Role: elite>\n<Attack Die: d12>\n<Armor: 6>\n<Demon>",
             drops=[drop(1, MS["C"], 1)], extra=[weak(LIGHT, 1.5)]))
-    e(enemy(75, "Seelenkessel", "Seelenkessel", 3000, stats(100, 50, 380, 300, 100, 380), 1000, 0,
+    e(enemy(75, "Seelenkessel", "Seelenkessel", 1450, stats(90, 45, 380, 300, 100, 340), 1500, 0,
             [act(s["Seelenstrom"], 5), act(s["Stand Still"], 1)],
-            "<Rank: C>\n<Role: boss>\n<Armor: 10>\n<Demon>",
+            "<Rank: D>\n<Role: boss>\n<Armor: 10>\n<Demon>",
             drops=[drop(1, MS["C"], 1), drop(1, MS["C"], 1)], extra=[weak(LIGHT), weak(ICE, 1.5)]))
     e(enemy(76, "Gōen", "Goen", 99999, stats(760, 700, 760, 720, 790, 740), 0, 0,
             [act(s["Messingurteil"], 5), act(s["Seelenvertrag"], 3), act(s["Goldene Kette"], 2), act(s["Brass Toll"], 2)],
             "<Rank: SS>\n<Role: apex>\n<Attack Die: d12>\n<Armor: 20>\n<Demon>\n<Saves: STR, DEX, CON, WIS, CHA, MAG>",
             extra=[trait(11, DARK, 0.0)]))
-    e(enemy(77, "Messingkoloss", "Messinggolem", 290, stats(250, 120, 280, 100, 60, 80), 65, 40,
+    e(enemy(77, "Messingkoloss", "Messinggolem", 340, stats(470, 225, 280, 100, 60, 150), 65, 40,
             [act(1, 5), act(s["Messingfaust"], 4)], "<Rank: D>\n<Attack Die: d10>\n<Armor: 8>", hue=20,
             drops=[drop(1, MS["D"], 4)], extra=[weak(THUNDER, 2.0), trait(11, DARK, 0.0), trait(11, FIRE, 0.5)]))
     e(enemy(78, "Verwundeter Höllenhund", "Hoellenhund", 130, stats(200, 190, 190, 110, 90, 170), 50, 30,
@@ -420,7 +420,7 @@ Y = db.Y
 
 def troops(put, start):
     assert start == 61, start
-    e = EN
+    e = {**EN, **__import__('story.foes3', fromlist=['EN']).EN}
     def t(name, members, pages=None):
         tid = put(name, members, pages)
         TR[name] = tid
@@ -467,9 +467,9 @@ def troops(put, start):
     # ---- chapter 5
     t("Wyvern", [(e["Wyvern"], 408, Y - 20)])
     t("Wyverns x2", [(e["Wyvern"], 300, Y - 30), (e["Wyvern"], 540, Y - 30)])
-    t("Gargyl & Wyvern", [(e["Gargyl"], 300, Y - 40), (e["Wyvern"], 540, Y - 20)])
+    t("Gargyl & Wyvern", [(e["Heeresgargyl"], 300, Y - 40), (e["Wyvern"], 540, Y - 20)])
     t("Vampirknechte x2", [(e["Vampirknecht"], 300, Y), (e["Vampirknecht"], 520, Y)])
-    t("Ghule & Knecht", [(e["Ghul"], 220, Y), (e["Vampirknecht"], 420, Y + 6), (e["Ghul"], 620, Y)])
+    t("Ghule & Knecht", [(e["Grabghul"], 220, Y), (e["Vampirknecht"], 420, Y + 6), (e["Grabghul"], 620, Y)])
     t("Leere Hüllen x2", [(e["Leere Hülle"], 300, Y), (e["Leere Hülle"], 520, Y)])
     t("Hülle & Koloss", [(e["Leere Hülle"], 300, Y), (e["Messingkoloss"], 520, Y)])
     t("Kettenkolonne", [(e["Vampirknecht"], 300, Y), (e["Leere Hülle"], 530, Y)])
@@ -479,8 +479,8 @@ def troops(put, start):
     t("Messingsoldaten x3", [(e["Messingsoldat"], 220, Y), (e["Messingsoldat"], 420, Y + 6), (e["Messingsoldat"], 620, Y)])
     t("Soldaten & Oni", [(e["Messingsoldat"], 220, Y), (e["Oni-Söldner"], 430, Y + 10), (e["Messingsoldat"], 630, Y)])
     t("Oni x2", [(e["Oni-Söldner"], 300, Y), (e["Oni-Söldner"], 520, Y)])
-    t("Höllenhunde x2", [(e["Höllenhund"], 300, Y), (e["Höllenhund"], 520, Y)])
-    t("Gargylen & Soldat", [(e["Gargyl"], 220, Y - 40), (e["Messingsoldat"], 420, Y), (e["Gargyl"], 620, Y - 40)])
+    t("Höllenhunde x2", [(e["Heereshund"], 300, Y), (e["Heereshund"], 520, Y)])
+    t("Gargylen & Soldat", [(e["Heeresgargyl"], 220, Y - 40), (e["Messingsoldat"], 420, Y), (e["Heeresgargyl"], 620, Y - 40)])
     t("Oni-Hauptmann", [(e["Oni-Söldner"], 200, Y), (e["Oni-Hauptmann"], 430, Y + 10), (e["Messingsoldat"], 650, Y)])
     t("Seelenkessel", [(e["Messingkoloss"], 180, Y), (e["Seelenkessel"], 420, Y + 20), (e["Messingkoloss"], 660, Y)])
     from story import ch6

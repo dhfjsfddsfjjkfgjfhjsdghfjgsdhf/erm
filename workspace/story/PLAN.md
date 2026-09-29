@@ -94,3 +94,16 @@ shops 130/138 | granary cellar 044 | Wolfsgrube 031 | Nordstrasse 262 | Frontpos
   emergency L12 100% (44%); Wolfsgrube L15 two-person 100% (34%); Vorhut L15 trio 100% (71%); Aschenschwinge L15 100% (40%).
 - Tests: scen_story_ch3.js (full Ch3 + Act II playthrough), scen_story_ch3b.js (menu, save/load, revival), scen_story_eisfurt.js.
 - NEXT (Act II proper): Wallfeste (Marshal Kōsaka), Falin's skills past E (Brace at E already), Weißenfels. Map ids 63+.
+
+
+## BUILD STATE (2026-09-29, increment 3) — the whole story, built in a cloud session, NOT yet installed
+- Chapters 5–9 built: maps 75–80 (ch.5), 90–93 (ch.6), 100–108 (ch.7), 110–118 (ch.8), 120–130 (ch.9 + epilogue);
+  83 maps, quests 21–35. Rin guest (actor 5), Yukino (actor 6), travel CE 4, Dawn Regalia (var 12 = pierce).
+- No sample maps in the cloud: story/base/ holds the recovered bases (tools/reconstruct_bases.py); chapters 5–9 are
+  generated (tools/mapgen.py, tools/story/terrain.py). story/base/registry.json pins Act I–II switch/var ids.
+- Static checks: tools/check_story.py (references, reachability playthrough, script syntax) passes.
+- Balance: tools/battle_sim.py (Python port of the rules) + tools/tune_foes.py. User's direction: regular encounters
+  fairly difficult, bosses very difficult. Results in handoff/balance.txt.
+- Story_Core: message fit (too-wide lines drawn smaller).
+- Engine tests NOT run (no engine files in the cloud): run tools/scen_story_act3.js (new), scen_story_ch4.js and the
+  Act I scenarios locally, then install. Everything for local Claude is in handoff/HANDOFF.md.

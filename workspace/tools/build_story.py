@@ -280,4 +280,7 @@ for p in problems:
 # ids for tests
 with open(OUT + '/ids.json', 'w', encoding='utf-8') as f:
     json.dump({"switches": SW.ids, "variables": VAR.ids, "troops": db.TR, "items": db.IT, "skills": db.SK,
-               "enemies": db.EN, "common": db.CE, "weapons": db.WP, "armors": db.AR}, f, ensure_ascii=False, indent=1)
+               "enemies": db.EN, "common": db.CE, "weapons": db.WP, "armors": db.AR,
+               "maps": {str(k): v for k, v in NAMES.items()},
+               "starts": {str(k): (v[0] if isinstance(v, list) else v) for k, v in STARTS.items()}},
+              f, ensure_ascii=False, indent=1)

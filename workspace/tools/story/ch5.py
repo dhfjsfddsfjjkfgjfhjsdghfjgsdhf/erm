@@ -827,8 +827,8 @@ def huellenschmiede():
         e.say(npc_speaker("Aschenschmied", "", 0), ["More metal. Good. Lie down on the anvil. Hold still.",
                                                      "You will make a fine shell."])
         e.say(FALIN, ["No."], 'fierce')
-        e.say(HANMA, ["Rank C, my Lord: one above us. It's the forge's heart.",
-                      "Put it out."], 'command')
+        e.say(HANMA, ["Rank D, my Lord, as we are, but it's the forge's heart:",
+                      "it hits like the whole furnace. Put it out."], 'command')
         e.battle(TR["Aschenschmied"])
         e.switch(S_SMITH)
         e.wait(20)

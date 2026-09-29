@@ -1,0 +1,227 @@
+{
+ "Wyvern": {
+  "hp": 370,
+  "atk": 1.25
+ },
+ "Vampirknecht": {
+  "hp": 390,
+  "atk": 1.56
+ },
+ "Leere Hülle": {
+  "hp": 460,
+  "atk": 1.81
+ },
+ "Messingkoloss": {
+  "hp": 340,
+  "atk": 1.87
+ },
+ "Aschenschmied": {
+  "hp": 1200,
+  "atk": 1.28,
+  "rank": "D"
+ },
+ "Der Eiserne Prinz": {
+  "hp": 2400,
+  "atk": 1.09,
+  "rank": "D"
+ },
+ "Messingsoldat": {
+  "hp": 340,
+  "atk": 1.98,
+  "rank": "D"
+ },
+ "Oni-Söldner": {
+  "hp": 570,
+  "atk": 1.41,
+  "rank": "D"
+ },
+ "Oni-Hauptmann": {
+  "hp": 1000,
+  "atk": 0.87,
+  "rank": "D"
+ },
+ "Seelenkessel": {
+  "hp": 1450,
+  "atk": 0.9,
+  "rank": "D"
+ },
+ "Straßenräuber": {
+  "hp": 660,
+  "atk": 1.4
+ },
+ "Spinnenkreis-Agent": {
+  "hp": 610,
+  "atk": 1.56
+ },
+ "Sturmharpyie": {
+  "hp": 590,
+  "atk": 1.43
+ },
+ "Eiserner Bruder": {
+  "hp": 830,
+  "atk": 1.44
+ },
+ "Arena-Söldner": {
+  "hp": 670,
+  "atk": 1.44
+ },
+ "Arenabestie": {
+  "hp": 2200,
+  "atk": 1.41,
+  "rank": "C"
+ },
+ "Klingenmeisterin": {
+  "hp": 940,
+  "atk": 1.18,
+  "rank": "C"
+ },
+ "Kampfmagier": {
+  "hp": 810,
+  "atk": 1.18,
+  "rank": "C"
+ },
+ "Schattenklinge": {
+  "hp": 840,
+  "atk": 1.18,
+  "rank": "C"
+ },
+ "Kanemoto Gōki": {
+  "hp": 3400,
+  "atk": 0.85,
+  "rank": "C"
+ },
+ "Höhlenspinne": {
+  "hp": 710,
+  "atk": 1.25
+ },
+ "Spinnenkreis-Klinge": {
+  "hp": 470,
+  "atk": 1.0
+ },
+ "Tsumugi": {
+  "hp": 3500,
+  "atk": 1.36
+ },
+ "Werwolf": {
+  "hp": 1350,
+  "atk": 1.56
+ },
+ "Irrlicht": {
+  "hp": 220,
+  "atk": 2.27,
+  "role": "standard"
+ },
+ "Junger Kitsune": {
+  "hp": 400,
+  "atk": 2.16
+ },
+ "Rudelherr": {
+  "hp": 1000,
+  "atk": 1.54
+ },
+ "Shirogane": {
+  "ac": 30,
+  "role": "boss",
+  "hp": 5500,
+  "atk": 1.8
+ },
+ "Grubenwicht": {
+  "hp": 440,
+  "atk": 2.32,
+  "role": "standard"
+ },
+ "Höhlentroll": {
+  "hp": 1500,
+  "atk": 2.26
+ },
+ "Trollschamane": {
+  "hp": 1100,
+  "atk": 1.95
+ },
+ "Trollkönig": {
+  "hp": 3750,
+  "atk": 0.85
+ },
+ "Urwaldhüter": {
+  "hp": 1450,
+  "atk": 2.5
+ },
+ "Waldgeist": {
+  "hp": 560,
+  "atk": 1.52
+ },
+ "Hohler Diener": {
+  "hp": 1400,
+  "atk": 2.27,
+  "role": "standard"
+ },
+ "Leerer Magier": {
+  "hp": 520,
+  "atk": 1.79
+ },
+ "Grimoire": {
+  "hp": 620,
+  "atk": 2.04
+ },
+ "Mukuro": {
+  "hp": 5000,
+  "atk": 0.845
+ },
+ "Ertrunkener": {
+  "hp": 850,
+  "atk": 1.56
+ },
+ "Sirene": {
+  "hp": 610,
+  "atk": 1.13
+ },
+ "Riffkrabbe": {
+  "hp": 960,
+  "atk": 1.0
+ },
+ "Fomorer": {
+  "hp": 1200,
+  "atk": 1.25
+ },
+ "Ketos": {
+  "hp": 1550,
+  "atk": 1.44
+ },
+ "Fomorer-Häuptling": {
+  "hp": 4350,
+  "atk": 0.67,
+  "rank": "B"
+ },
+ "Shigure": {
+  "hp": 3150,
+  "atk": 0.77
+ },
+ "Kraken": {
+  "hp": 980,
+  "atk": 0.77
+ },
+ "Glutsalamander": {
+  "hp": 860,
+  "atk": 1.0
+ },
+ "Aschenphönix": {
+  "hp": 770,
+  "atk": 0.86
+ },
+ "Messinggardist": {
+  "hp": 980,
+  "atk": 1.0
+ },
+ "Gōen, der Messingtyrann": {
+  "hp": 7900,
+  "atk": 0.83
+ },
+ "Maō Kagerō": {
+  "hp": 5200,
+  "atk": 0.88
+ },
+ "Hōkais Schatten": {
+  "hp": 5200,
+  "atk": 1.11
+ }
+}

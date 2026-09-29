@@ -394,4 +394,49 @@ print(f'static playthrough: {sum(1 for g in got if g[0] == "map")}/{len(MAPS)} m
       f'{sum(1 for g in got if g[0] == "switch")} switches, {sum(1 for g in got if g[0] == "troop")} battles reachable')
 for u in unreached:
     print('UNREACHABLE', u)
-sys.exit(1 if problems or unreached else 0)
+if problems or unreached:
+    sys.exit(1)
+
+
+# ================================================================ script commands must parse
+# Every Script command (355 + 655) and script condition (111 type 12) is wrapped in a function and handed to node
+# for a syntax check (nothing is run).
+import subprocess, tempfile, shutil as _sh
+if _sh.which('node'):
+    snippets = []
+    def collect(where, lst):
+        i = 0
+        while i < len(lst):
+            c = lst[i]
+            if c['code'] == 355:
+                body = [c['parameters'][0]]
+                j = i + 1
+                while j < len(lst) and lst[j]['code'] == 655:
+                    body.append(lst[j]['parameters'][0])
+                    j += 1
+                snippets.append((where, '\n'.join(body)))
+            elif c['code'] == 111 and c['parameters'][0] == 12:
+                snippets.append((where, 'return (' + c['parameters'][1] + ');'))
+            i += 1
+    for mid, m in MAPS.items():
+        for e in m['events'][1:]:
+            if e:
+                for pi, pg in enumerate(e['pages']):
+                    collect(f'map {mid} / {e["name"]} p{pi + 1}', pg['list'])
+    for ce in D['CommonEvents'][1:]:
+        if ce:
+            collect(f'common event {ce["name"]}', ce['list'])
+    for tr in D['Troops'][1:]:
+        if tr:
+            for pi, pg in enumerate(tr['pages']):
+                collect(f'troop {tr["name"]} p{pi + 1}', pg['list'])
+    src = 'const S = [\n' + ',\n'.join('[%s, %s]' % (json.dumps(w), json.dumps(b)) for w, b in snippets) + '];\n' + \
+          'let bad = 0; for (const [w, b] of S) { try { new Function(b); } catch (e) { bad++; console.log("SCRIPT", w, ":", e.message, "::", b.slice(0, 80)); } }\n' + \
+          'console.log("scripts checked:", S.length, "bad:", bad); process.exit(bad ? 1 : 0);\n'
+    with tempfile.NamedTemporaryFile('w', suffix='.js', delete=False, encoding='utf-8') as f:
+        f.write(src)
+    r = subprocess.run(['node', f.name], capture_output=True, text=True)
+    print(r.stdout.strip())
+    os.unlink(f.name)
+    if r.returncode:
+        sys.exit(1)

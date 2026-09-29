@@ -1,0 +1,89 @@
+Erdenkreis balance, Act II-III: tools/battle_sim.py on the built data (story/out), 150 auto-battles per line.
+The party is built as tools/scen_story_bal2.js builds it (same stat policies, breakthroughs at the story's walls,
+Yukino from chapter 7, Rin in the Iron Prince fight). Scripted breakthroughs are simulated (Tsumugi turn 2, Gōen at
+  L49  A  phase 3          Kurenai Tōma                   win 100.0%  turns  2.0  hp left   90%   (the battle ends at turn 2)
+Targets (user: regular encounters fairly difficult, bosses very difficult): regular 4-7 rounds and ~40-60% HP left;
+mid-bosses ~55-75% wins; bosses ~35-50% wins in 10-15 rounds. The sim runs ~20 points harsher than the engine on
+bosses (chapter 4 reference: Messingvogt 66% here, 88% in the engine), so expect bosses at ~55-70% for auto-battle.
+Columns: level, party rank, kind, troop, win rate, rounds, average party HP left after a win.
+
+== ch4 (reference: the engine runs in the build journal)
+  L16  E  reference        Höllenhund                     win 100.0%  turns  4.5  hp left   65%
+  L16  E  reference        Raid: Aschenhunde              win 100.0%  turns  2.0  hp left   94%
+  L16  E  reference        Ghule x3                       win 100.0%  turns  3.6  hp left   74%
+  L16  E  reference        Messinggolems x2               win 100.0%  turns  5.9  hp left   73%
+  L16  E  reference        Messingschreiber               win 100.0%  turns 11.1  hp left   70%
+  L19  E                   Gargyl                         win 100.0%  turns  5.5  hp left   56%
+  L19  E                   Gargyl & Aschenhund            win 100.0%  turns  6.2  hp left   52%
+  L19  E                   Gargylen x2                    win   2.7%  turns  7.0  hp left   11%
+  L19  E                   Gargyl & Aschenhunde           win  98.0%  turns  6.2  hp left   52%
+== ch4 (engine reference: 88% win, 9.3 rounds, 35% HP)
+  L20  E                   Messingvogt                    win  66.0%  turns 11.1  hp left   28%
+== ch5 Weißenfels (rank D)
+  L22  D  regular          Wyverns x2                     win 100.0%  turns  5.5  hp left   54%
+  L24  D  regular          Vampirknechte x2               win 100.0%  turns  5.8  hp left   68%
+  L24  D  regular          Leere Hüllen x2                win  99.3%  turns  5.5  hp left   57%
+  L24  D  regular          Hülle & Koloss                 win  99.3%  turns  4.9  hp left   57%
+  L25  D  boss             Aschenschmied                  win  36.7%  turns 12.3  hp left   17%
+  L26  D  boss             Der Eiserne Prinz              win  35.3%  turns 13.1  hp left   25%
+  L22  D  regular (other)  Gargyl & Wyvern                win 100.0%  turns  6.3  hp left   50%
+  L24  D  regular (other)  Ghule & Knecht                 win  95.3%  turns  5.5  hp left   50%
+  L24  D  regular (other)  Kettenkolonne                  win  98.0%  turns  5.5  hp left   62%
+== ch6 Der Messingtyrann (rank D, C after Gōen)
+  L28  D  regular          Messingsoldaten x3             win 100.0%  turns  6.3  hp left   53%
+  L28  D  regular          Oni x2                         win  99.3%  turns  5.5  hp left   52%
+  L28  D  mid              Oni-Hauptmann                  win  54.0%  turns  8.2  hp left   29%
+  L30  D  boss             Seelenkessel                   win  46.7%  turns 12.0  hp left   11%
+  L28  D  regular (other)  Soldaten & Oni                 win  95.3%  turns  6.8  hp left   40%
+  L28  D  regular (other)  Höllenhunde x2                 win  98.0%  turns  5.5  hp left   54%
+  L28  D  regular (other)  Gargylen & Soldat              win  99.3%  turns  5.4  hp left   51%
+== ch7 Die Kaiserstadt (rank C, B after Tsumugi)
+  L33  C  regular          Straßenräuber x3               win 100.0%  turns  5.1  hp left   56%
+  L33  C  regular          Agenten x2                     win 100.0%  turns  5.8  hp left   65%
+  L33  C  regular          Sturmharpyien x2               win 100.0%  turns  4.4  hp left   63%
+  L34  C  regular          Runde 1: Eiserne Brüder        win 100.0%  turns  5.2  hp left   53%
+  L34  C  mid              Runde 2: Arenabestie           win  47.3%  turns  9.7  hp left   23%
+  L34  C  mid              Runde 3: Klingen von Ostmark   win  70.0%  turns  9.9  hp left   28%
+  L35  C  boss             Finale: Kanemoto Gōki          win  46.7%  turns 13.3  hp left   27%
+  L36  C  regular          Höhlenspinnen x3               win 100.0%  turns  4.0  hp left   70%
+  L36  C  regular          Spinnenkreis-Klingen x2        win 100.0%  turns  5.8  hp left   57%
+  L37  C  boss             Tsumugi                        win  47.3%  turns 15.1  hp left   29%
+  L33  C  regular (other)  Räuber & Agent                 win 100.0%  turns  4.9  hp left   70%
+  L36  C  regular (other)  Spinnen & Kokon                win 100.0%  turns  3.5  hp left   80%
+  L36  C  regular (other)  Klinge & Agenten               win  97.3%  turns  7.2  hp left   41%
+== ch8 Wald und Tiefe (rank B)
+  L40  B  regular          Werwölfe x2                    win 100.0%  turns  7.8  hp left   62%
+  L40  B  regular          Werwolf & Irrlichter           win  98.7%  turns  6.1  hp left   65%
+  L40  B  regular          Kitsune x2                     win  97.3%  turns  5.4  hp left   62%
+  L41  B  mid              Rudelherr                      win  50.7%  turns 10.2  hp left   31%
+  L41  B  mid              Shirogane                      win 100.0%  turns  6.9  hp left   65%
+  L42  B  regular          Grubenwichte x3                win 100.0%  turns  5.5  hp left   59%
+  L42  B  regular          Höhlentrolle x2                win 100.0%  turns  5.5  hp left   58%
+  L42  B  regular          Troll & Schamane               win 100.0%  turns  5.4  hp left   57%
+  L43  B  boss             Trollkönig                     win  36.0%  turns 13.0  hp left   29%
+  L44  B  regular          Urwaldhüter x2                 win 100.0%  turns  5.2  hp left   59%
+  L44  B  regular          Hüter & Geister                win  99.3%  turns  5.5  hp left   56%
+  L44  B  regular          Hohle Diener x3                win 100.0%  turns  5.1  hp left   55%
+  L44  B  regular          Magier & Diener                win 100.0%  turns  4.8  hp left   59%
+  L44  B  regular          Grimoires & Magier             win 100.0%  turns  5.6  hp left   65%
+  L45  B  boss             Mukuro                         win  38.7%  turns 12.0  hp left   26%
+  L40  B  regular (other)  Kitsune & Irrlicht             win 100.0%  turns  5.0  hp left   71%
+  L44  B  regular (other)  Hüter & Geister                win  99.3%  turns  5.5  hp left   56%
+  L44  B  regular (other)  Grimoires & Magier             win 100.0%  turns  5.6  hp left   65%
+== ch9 Morgenröte (rank B, A after Gōen)
+  L46  B  regular          Ertrunkene x3                  win  99.3%  turns  6.7  hp left   54%
+  L46  B  regular          Sirenen x2                     win 100.0%  turns  5.8  hp left   58%
+  L46  B  regular          Krabben x2                     win 100.0%  turns  6.3  hp left   60%
+  L46  B  regular          Fomorer x2                     win  98.0%  turns  5.7  hp left   52%
+  L46  B  mid              Ketos                          win  51.3%  turns 11.5  hp left   22%
+  L47  B  boss             Fomorer-Häuptling              win  51.3%  turns 11.3  hp left   25%
+  L47  B  boss             Shigure                        win  42.0%  turns 11.0  hp left   21%
+  L48  B  regular          Salamander x2                  win 100.0%  turns  5.8  hp left   44%
+  L48  B  regular          Phönix & Salamander            win 100.0%  turns  5.5  hp left   48%
+  L48  B  regular          Gardisten x2                   win 100.0%  turns  6.4  hp left   58%
+  L48  B  boss             Gōen (Urwald)                  win  45.3%  turns 12.9  hp left   40%
+  L49  A  boss             Kagerō                         win  40.7%  turns 13.3  hp left   27%
+  L49  A  boss             Hōkais Schatten                win  41.3%  turns 17.9  hp left   13%
+  L46  B  regular (other)  Fomorer & Sirene               win  96.7%  turns  5.8  hp left   52%
+  L48  B  regular (other)  Gardist & Phönix               win 100.0%  turns  5.8  hp left   60%
+  L49  A  phase 3          Kurenai Tōma                   win 100.0%  turns  2.0  hp left   90%   (the battle ends at turn 2)

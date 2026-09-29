@@ -1,0 +1,983 @@
+{
+ "ch4 (engine reference: 88% win, 9.3 rounds, 35% HP)": [
+  {
+   "level": 20,
+   "walls": [
+    12
+   ],
+   "bt_turn": 2,
+   "troops": [
+    "Messingvogt"
+   ]
+  }
+ ],
+ "ch5 Weißenfels (rank D)": [
+  {
+   "level": 22,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Wyverns x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 24,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Vampirknechte x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 24,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Leere Hüllen x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 24,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Hülle & Koloss"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 25,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Aschenschmied"
+   ],
+   "kind": "boss"
+  },
+  {
+   "level": 26,
+   "walls": [
+    12,
+    20
+   ],
+   "guests": [
+    5
+   ],
+   "troops": [
+    "Der Eiserne Prinz"
+   ],
+   "kind": "boss"
+  },
+  {
+   "walls": [
+    12,
+    20
+   ],
+   "level": 22,
+   "troops": [
+    "Gargyl & Wyvern"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20
+   ],
+   "level": 24,
+   "troops": [
+    "Ghule & Knecht"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20
+   ],
+   "level": 24,
+   "troops": [
+    "Kettenkolonne"
+   ],
+   "kind": "regular (other)"
+  }
+ ],
+ "ch6 Der Messingtyrann (rank D, C after Gōen)": [
+  {
+   "level": 28,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Messingsoldaten x3"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 28,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Oni x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 28,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Oni-Hauptmann"
+   ],
+   "kind": "mid"
+  },
+  {
+   "level": 30,
+   "walls": [
+    12,
+    20
+   ],
+   "troops": [
+    "Seelenkessel"
+   ],
+   "kind": "boss"
+  },
+  {
+   "walls": [
+    12,
+    20
+   ],
+   "level": 28,
+   "troops": [
+    "Soldaten & Oni"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20
+   ],
+   "level": 28,
+   "troops": [
+    "Höllenhunde x2"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20
+   ],
+   "level": 28,
+   "troops": [
+    "Gargylen & Soldat"
+   ],
+   "kind": "regular (other)"
+  }
+ ],
+ "ch7 Die Kaiserstadt (rank C, B after Tsumugi)": [
+  {
+   "level": 33,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Straßenräuber x3"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 33,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Agenten x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 33,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Sturmharpyien x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 34,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Runde 1: Eiserne Brüder"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 34,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Runde 2: Arenabestie"
+   ],
+   "kind": "mid"
+  },
+  {
+   "level": 34,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Runde 3: Klingen von Ostmark"
+   ],
+   "kind": "mid"
+  },
+  {
+   "level": 35,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Finale: Kanemoto Gōki"
+   ],
+   "kind": "boss"
+  },
+  {
+   "level": 36,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Höhlenspinnen x3"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 36,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Spinnenkreis-Klingen x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 37,
+   "bt_turn": 2,
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Tsumugi"
+   ],
+   "kind": "boss"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "level": 33,
+   "troops": [
+    "Räuber & Agent"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "level": 36,
+   "troops": [
+    "Spinnen & Kokon"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30
+   ],
+   "guests": [
+    6
+   ],
+   "level": 36,
+   "troops": [
+    "Klinge & Agenten"
+   ],
+   "kind": "regular (other)"
+  }
+ ],
+ "ch8 Wald und Tiefe (rank B)": [
+  {
+   "level": 40,
+   "regalia": 1,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Werwölfe x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 40,
+   "regalia": 1,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Werwolf & Irrlichter"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 40,
+   "regalia": 1,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Kitsune x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 41,
+   "regalia": 1,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Rudelherr"
+   ],
+   "kind": "mid"
+  },
+  {
+   "level": 41,
+   "regalia": 1,
+   "yield_hp": 0.4,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Shirogane"
+   ],
+   "kind": "mid"
+  },
+  {
+   "level": 42,
+   "regalia": 2,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Grubenwichte x3"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 42,
+   "regalia": 2,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Höhlentrolle x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 42,
+   "regalia": 2,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Troll & Schamane"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 43,
+   "regalia": 2,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Trollkönig"
+   ],
+   "kind": "boss"
+  },
+  {
+   "level": 44,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Urwaldhüter x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 44,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Hüter & Geister"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 44,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Hohle Diener x3"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 44,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Magier & Diener"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 44,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Grimoires & Magier"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 45,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Mukuro"
+   ],
+   "kind": "boss"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "regalia": 2,
+   "level": 40,
+   "troops": [
+    "Kitsune & Irrlicht"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "regalia": 2,
+   "level": 44,
+   "troops": [
+    "Hüter & Geister"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "regalia": 2,
+   "level": 44,
+   "troops": [
+    "Grimoires & Magier"
+   ],
+   "kind": "regular (other)"
+  }
+ ],
+ "ch9 Morgenröte (rank B, A after Gōen)": [
+  {
+   "level": 46,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Ertrunkene x3"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 46,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Sirenen x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 46,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Krabben x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 46,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Fomorer x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 46,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Ketos"
+   ],
+   "kind": "mid"
+  },
+  {
+   "level": 47,
+   "regalia": 3,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Fomorer-Häuptling"
+   ],
+   "kind": "boss"
+  },
+  {
+   "level": 47,
+   "regalia": 4,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Shigure"
+   ],
+   "kind": "boss"
+  },
+  {
+   "level": 48,
+   "regalia": 4,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Salamander x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 48,
+   "regalia": 4,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Phönix & Salamander"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 48,
+   "regalia": 4,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Gardisten x2"
+   ],
+   "kind": "regular"
+  },
+  {
+   "level": 48,
+   "regalia": 4,
+   "bt_hp": 0.5,
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Gōen (Urwald)"
+   ],
+   "kind": "boss"
+  },
+  {
+   "level": 49,
+   "regalia": 4,
+   "walls": [
+    12,
+    20,
+    30,
+    37,
+    48
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Kagerō"
+   ],
+   "kind": "boss"
+  },
+  {
+   "level": 49,
+   "regalia": 4,
+   "walls": [
+    12,
+    20,
+    30,
+    37,
+    48
+   ],
+   "guests": [
+    6
+   ],
+   "troops": [
+    "Hōkais Schatten"
+   ],
+   "kind": "boss"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "regalia": 3,
+   "level": 46,
+   "troops": [
+    "Fomorer & Sirene"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "walls": [
+    12,
+    20,
+    30,
+    37
+   ],
+   "guests": [
+    6
+   ],
+   "regalia": 3,
+   "level": 48,
+   "troops": [
+    "Gardist & Phönix"
+   ],
+   "kind": "regular (other)"
+  },
+  {
+   "level": 49,
+   "walls": [
+    12,
+    20,
+    30,
+    37,
+    48
+   ],
+   "guests": [
+    6
+   ],
+   "regalia": 4,
+   "troops": [
+    "Kurenai Tōma"
+   ],
+   "kind": "phase 3",
+   "end_turn": 2
+  }
+ ]
+}

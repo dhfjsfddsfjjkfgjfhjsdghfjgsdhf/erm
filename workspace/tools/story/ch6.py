@@ -272,8 +272,8 @@ def torturm():
                 "hands on the gate winch, and it's already half turned."])
         e.say(npc_speaker("Oni-Hauptmann", "", 0), ["Little soldiers. The gate opens at the next bell. Gōen",
                                                      "pays by the hour."])
-        e.say(HANMA, ["Rank C, my Lord, a rank above us. Everything it hits,",
-                      "it hits hard. Falin, the front!"], 'command')
+        e.say(HANMA, ["An Oni captain, my Lord. Everything it hits, it hits",
+                      "hard. Falin, the front!"], 'command')
         e.battle(TR["Oni-Hauptmann"])
         e.switch(S_TOWER_DONE)
         e.se('Switch1')
@@ -549,7 +549,7 @@ def aschenlager():
         e.text(["The cauldron: brass and bone, big as a house, boiling",
                 "with something that isn't water. Faces rise to the top",
                 "and sink again. It hums a hymn to itself."])
-        e.say(HANMA, ["Rank C and made of souls. Light hurts it, my Lord.",
+        e.say(HANMA, ["Rank D, and made of souls. Light hurts it, my Lord.",
                       "Everything else hurts it less."], 'command')
         e.battle(TR["Seelenkessel"])
         e.switch(S_KESSEL)

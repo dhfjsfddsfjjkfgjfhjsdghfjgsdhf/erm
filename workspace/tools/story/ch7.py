@@ -440,7 +440,7 @@ def arena():
     def round2(e):
         ready(e, "Round two", ["Round two isn't a team. It's a beast. The Emperor's",
                                "father caught it in the Glutsand. Seven heads, give or",
-                               "take. Rank B, mind."], fight2)
+                               "take. Rank C, and angry about it."], fight2)
     def fight2(e):
         intro(e, "Round two! The Arenabestie!")
         e.battle(T3["Runde 2: Arenabestie"])
@@ -448,7 +448,7 @@ def arena():
         win(e, ["The beast goes down, all seven heads of it. Somewhere in", "the stands, somebody faints."])
     def round3(e):
         ready(e, "Round three", ["Semifinal: the Klingen von Ostmark. A captain, a mage,",
-                                 "and a knife from the south. Rank B, all three. They",
+                                 "and a knife from the south. Rank C, all three. They",
                                  "don't lose often."], fight3)
     def fight3(e):
         intro(e, "Round three! The Klingen von Ostmark!")

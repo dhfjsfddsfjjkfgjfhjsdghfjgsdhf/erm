@@ -160,145 +160,145 @@ def enemies(put, start):
         put(x)
         EN[x["name"]] = x["id"]
     # ------------------------------------------------ ch.7 the Kaiserstraße, the arena, the Unterhallen (party C)
-    e(enemy(79, "Straßenräuber", "Strassenraeuber", 380, stats(320, 300, 320, 180, 180, 60), 110, 180,
+    e(enemy(79, "Straßenräuber", "Strassenraeuber", 660, stats(450, 420, 320, 180, 180, 85), 110, 180,
             [act(1, 5), act(s["Netzwurf"], 2), act(s["Shield Bash"], 2)], "<Rank: C>\n<Attack Die: d10>\n<Armor: 6>",
             drops=[drop(1, MS["C"], 10), drop(1, I["Elixier"], 6)]))
-    e(enemy(80, "Spinnenkreis-Agent", "Spinnenagent", 340, stats(260, 360, 300, 220, 240, 200), 120, 220,
+    e(enemy(80, "Spinnenkreis-Agent", "Spinnenagent", 610, stats(405, 560, 300, 220, 240, 310), 120, 220,
             [act(1, 4), act(s["Giftdolch"], 4), act(s["Netzwurf"], 2)],
             "<Rank: C>\n<Attack Die: d8>\n<Attack Stat: DEX>", drops=[drop(1, MS["C"], 8)]))
-    e(enemy(81, "Sturmharpyie", "Sturmharpyie", 330, stats(280, 360, 280, 160, 200, 200), 100, 60,
+    e(enemy(81, "Sturmharpyie", "Sturmharpyie", 590, stats(400, 515, 280, 160, 200, 285), 100, 60,
             [act(s["Claw"], 5), act(s["Wing Buffet"], 3)], "<Rank: C>\n<Attack Die: d8>\n<Attack Stat: DEX>",
             drops=[drop(1, MS["C"], 10)], extra=[weak(THUNDER, 1.5)]))
-    e(enemy(82, "Arena-Söldner", "Arenasoeldner", 420, stats(340, 300, 340, 180, 200, 80), 140, 0,
+    e(enemy(82, "Arena-Söldner", "Arenasoeldner", 670, stats(490, 430, 340, 180, 200, 115), 140, 0,
             [act(1, 4), act(s["Arenahieb"], 4)], "<Rank: C>\n<Attack Die: d10>\n<Armor: 6>"))
-    e(enemy(83, "Eiserner Bruder", "Eiserner_Bruder", 520, stats(380, 280, 380, 160, 220, 60), 170, 0,
+    e(enemy(83, "Eiserner Bruder", "Eiserner_Bruder", 830, stats(545, 405, 380, 160, 220, 85), 170, 0,
             [act(1, 4), act(s["Arenahieb"], 4), act(s["Kriegsschrei"], 1)], "<Rank: C>\n<Attack Die: d12>\n<Armor: 6>"))
-    e(enemy(84, "Arenabestie", "Arenabestie", 1700, stats(440, 360, 460, 200, 260, 300), 800, 0,
+    e(enemy(84, "Arenabestie", "Arenabestie", 2200, stats(620, 510, 460, 200, 260, 425), 1200, 0,
             [act(1, 3), act(s["Hydrabiss"], 4), act(s["Feuerball"], 2)],
-            "<Rank: B>\n<Role: elite>\n<Attack Die: d10>\n<Armor: 8>", extra=[weak(ICE, 1.5)]))
-    e(enemy(85, "Klingenmeisterin", "Klingenmeisterin", 560, stats(430, 440, 420, 260, 300, 120), 380, 0,
-            [act(1, 4), act(s["Arenahieb"], 3), act(s["Kriegsschrei"], 1)], "<Rank: B>\n<Attack Die: d10>\n<Armor: 8>"))
-    e(enemy(86, "Kampfmagier", "Kampfmagier", 480, stats(220, 360, 380, 420, 340, 460), 380, 0,
-            [act(s["Feuerball"], 4), act(s["Ice Lance"], 3), act(1, 1)], "<Rank: B>\n<Attack Die: d6>"))
-    e(enemy(87, "Schattenklinge", "Schattenklinge", 500, stats(360, 460, 380, 260, 280, 200), 380, 0,
+            "<Rank: C>\n<Role: elite>\n<Attack Die: d10>\n<Armor: 8>", extra=[weak(ICE, 1.5)]))
+    e(enemy(85, "Klingenmeisterin", "Klingenmeisterin", 940, stats(505, 520, 420, 260, 300, 140), 570, 0,
+            [act(1, 4), act(s["Arenahieb"], 3), act(s["Kriegsschrei"], 1)], "<Rank: C>\n<Attack Die: d10>\n<Armor: 8>"))
+    e(enemy(86, "Kampfmagier", "Kampfmagier", 810, stats(260, 425, 380, 420, 340, 545), 570, 0,
+            [act(s["Feuerball"], 4), act(s["Ice Lance"], 3), act(1, 1)], "<Rank: C>\n<Attack Die: d6>"))
+    e(enemy(87, "Schattenklinge", "Schattenklinge", 840, stats(425, 545, 380, 260, 280, 235), 570, 0,
             [act(s["Schattenschnitt"], 5), act(s["Giftdolch"], 3)],
-            "<Rank: B>\n<Attack Die: d10>\n<Attack Stat: DEX>"))
-    e(enemy(88, "Kanemoto Gōki", "Arenachampion", 3400, stats(470, 420, 470, 260, 380, 200), 1800, 5000,
+            "<Rank: C>\n<Attack Die: d10>\n<Attack Stat: DEX>"))
+    e(enemy(88, "Kanemoto Gōki", "Arenachampion", 3400, stats(400, 355, 470, 260, 380, 170), 2700, 5000,
             [act(1, 3), act(s["Arenahieb"], 5), act(s["Kriegsschrei"], 1), act(s["Crushing Swing"], 2)],
-            "<Rank: B>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 10>"))
-    e(enemy(89, "Höhlenspinne", "Hoehlenspinne", 420, stats(330, 380, 340, 180, 160, 200), 130, 0,
+            "<Rank: C>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 10>"))
+    e(enemy(89, "Höhlenspinne", "Hoehlenspinne", 710, stats(410, 475, 340, 180, 160, 250), 130, 0,
             [act(s["Giftbiss"], 5), act(s["Netzwurf"], 2)], "<Rank: C>\n<Attack Die: d10>\n<Miasma>",
             drops=[drop(1, MS["C"], 8)], extra=[weak(FIRE, 1.5), weak(LIGHT, 1.5)]))
     e(enemy(90, "Seidenkokon", "Seidenkokon", 300, stats(40, 40, 360, 200, 60, 200), 60, 0,
             [act(s["Stand Still"], 5)], "<Rank: C>\n<Role: minion>\n<Armor: 4>\nA cocoon. Someone is inside.",
             extra=[weak(FIRE, 2.0)]))
-    e(enemy(91, "Spinnenkreis-Klinge", "Spinnenklinge", 560, stats(400, 460, 400, 260, 280, 220), 380, 300,
+    e(enemy(91, "Spinnenkreis-Klinge", "Spinnenklinge", 470, stats(400, 460, 400, 260, 280, 220), 380, 300,
             [act(s["Schattenschnitt"], 4), act(s["Giftdolch"], 3), act(s["Netzwurf"], 2)],
             "<Rank: B>\n<Attack Die: d10>\n<Attack Stat: DEX>", drops=[drop(1, MS["B"], 10)]))
-    e(enemy(92, "Tsumugi", "Tsumugi", 4200, stats(360, 480, 440, 480, 500, 480), 2400, 0,
+    e(enemy(92, "Tsumugi", "Tsumugi", 3500, stats(490, 655, 440, 480, 500, 655), 2400, 0,
             [act(s["Seidenfaden"], 4), act(s["Schuldschein"], 3), act(s["Kokonfessel"], 2), act(s["Giftbiss"], 2)],
             "<Rank: B>\n<Role: boss>\n<Attack Die: d10>\n<Attack Stat: DEX>\n<Armor: 8>\n<Demon>\n"
             "Under the Morgendom the dawn seal presses on her: here she is only rank B.",
             extra=[weak(FIRE, 1.5), weak(LIGHT, 1.5), trait(11, DARK, 0.5)]))
     # ------------------------------------------------ ch.8 the Tiefenwald, Eisenberg (party B)
-    e(enemy(93, "Werwolf", "Werwolf", 560, stats(440, 440, 420, 200, 280, 100), 380, 0,
+    e(enemy(93, "Werwolf", "Werwolf", 1350, stats(685, 685, 420, 200, 280, 155), 380, 0,
             [act(1, 4), act(s["Twin Claws"], 3), act(s["Mondheulen"], 1)],
             "<Rank: B>\n<Attack Die: d10>\n<Attack Stat: DEX>", drops=[drop(1, MS["B"], 12)],
             extra=[trait(11, 1, 0.5), weak(LIGHT, 1.5)]))
-    e(enemy(94, "Rudelherr", "Rudelherr", 1500, stats(470, 480, 460, 240, 360, 120), 900, 0,
+    e(enemy(94, "Rudelherr", "Rudelherr", 1000, stats(725, 740, 460, 240, 360, 185), 900, 0,
             [act(1, 3), act(s["Twin Claws"], 4), act(s["Mondheulen"], 2), act(s["Terrible Roar"], 1)],
             "<Rank: B>\n<Role: elite>\n<Attack Die: d10>\n<Attack Stat: DEX>\n<Miasma>",
             drops=[drop(1, MS["B"], 2)], extra=[trait(11, 1, 0.5), weak(LIGHT)]))
-    e(enemy(95, "Irrlicht", "Irrlicht", 260, stats(100, 460, 260, 400, 200, 440), 190, 0,
-            [act(s["Blendwerk"], 3), act(s["Fuchsfeuer"], 4)], "<Rank: B>\n<Role: minion>\n<Attack Die: d6>",
+    e(enemy(95, "Irrlicht", "Irrlicht", 220, stats(225, 999, 260, 400, 200, 999), 190, 0,
+            [act(s["Blendwerk"], 3), act(s["Fuchsfeuer"], 4)], "<Rank: B>\n<Role: standard>\n<Attack Die: d6>",
             extra=[weak(ICE, 1.5)]))
-    e(enemy(96, "Junger Kitsune", "Junger_Kitsune", 480, stats(280, 460, 380, 400, 420, 440), 380, 0,
+    e(enemy(96, "Junger Kitsune", "Junger_Kitsune", 400, stats(605, 995, 380, 400, 420, 950), 380, 0,
             [act(s["Fuchsfeuer"], 4), act(s["Blendwerk"], 2), act(s["Claw"], 2)],
             "<Rank: B>\n<Attack Die: d8>\n<Attack Stat: DEX>", extra=[weak(ICE, 1.5)]))
-    e(enemy(97, "Shirogane", "Shirogane", 2600, stats(360, 520, 460, 500, 540, 520), 0, 0,
+    e(enemy(97, "Shirogane", "Shirogane", 5500, stats(650, 935, 460, 500, 540, 935), 0, 0,
             [act(s["Fuchsfeuer"], 4), act(s["Blendwerk"], 3), act(s["Twin Claws"], 2)],
-            "<Rank: B>\n<Role: elite>\n<Attack Die: d10>\n<Attack Stat: DEX>\n<Saves: DEX, WIS, CHA, MAG>\n"
+            "<Rank: B>\n<AC: 30>\n<Role: boss>\n<Attack Die: d10>\n<Attack Stat: DEX>\n<Saves: DEX, WIS, CHA, MAG>\n"
             "Eight of her nine tails are bound: she plays fair.", extra=[weak(ICE, 1.5)]))
-    e(enemy(98, "Urwaldhüter", "Urwaldhueter", 640, stats(450, 200, 480, 300, 260, 300), 400, 0,
+    e(enemy(98, "Urwaldhüter", "Urwaldhueter", 1450, stats(999, 500, 480, 300, 260, 750), 400, 0,
             [act(1, 4), act(s["Wurzelgriff"], 4)], "<Rank: B>\n<Attack Die: d10>\n<Armor: 8>",
             drops=[drop(1, MS["B"], 12)], extra=[weak(FIRE, 2.0)]))
-    e(enemy(99, "Waldgeist", "Waldgeist", 460, stats(200, 460, 360, 420, 400, 460), 360, 0,
+    e(enemy(99, "Waldgeist", "Waldgeist", 560, stats(305, 700, 360, 420, 400, 700), 360, 0,
             [act(s["Sickle Wind"], 4), act(s["Blendwerk"], 2)], "<Rank: B>\n<Attack Die: d8>\n<Attack Stat: DEX>",
             extra=[weak(FIRE, 1.5)]))
-    e(enemy(100, "Grubenwicht", "Grubenwicht", 300, stats(300, 400, 320, 260, 200, 300), 190, 200,
-            [act(1, 4), act(s["Kornstaub"], 2)], "<Rank: B>\n<Role: minion>\n<Attack Die: d8>",
+    e(enemy(100, "Grubenwicht", "Grubenwicht", 440, stats(695, 930, 320, 260, 200, 695), 190, 200,
+            [act(1, 4), act(s["Kornstaub"], 2)], "<Rank: B>\n<Role: standard>\n<Attack Die: d8>",
             drops=[drop(1, MS["B"], 20)]))
-    e(enemy(101, "Höhlentroll", "Hoehlentroll", 760, stats(480, 220, 500, 160, 200, 120), 420, 60,
+    e(enemy(101, "Höhlentroll", "Hoehlentroll", 1500, stats(999, 495, 500, 160, 200, 270), 420, 60,
             [act(1, 4), act(s["Trollkeule"], 4), act(s["Nachwachsen"], 1)],
             "<Rank: B>\n<Attack Die: d12>\n<Armor: 6>\nTrolls regrow anything but burns.",
             drops=[drop(1, MS["B"], 10)], extra=[weak(FIRE, 2.0), trait(22, 7, 0.04)]))
-    e(enemy(102, "Trollschamane", "Trollschamane", 620, stats(380, 300, 440, 420, 380, 440), 420, 60,
+    e(enemy(102, "Trollschamane", "Trollschamane", 1100, stats(740, 585, 440, 420, 380, 860), 420, 60,
             [act(s["Todeshauch"], 3), act(s["Nachwachsen"], 2), act(1, 3)], "<Rank: B>\n<Attack Die: d8>",
             extra=[weak(FIRE, 2.0), trait(22, 7, 0.03)]))
-    e(enemy(103, "Trollkönig", "Trollkoenig", 5600, stats(520, 300, 540, 200, 400, 200), 3400, 8000,
+    e(enemy(103, "Trollkönig", "Trollkoenig", 3750, stats(440, 255, 540, 200, 400, 170), 3400, 8000,
             [act(s["Trollkeule"], 5), act(1, 3), act(s["Horngesang"], 2), act(s["Nachwachsen"], 1)],
             "<Rank: B>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 10>\nIt wears the old dwarf-king's helm.",
             extra=[weak(FIRE, 1.5), trait(22, 7, 0.03)]))
-    e(enemy(104, "Hohler Diener", "Hohler_Diener", 380, stats(420, 200, 400, 100, 60, 200), 190, 0,
-            [act(1, 5), act(s["Grabesgriff"], 3)], "<Rank: B>\n<Role: minion>\n<Attack Die: d10>\n<Miasma>",
+    e(enemy(104, "Hohler Diener", "Hohler_Diener", 1400, stats(955, 455, 400, 100, 60, 455), 190, 0,
+            [act(1, 5), act(s["Grabesgriff"], 3)], "<Rank: B>\n<Role: standard>\n<Attack Die: d10>\n<Miasma>",
             extra=[weak(LIGHT), weak(FIRE, 1.5), trait(11, DARK, 0.0)]))
-    e(enemy(105, "Leerer Magier", "Leerer_Magier", 520, stats(200, 380, 400, 460, 300, 480), 400, 0,
+    e(enemy(105, "Leerer Magier", "Leerer_Magier", 520, stats(360, 680, 400, 460, 300, 860), 400, 0,
             [act(s["Todeshauch"], 3), act(s["Seelenriss"], 3), act(s["Ice Lance"], 2)],
             "<Rank: B>\n<Attack Die: d6>\n<Miasma>", drops=[drop(1, MS["B"], 10)],
             extra=[weak(LIGHT), trait(11, DARK, 0.0)]))
-    e(enemy(106, "Grimoire", "Grimoire", 480, stats(160, 380, 420, 480, 300, 500), 380, 0,
+    e(enemy(106, "Grimoire", "Grimoire", 620, stats(325, 775, 420, 480, 300, 999), 380, 0,
             [act(s["Vertragsklausel"], 2), act(s["Seelenriss"], 3), act(s["Tintenstrahl"], 2)],
             "<Rank: B>\n<Attack Die: d6>", extra=[weak(FIRE, 2.0)]))
-    e(enemy(107, "Mukuro", "Mukuro", 7400, stats(300, 480, 520, 680, 600, 680), 6000, 0,
+    e(enemy(107, "Mukuro", "Mukuro", 5000, stats(255, 405, 520, 680, 600, 575), 6000, 0,
             [act(s["Todeshauch"], 4), act(s["Seelenriss"], 4), act(s["Toter Wille"], 1), act(s["Ice Lance"], 2)],
             "<Rank: S>\n<Role: boss>\n<Attack Die: d8>\n<Armor: 8>\n<Demon>\n<Miasma>",
             extra=[weak(LIGHT, 1.5), trait(11, DARK, 0.0)]))
     # ------------------------------------------------ ch.9 the sea, the fire, the end (party B -> A)
-    e(enemy(108, "Ertrunkener", "Ertrunkener", 700, stats(560, 400, 560, 200, 200, 300), 1200, 0,
+    e(enemy(108, "Ertrunkener", "Ertrunkener", 850, stats(875, 625, 560, 200, 200, 470), 1200, 0,
             [act(1, 5), act(s["Grabesgriff"], 3), act(s["Sturmflut"], 1)],
             "<Rank: A>\n<Role: minion>\n<Attack Die: d10>\n<Miasma>", drops=[drop(1, MS["A"], 20)],
             extra=[weak(THUNDER, 1.5), weak(LIGHT, 1.5), trait(11, WATER, 0.0)]))
-    e(enemy(109, "Sirene", "Sirene", 820, stats(300, 560, 520, 560, 600, 580), 1300, 0,
+    e(enemy(109, "Sirene", "Sirene", 610, stats(340, 635, 520, 560, 600, 655), 1300, 0,
             [act(s["Sirenengesang"], 3), act(s["Sturmflut"], 3), act(s["Ice Lance"], 2)],
             "<Rank: A>\n<Attack Die: d8>", extra=[weak(THUNDER, 1.5), trait(11, WATER, 0.0)]))
     e(enemy(110, "Riffkrabbe", "Riffkrabbe", 960, stats(580, 360, 620, 200, 200, 200), 1300, 0,
             [act(1, 4), act(s["Scherenzange"], 4)], "<Rank: A>\n<Attack Die: d12>\n<Armor: 12>",
             drops=[drop(1, MS["A"], 12)], extra=[weak(THUNDER, 2.0), trait(11, WATER, 0.5)]))
-    e(enemy(111, "Ketos", "Ketos", 2800, stats(600, 460, 620, 300, 400, 500), 3200, 0,
+    e(enemy(111, "Ketos", "Ketos", 1550, stats(865, 660, 620, 300, 400, 720), 3200, 0,
             [act(1, 3), act(s["Sturmflut"], 3), act(s["Bite"], 3)], "<Rank: A>\n<Role: elite>\n<Attack Die: d12>",
             drops=[drop(1, MS["A"], 2)], extra=[weak(THUNDER, 1.5), trait(11, WATER, 0.0)]))
-    e(enemy(112, "Fomorer", "Fomorer", 900, stats(580, 420, 580, 200, 300, 260), 1300, 400,
+    e(enemy(112, "Fomorer", "Fomorer", 1200, stats(725, 525, 580, 200, 300, 325), 1300, 400,
             [act(1, 5), act(s["Trollkeule"], 3)], "<Rank: A>\n<Attack Die: d12>\n<Armor: 8>",
             drops=[drop(1, MS["A"], 12)], extra=[weak(LIGHT, 1.5)]))
-    e(enemy(113, "Fomorer-Häuptling", "Fomorer_Haeuptling", 9000, stats(640, 440, 660, 300, 520, 400), 6000, 20000,
+    e(enemy(113, "Fomorer-Häuptling", "Fomorer_Haeuptling", 4350, stats(430, 295, 660, 300, 520, 270), 9000, 20000,
             [act(s["Trollkeule"], 4), act(1, 3), act(s["Terrible Roar"], 1), act(s["Glutodem"], 2)],
-            "<Rank: A>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 12>\nThe Aschenkrone burns him. He wears it anyway.",
+            "<Rank: B>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 12>\nThe Aschenkrone burns him. He wears it anyway.",
             extra=[weak(LIGHT, 1.5), weak(ICE, 1.5)]))
-    e(enemy(114, "Kraken", "Kraken", 3000, stats(620, 420, 640, 300, 360, 480), 3200, 0,
+    e(enemy(114, "Kraken", "Kraken", 980, stats(475, 325, 640, 300, 360, 370), 3200, 0,
             [act(s["Tentakelschlag"], 5), act(s["Sturmflut"], 2)], "<Rank: A>\n<Role: elite>\n<Attack Die: d10>",
             extra=[weak(THUNDER, 2.0), trait(11, WATER, 0.0)]))
-    e(enemy(115, "Shigure", "Shigure", 9600, stats(700, 620, 680, 400, 520, 560), 8000, 0,
+    e(enemy(115, "Shigure", "Shigure", 3150, stats(540, 475, 680, 400, 520, 430), 8000, 0,
             [act(s["Flutspeer"], 5), act(s["Sturmflut"], 3), act(1, 2)],
             "<Rank: S>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 12>\n<Demon>",
             extra=[weak(THUNDER, 1.5), trait(11, WATER, 0.0)]))
     e(enemy(116, "Glutsalamander", "Glutsalamander", 860, stats(560, 480, 560, 300, 300, 560), 1300, 0,
             [act(1, 4), act(s["Glutodem"], 4)], "<Rank: A>\n<Attack Die: d10>",
             drops=[drop(1, MS["A"], 12)], extra=[weak(ICE, 2.0), trait(11, FIRE, 0.0)]))
-    e(enemy(117, "Aschenphönix", "Aschenphoenix", 900, stats(400, 600, 520, 400, 460, 600), 1400, 0,
+    e(enemy(117, "Aschenphönix", "Aschenphoenix", 770, stats(345, 515, 520, 400, 460, 515), 1400, 0,
             [act(s["Aschenflügel"], 4), act(s["Sturzflug"], 3)], "<Rank: A>\n<Attack Die: d10>\n<Attack Stat: DEX>\n<Miasma>",
             extra=[weak(ICE, 1.5), trait(11, FIRE, 0.0)]))
     e(enemy(118, "Messinggardist", "Messinggardist", 980, stats(600, 420, 620, 300, 300, 200), 1300, 300,
             [act(1, 4), act(s["Hellebarde"], 4), act(s["Shield Bash"], 2)], "<Rank: A>\n<Attack Die: d12>\n<Armor: 12>",
             drops=[drop(1, MS["A"], 10)], extra=[weak(THUNDER, 1.5)]))
-    e(enemy(119, "Gōen, der Messingtyrann", "Goen_Final", 21000, stats(760, 700, 760, 720, 790, 740), 15000, 0,
+    e(enemy(119, "Gōen, der Messingtyrann", "Goen_Final", 7900, stats(630, 580, 760, 720, 790, 615), 15000, 0,
             [act(s["Messingurteil"], 5), act(s["Seelenvertrag"], 3), act(s["Goldene Kette"], 2), act(s["Brass Toll"], 2)],
             "<Rank: SS>\n<Role: apex>\n<Attack Die: d12>\n<Armor: 16>\n<Demon>\n<Saves: STR, CON, WIS, CHA, MAG>",
             extra=[trait(11, DARK, 0.0), weak(LIGHT, 1.5)]))
-    e(enemy(120, "Maō Kagerō", "Kagero", 17000, stats(800, 760, 800, 740, 760, 800), 0, 0,
+    e(enemy(120, "Maō Kagerō", "Kagero", 5200, stats(705, 670, 800, 740, 760, 705), 0, 0,
             [act(s["Schwarzes Feuer"], 4), act(s["Aschenschritt"], 4), act(s["Heldenklinge"], 2)],
             "<Rank: SS>\n<Role: apex>\n<Attack Die: d12>\n<Armor: 16>\n<Demon>\n<Veil of Ash>",
             extra=[trait(11, DARK, 0.0), weak(LIGHT, 1.5)]))
-    e(enemy(121, "Hōkais Schatten", "Hokai", 14000, stats(600, 600, 820, 800, 820, 840), 0, 0,
+    e(enemy(121, "Hōkais Schatten", "Hokai", 5200, stats(665, 665, 820, 800, 820, 930), 0, 0,
             [act(s["Leere"], 4), act(s["Hōkais Ruf"], 3), act(s["Todeshauch"], 3)],
             "<Rank: SS>\n<Role: apex>\n<Armor: 14>\n<Demon>\nThe thing in the miasma that spoke to Tōma.",
             extra=[trait(11, DARK, 0.0), weak(LIGHT, 2.0)]))
@@ -306,6 +306,19 @@ def enemies(put, start):
             [act(s["Heldenklinge"], 5), act(1, 3), act(s["Aschenschritt"], 2)],
             "<Rank: S>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 12>\n<Demon>\nThe man under the Demon Lord.",
             extra=[weak(LIGHT, 1.5)]))
+    # ------------------------------------------------ ch.5-6: the Host's own beasts (Act I-II art, redder)
+    e(enemy(123, "Heereshund", "Hoellenhund", 360, stats(490, 470, 300, 150, 120, 425), 90, 60,
+            [act(1, 4), act(s["Glutbiss"], 4), act(s["Höllenfeuer"], 2)],
+            "<Rank: D>\n<Attack Die: d8>\n<Attack Stat: DEX>\n<Miasma>\nA hellhound bred for the Host.", hue=330,
+            drops=[drop(1, MS["D"], 5)], extra=[weak(LIGHT), trait(11, FIRE, 0.25), trait(11, DARK, 0.5)]))
+    e(enemy(124, "Heeresgargyl", "Gargyl", 550, stats(325, 270, 330, 150, 110, 210), 90, 50,
+            [act(1, 5), act(s["Sturzflug"], 4), act(s["Steinhaut"], 1)],
+            "<Rank: D>\n<Attack Die: d10>\n<Armor: 8>\n<Miasma>\nA gargoyle cut for the siege.", hue=200,
+            drops=[drop(1, MS["D"], 6)], extra=[weak(THUNDER, 1.5), weak(LIGHT, 1.5), trait(11, DARK, 0.5)]))
+    e(enemy(125, "Grabghul", "Ghul", 380, stats(345, 300, 280, 100, 80, 185), 80, 20,
+            [act(1, 5), act(s["Grabesgriff"], 3), act(s["Miasma Bite"], 3)],
+            "<Rank: D>\n<Attack Die: d10>\n<Miasma>\nThe dead of Weißenfels, six years in the cellars.", hue=90,
+            drops=[drop(1, MS["D"], 5)], extra=[weak(LIGHT), weak(FIRE, 1.5), trait(11, DARK, 0.0)]))
 
 
 TR = {}

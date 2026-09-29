@@ -132,7 +132,7 @@ def kagero_pages(n):
     t0.say(TOMA, ["I'm sorry. I'm sorry. It won't let me stop. Don't make",
                   "me—"])
     t2 = Ev()
-    t2.if_script("$gameActors.actor(%d).isDead() && $gameParty.members().contains($gameActors.actor(%d))"
+    t2.if_script("$gameActors.actor(%d).isDead() && $gameParty.members().includes($gameActors.actor(%d))"
                  % (YUKINO_ID, YUKINO_ID),
                  lambda b: (b.script("$gameActors.actor(%d).revive(); $gameActors.actor(%d).setHp(1);"
                                      % (YUKINO_ID, YUKINO_ID)),
