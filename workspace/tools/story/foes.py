@@ -6,7 +6,8 @@ ch.8 B (41-47), ch.9 B->A (47-55).  Numbers are tuned with tools/scen_story_bala
 from story import db
 from story.common import Ev, KANTA, HANMA, FALIN, npc_speaker
 from story.cast import RIN
-from story.db import (eff, trait, skill, enemy, act, drop, stats, weak, weapon, armor, item, state,
+from story.db import (eff, trait, skill, passive, enemy, act, drop, stats, weak, weapon, armor, item, state,
+                      BATTLEMAGIC_ST, FROST_ST, STAFF_W, ST_FROSTBODY, ST_MORGENWACHT,
                       ADD_STATE, REMOVE_STATE, BUFF, DEBUFF, REC_HP, REC_MP,
                       FIRE, ICE, THUNDER, WATER, EARTH, WIND, LIGHT, DARK,
                       GLOVE_W, SWORD_W, FLAIL_W, AXE_W, SPEAR_W,
@@ -116,6 +117,58 @@ def skills(put, start):
 
 
 # =====================================================================================================================
+# GUESTS (321-360): Asahina Rin (actor 5, fixed rank C) and Tsukishiro Yukino (actor 6, Act III)
+# =====================================================================================================================
+GUEST = {}
+
+
+def guest_skills(put, start):
+    assert start == 321, start
+    def g(s):
+        put(s)
+        GUEST[s["name"]] = s["id"]
+    BM, FA = BATTLEMAGIC_ST, FROST_ST
+    g(skill(321, "Flammenlanze", BM, mp=5, scope=1, dtype=1, element=FIRE, formula="d10", hit=2, anim=66, icon=64,
+            crit=True, msg="%1 hurls a lance of flame!",
+            desc="Rin's fire: a lance of flame at one foe, d10 + MAG.", note="<Stat: MAG>\n<Start Rank: C>"))
+    g(skill(322, "Eissturm", BM, mp=5, scope=2, dtype=1, element=ICE, formula="d8", hit=0, anim=73, icon=65,
+            msg="%1 calls down an ice storm!",
+            desc="Every foe: d8 + MAG ice, DEX save for half.", note="<Stat: MAG>\n<Save: DEX>\n<Start Rank: C>"))
+    g(skill(323, "Königsschild", BM, mp=5, scope=8, anim=53, icon=128, speed=10,
+            effects=[eff(REMOVE_STATE, ST_FEAR, 1.0)], msg="%1 raises the royal shield!",
+            desc="Every ally gains a barrier of (d8 + CHA) x1/2 and shakes\noff fear.",
+            note="<Stat: CHA>\n<Barrier: d8 50%>\n<Support>\n<Start Rank: C>"))
+    for i in range(324, 331):
+        put(db.sep(i, ""))
+    g(skill(331, "Frostschnitt", FA, mp=5, scope=1, dtype=1, element=ICE, formula="d8", hit=1, anim=72, icon=65,
+            crit=True, effects=[eff(ADD_STATE, ST_CHILL, 0.5)], msg="%1 cuts with a blade of frost!",
+            desc="A cut of frost: d8 + DEX ice. CON save or the foe is\nChilled.",
+            note="<Stat: DEX>\n<Save: CON states>\n<Start Rank: C>"))
+    g(skill(332, "Eiswand", FA, mp=5, scope=8, anim=74, icon=65, speed=10, msg="%1 raises a wall of ice!",
+            desc="Every ally gains a barrier of ice: (d8 + WIS) x1/2.",
+            note="<Stat: WIS>\n<Barrier: d8 50%>\n<Support>\n<Start Rank: C>"))
+    g(passive(333, "Frostkörper", 65,
+              "Passive. The cold of the rift is in her: ice damage x1/2,\nshe can't be Chilled or frozen.",
+              "<Passive State: %d>" % ST_FROSTBODY))
+    g(skill(334, "Schneesturm", FA, mp=5, scope=2, dtype=1, element=ICE, formula="d10", hit=0, anim=74, icon=65,
+            effects=[eff(ADD_STATE, ST_CHILL, 0.3)], msg="%1 brings the storm of Frostheim!",
+            desc="B. Every foe: d10 + MAG ice, CON save for half. It may\nleave them Chilled.",
+            note="<Stat: MAG>\n<Save: CON>\n<Start Rank: B>\n<Needs Rank: B>"))
+    g(skill(335, "Kalte Gnade", FA, mp=5, scope=7, dtype=3, formula="d10", anim=45, icon=72, occasion=0,
+            effects=[eff(REMOVE_STATE, ST_BURN, 1.0), eff(REMOVE_STATE, ST_ASHBURN, 1.0)], msg="%1 lays cold hands on the wound.",
+            desc="B. Heals one ally for d10 + WIS and puts out fire and ash.",
+            note="<Stat: WIS>\n<Start Rank: B>\n<Needs Rank: B>"))
+    g(skill(336, "Weiße Stille", FA, mp=5, scope=1, dtype=1, element=ICE, formula="d12", hit=1, anim=72, icon=65,
+            crit=True, effects=[eff(ADD_STATE, ST_FROZEN, 0.3)], msg="Everything goes white and silent around %1's blade.",
+            desc="A. One cut in total silence: (d12 + DEX) x1.5 ice. CON save\nor the foe freezes solid for a turn.",
+            note="<Stat: DEX>\n<Damage: 150%>\n<Save: CON states>\n<Start Rank: A>\n<Needs Rank: A>"))
+    g(passive(337, "Morgenwacht", 87,
+              "Passive (A). The last of the Morgenwacht: +2 to hit and +2\nto every save.",
+              "<Passive State: %d>\n<Needs Rank: A>" % ST_MORGENWACHT))
+
+
+
+# =====================================================================================================================
 # ITEMS (41-90), WEAPONS (31-60), ARMORS (71-140)
 # =====================================================================================================================
 ITEMS = {}
@@ -170,6 +223,7 @@ def key_items(put, start):
 
 
 WEAPONS = {}
+WEAPONS_LIST = {}
 
 
 def weapons(put, start):
@@ -177,6 +231,7 @@ def weapons(put, start):
     def w(x):
         put(x)
         WEAPONS[x["name"]] = x["id"]
+        WEAPONS_LIST[x["id"]] = x
     # Falin: gauntlets (d10 STR) and flails (d12, -1 to hit) by rank; she can wield any weapon
     w(weapon(31, "Wallfäuste", GLOVE_W, 10, 102, 1, 6000, "[Gauntlets · D] Plates riveted by the Wall's smiths.\nd10 · STR", "<Rank: D>"))
     w(weapon(32, "Morgenfaust", GLOVE_W, 10, 102, 1, 60000, "[Gauntlets · C] Rune-steel knuckles. d10 · STR · +1 to hit",
@@ -190,6 +245,17 @@ def weapons(put, start):
     w(weapon(36, "Messingbrecher", FLAIL_W, 12, 98, 1, 70000, "[Flail · C] Made to break brass. d12 · STR", "<Rank: C>"))
     w(weapon(37, "Trollmorgenstern", FLAIL_W, 12, 98, 1, 700000, "[Flail · B] A troll king's morning star, cut down to\nsize. d12 · STR · +1 to hit",
              "<Rank: B>\n<Hit: +1>"))
+    # the guests' own weapons
+    w(weapon(38, "Kronenstab", STAFF_W, 6, 101, 1, 0, "[Staff · C] Rin's staff, the Asahina crest on its head.\nd6 · MAG",
+             "<Stat: MAG>\n<Rank: C>"))
+    w(weapon(39, "Frostklinge", SWORD_W, 8, 97, 6, 0, "[Sword · C] Yukino's blade, rimed white. d8 · DEX · Ice",
+             "<Stat: DEX>\n<Rank: C>", ))
+    w(weapon(40, "Mondeisklinge", SWORD_W, 10, 97, 6, 0, "[Sword · B] The blade remembers the rift. d10 · DEX · Ice\n+1 to hit",
+             "<Stat: DEX>\n<Rank: B>\n<Hit: +1>"))
+    w(weapon(41, "Weißklinge", SWORD_W, 12, 97, 6, 0, "[Sword · A] Frostheim's white steel. d12 · DEX · Ice",
+             "<Stat: DEX>\n<Rank: A>"))
+    for wid in (39, 40, 41):
+        WEAPONS_LIST[wid]["traits"] = [trait(31, ICE, 0), trait(22, 0, 0)]
 
 
 ARMORS = {}
@@ -242,6 +308,11 @@ def armors(put, start):
             "<Rank: A>\n<All Stats: +20>", [trait(11, WATER, 0.5)]))
     a(armor(99, "Drachenschuppe", GEN, E_ACC, 0, 145, 0, "[Accessory · A] Shiranui's shed scale. Fire x0, CON +60.",
             "<Rank: A>\n<CON: +60>", [trait(11, FIRE, 0.0)]))
+    # ---- the guests
+    a(armor(100, "Kronprinzenmantel", LIGHT_A, E_BODY, 6, 136, 0, "[Body · Light · C] Rin's battle-mage coat. Armor 6, WIS +10",
+            "<Rank: C>\n<WIS: +10>"))
+    a(armor(101, "Morgenwacht-Mantel", LIGHT_A, E_BODY, 8, 136, 0, "[Body · Light · C] The white coat of the Morgenwacht.\nArmor 8, ice x1/2",
+            "<Rank: C>", [trait(22, 1, 0), trait(11, ICE, 0.5)]))
 
 
 # =====================================================================================================================
@@ -395,6 +466,7 @@ def troops(put, start):
     t("Ghule & Knecht", [(e["Ghul"], 220, Y), (e["Vampirknecht"], 420, Y + 6), (e["Ghul"], 620, Y)])
     t("Leere Hüllen x2", [(e["Leere Hülle"], 300, Y), (e["Leere Hülle"], 520, Y)])
     t("Hülle & Koloss", [(e["Leere Hülle"], 300, Y), (e["Messingkoloss"], 520, Y)])
+    t("Kettenkolonne", [(e["Vampirknecht"], 300, Y), (e["Leere Hülle"], 530, Y)])
     t("Aschenschmied", [(e["Leere Hülle"], 200, Y), (e["Aschenschmied"], 430, Y + 20)])
     t("Der Eiserne Prinz", [(e["Leere Hülle"], 190, Y), (e["Der Eiserne Prinz"], 420, Y + 20), (e["Leere Hülle"], 650, Y)])
     # ---- chapter 6

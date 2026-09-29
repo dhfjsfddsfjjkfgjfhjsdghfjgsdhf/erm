@@ -12,8 +12,15 @@ OUT = ROOT + '/story/out'
 def load_orig(name):
     return json.load(open(f'{ORIG}/data/{name}.json', encoding='utf-8'))
 
-def load_sample(n):
-    return json.load(open(f'{SAMPLE}/Map{n:03d}.json', encoding='utf-8'))
+BASE = ROOT + '/story/base'
+
+def load_sample(n, map_id=None):
+    """An MZ sample map. Without the sample folder, the verified base of story map map_id (story/base, made by
+    tools/reconstruct_bases.py from the last build) stands in for it."""
+    path = f'{SAMPLE}/Map{n:03d}.json'
+    if not os.path.exists(path) and map_id is not None and os.path.exists(f'{BASE}/Map{map_id:03d}.json'):
+        path = f'{BASE}/Map{map_id:03d}.json'
+    return json.load(open(path, encoding='utf-8'))
 
 # =====================================================================
 # Switch / variable registries (names show up in the editor)
@@ -364,6 +371,33 @@ class Ev:
     def map_name(self, show):
         return self.add(281, [0 if show else 1])
 
+    def picture(self, pid, name, x=408, y=312, origin=1, scale=100, opacity=255, blend=0):
+        """Show Picture (centre origin by default)."""
+        return self.add(231, [pid, name, origin, 0, x, y, scale, scale, opacity, blend])
+
+    def move_picture(self, pid, x=408, y=312, origin=1, scale=100, opacity=255, frames=60, wait=True):
+        return self.add(232, [pid, 0, origin, 0, x, y, scale, scale, opacity, 0, frames, wait, 0])
+
+    def erase_picture(self, pid):
+        return self.add(235, [pid])
+
+    def to_title(self):
+        return self.add(354, [])
+
+    def abort_battle(self):
+        return self.add(340, [])
+
+    def change_name(self, actor, name):
+        return self.add(320, [actor, name])
+
+    def set_image(self, eid, sheet, index):
+        return self.script("$gameMap.event(%d).setImage('%s', %d);" % (eid, sheet, index))
+
+    def face_dir(self, eid, d):
+        """Turns an event (direction fix aside) to 2/4/6/8."""
+        return self.script("(e => { const f = e.isDirectionFixed(); e.setDirectionFix(false); e.setDirection(%d); "
+                           "e.setDirectionFix(f); })($gameMap.event(%d));" % (d, eid))
+
     def battleback(self, b1, b2):
         return self.add(283, [b1, b2])
 
@@ -435,7 +469,7 @@ class MapBuild:
         self.id = map_id
         self.name = name
         self.parent = parent
-        self.m = load_sample(sample) if isinstance(sample, int) else sample
+        self.m = load_sample(sample, map_id) if isinstance(sample, int) else sample
         self.sample = sample
         self.m['displayName'] = display
         self.m['events'] = [None] + ([e for e in self.m['events'][1:] if e and keep_decor and self._is_decor(e)])

@@ -2,7 +2,7 @@
 import copy
 from story.common import *
 
-MAGIC_ST, SPIRIT_ST, BODY_ST, PASSIVE_ST = 1, 2, 3, 4          # skill types
+MAGIC_ST, SPIRIT_ST, BODY_ST, PASSIVE_ST, BATTLEMAGIC_ST, FROST_ST = 1, 2, 3, 4, 5, 6          # skill types
 ADD_STATE, REMOVE_STATE, BUFF, DEBUFF, REC_HP, REC_MP = 21, 22, 31, 32, 11, 12
 FIRE, ICE, THUNDER, WATER, EARTH, WIND, LIGHT, DARK = 2, 3, 4, 5, 6, 7, 8, 9
 DIVINE_W, GLOVE_W, SWORD_W, FLAIL_W, AXE_W, SPEAR_W, DAGGER_W, STAFF_W = 13, 11, 2, 3, 4, 12, 1, 6
@@ -30,6 +30,8 @@ ST_WARDED, ST_STEEL, ST_ROARED, ST_BASTION, ST_BURDEN, ST_MOUNTAIN, ST_STEELHIDE
 ST_PURGED, ST_DAWN = range(79, 81)
 # the foes of Acts II and III
 ST_BURN, ST_SEALED, ST_WEBBED, ST_DROWNING, ST_ASHBURN, ST_FROZEN = range(81, 87)
+# the guests of Acts II-III (Yukino) and the last act
+ST_FROSTBODY, ST_MORGENWACHT, ST_VEILED = range(87, 90)
 # conditions a full cleanse ends (default Poison, Blind, Silence, Confusion, Charm, Sleep, Paralysis, Stun + ours)
 NEGATIVE = [4, 5, 6, 8, 9, 10, 12, 13, ST_DAZZLED, ST_FEAR, ST_PRONE, ST_CHILL, ST_PINNED]
 
@@ -145,6 +147,12 @@ def build_states():
               msgs=("Ash eats into %1!", "Ash eats into %1!", "", "The ash burns out.")),
         state(ST_FROZEN, "Frozen", 65, "", restriction=4, turns=(1, 2),
               msgs=("%1 freezes solid!", "%1 freezes solid!", "", "%1 thaws.")),
+        # ---- Yukino
+        state(ST_FROSTBODY, "Frost Body", 0, "", [trait(11, ICE, 0.5), trait(14, ST_CHILL, 1), trait(14, ST_FROZEN, 1)], **P),
+        state(ST_MORGENWACHT, "Morgenwacht", 0, "<Hit: +2>\n<Save Bonus: +2>", **P),
+        # ---- the Demon Lord's veil (Act III finale; the scripted phases add and remove it)
+        state(ST_VEILED, "Veil of Ash", 71, "<AC: +10>", [trait(11, 1, 0.1)], timing=0,
+              msgs=("Ash closes around %1 like a cloak.", "", "", "The veil of ash tears open!")),
     ]
     while len(S) < 31:
         S.append(None)
@@ -330,6 +338,9 @@ def build_skills():
     from story import foes
     foes.skills(put, len(L))
     while len(L) <= 320:
+        put(sep(len(L), ""))
+    foes.guest_skills(put, len(L))
+    while len(L) <= 360:
         put(sep(len(L), ""))
     return L
 
@@ -792,6 +803,15 @@ def build_classes():
                 (65, SK["Steel Hide"]), (71, SK["Plate Bloom"]), (81, SK["Earthsunder"]), (85, SK["Living Fortress"]),
                 (91, SK["Last Bastion"])],
                "<Aptitude: CON S, STR S, WIS A, CHA A, MAG B, DEX C, INT C>\n<Saves: CON, STR>")]
+    from story import foes
+    G = foes.GUEST
+    C.append(klass(4, "Battle-Mage", [BATTLEMAGIC_ST, PASSIVE_ST], [STAFF_W], [GEN, LIGHT_A],
+                   [(1, G["Flammenlanze"]), (1, G["Eissturm"]), (1, G["Königsschild"])],
+                   "<Aptitude: MAG S, WIS A, CHA A, DEX B, CON B, INT B, STR D>\n<Saves: WIS, MAG>"))
+    C.append(klass(5, "Frost Saint", [FROST_ST, PASSIVE_ST], [SWORD_W], [GEN, LIGHT_A],
+                   [(1, G["Frostschnitt"]), (1, G["Eiswand"]), (1, G["Frostkörper"]), (41, G["Schneesturm"]),
+                    (41, G["Kalte Gnade"]), (51, G["Weiße Stille"]), (51, G["Morgenwacht"])],
+                   "<Aptitude: DEX S, MAG S, WIS A, CON A, STR B, CHA C, INT C>\n<Saves: DEX, WIS>"))
     return C
 
 # =====================================================================
@@ -830,6 +850,20 @@ def build_actors():
                [trait(53, E_BODY, 1)]),
          actor(4, "Rabenfeder", 1, [0, 0, 0, 0, 0], ("", 0), ("", 0), "",
                "Not a character: holds the party's guild name (\\N[4]).", "<Party Name>", [])]
+    from story import foes
+    W, R = foes.WEAPONS, foes.ARMORS
+    A.append(actor(5, "Rin", 4, [W["Kronenstab"], 0, 0, R["Kronprinzenmantel"], 0], ("Actor2", 2), ("Actor2", 2),
+                   "Kronprinzessin",
+                   "Asahina Rin, Crown Princess of Hohenwacht. A battle-mage who\nwatched her brother fall at Weißenfels.",
+                   "<Rank: C>\n<Auto Build: MAG 40, WIS 20, DEX 15, CON 15, CHA 10>\n<Guest>", []))
+    A.append(actor(6, "Yukino", 5, [W["Frostklinge"], 0, 0, R["Morgenwacht-Mantel"], 0], ("Actor3", 2), ("Actor3", 2),
+                   "die Frostheilige",
+                   "Tsukishiro Yukino, the Frost Saint: the last of the Morgenwacht.\nTwelve years silent. The rift took most of her power.",
+                   "<Gated>\n<Rank Weapon: C %d, B %d, A %d>\n<Auto Build: DEX 35, MAG 25, WIS 20, CON 15, STR 5>\n"
+                   "<Breakthrough B: %d, %d>\n<Breakthrough A: %d>" %
+                   (W["Frostklinge"], W["Mondeisklinge"], W["Weißklinge"], foes.GUEST["Schneesturm"],
+                    foes.GUEST["Kalte Gnade"], foes.GUEST["Weiße Stille"]),
+                   [trait(53, E_WEAPON, 1)]))
     return A
 
 # =====================================================================
@@ -1180,7 +1214,7 @@ def build_system(start_map, start_x, start_y):
     Sy["optFollowers"] = True
     Sy["optSideView"] = False
     Sy["battleSystem"] = 0
-    Sy["skillTypes"] = ["", "Divine Weaponry", "Spirit Arts", "Body Arts", "Passive"]
+    Sy["skillTypes"] = ["", "Divine Weaponry", "Spirit Arts", "Body Arts", "Passive", "Battle Magic", "Frost Arts"]
     wt = Sy["weaponTypes"]
     while len(wt) < 14:
         wt.append("")

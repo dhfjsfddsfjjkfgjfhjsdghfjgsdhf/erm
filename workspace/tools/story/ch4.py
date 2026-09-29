@@ -236,7 +236,7 @@ def wallfeste():
                   [lambda b: (b.say(RIN, ["Then we march. The Grauklamm first; the camp is at",
                                           "the far end of the pass."]),
                               b.switch(S_MARCH),
-                              b.fadeout(), b.transfer(GRAUKLAMM, 31, 34, 8, 0), b.fadein()),
+                              b.fadeout(), b.transfer(GRAUKLAMM, GRAUKLAMM_ENTRY[0], GRAUKLAMM_ENTRY[1], 8, 0), b.fadein()),
                    lambda b: b.say(RIN, ["Don't take long. Every day we wait, the forge eats",
                                          "another of my brother's people."])], cancel=1)
     el = Ev()

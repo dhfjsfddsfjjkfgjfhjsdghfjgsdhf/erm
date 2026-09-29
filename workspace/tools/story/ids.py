@@ -18,8 +18,9 @@ WALLSTRASSE, FRONTPOSTEN, BRESCHE = 60, 61, 62
 WALLWEG, WALLFESTE, MARSCHALLHALLE, KASERNE, LAZARETT, ZEUGHAUS, FP5_TURM, ZISTERNE = 63, 64, 65, 66, 67, 68, 69, 70
 # Chapter 5: Weißenfels
 GRAUKLAMM, HEERLAGER, WF_UNTERSTADT, AQUAEDUKT, HUELLENSCHMIEDE, DRACHENHALLE = 75, 76, 77, 78, 79, 80
+GRAUKLAMM_ENTRY = (30, 44)          # where the march from the Wallfeste arrives (chapter 4 transfers here)
 # Chapter 6: Der Messingtyrann
-TORTURM, ASCHENLAGER = 90, 91
+TORTURM, ASCHENLAGER, WALLFESTE_SIEGE, FP3_SIEGE = 90, 91, 92, 93
 
 NAMES = {
     CAVE: "Erwachenshöhle", RIDGE: "Kiefernkamm", ROAD: "Karrenweg", TREES: "Kiefernwald",
@@ -37,5 +38,6 @@ NAMES = {
     LAZARETT: "Lazarett", ZEUGHAUS: "Zeughaus", FP5_TURM: "Frontposten 5", ZISTERNE: "Alte Zisterne",
     GRAUKLAMM: "Grauklamm", HEERLAGER: "Heerlager", WF_UNTERSTADT: "Weißenfels", AQUAEDUKT: "Alter Aquädukt",
     HUELLENSCHMIEDE: "Hüllenschmiede", DRACHENHALLE: "Drachenhalle",
-    TORTURM: "Torturm", ASCHENLAGER: "Heerlager der Asche",
+    TORTURM: "Torturm", ASCHENLAGER: "Heerlager der Asche", WALLFESTE_SIEGE: "Wallfeste (Belagerung)",
+    FP3_SIEGE: "Frontposten 3 (Belagerung)",
 }

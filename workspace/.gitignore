@@ -1,0 +1,7 @@
+orig/frozen_out/
+sweb/
+web/
+__pycache__/
+*.pyc
+node_modules/
+shots/

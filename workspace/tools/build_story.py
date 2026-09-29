@@ -2,7 +2,7 @@
 import json, os, shutil, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from story.common import *
-from story import db, lighting, prologue, ch1, ch2, ch3, act2, ch4
+from story import db, lighting, prologue, ch1, ch2, ch3, act2, ch4, ch5
 from story.ids import *
 import mapinfo
 
@@ -23,7 +23,7 @@ troops = db.build_troops()
 common = db.build_common_events()
 
 # ------------------------------------------------------------- maps
-maps = prologue.build() + ch1.build() + ch2.build() + ch3.build() + act2.build() + ch4.build()
+maps = prologue.build() + ch1.build() + ch2.build() + ch3.build() + act2.build() + ch4.build() + ch5.build()
 V_REGALIA = VAR('Regalia')          # Story_Core's Rank Pierce Variable (the Dawn Regalia held)
 
 # ------------------------------------------------------------- validation
@@ -66,7 +66,9 @@ STARTS = {CAVE: (12, 8), RIDGE: (12, 10), ROAD: (1, 9), TREES: (2, 32), RABENAU:
           AUSRUESTER: (8, 14), KORNSPEICHER: (8, 5), NORDSTRASSE: (3, 13), WOLFSGRUBE: (12, 15),
           WALLSTRASSE: (12, 25), FRONTPOSTEN: (16, 32), BRESCHE: (12, 15),
           WALLWEG: (12, 33), MARSCHALLHALLE: (6, 5), KASERNE: (8, 12), LAZARETT: (2, 9),
-          ZEUGHAUS: (11, 12), FP5_TURM: (12, 45), ZISTERNE: (11, 24), WALLFESTE: [(21, 33), (22, 18)]}
+          ZEUGHAUS: (11, 12), FP5_TURM: (12, 45), ZISTERNE: (11, 24), WALLFESTE: [(21, 33), (22, 18)],
+          GRAUKLAMM: GRAUKLAMM_ENTRY, HEERLAGER: (20, 28), WF_UNTERSTADT: (23, 37), AQUAEDUKT: (4, 26),
+          HUELLENSCHMIEDE: (16, 27), DRACHENHALLE: (15, 24)}
 for mb in maps:
     if mb.id in STARTS:
         check_map(mb, STARTS[mb.id])
@@ -121,7 +123,7 @@ PLUG = [
     ('Rank_Battle', ROOT + '/plugins/Rank_Battle.js', {}),
     ('Rank_Menus', ROOT + '/plugins/Rank_Menus.js', {}),
     ('Rank_Maps', ROOT + '/plugins/Rank_Maps.js', {}),
-    ('McKathlin_DayNight', '/mnt/user-data/uploads/mckathlin_daynight-mz-2-1-1/McKathlin_DayNight-MZ-2.1.1/McKathlin_DayNight.js', {
+    ('McKathlin_DayNight', ROOT + '/thirdparty/McKathlin_DayNight.js', {
         'Daytime Switch': '2', 'Night Switch': '3', 'Days Passed Variable': '4', 'Current Hour Variable': '5',
         'Current Minute Variable': '6',
         'New Game Start Time': '{"hour":"6","minutes":"0","ampm":"AM"}',
@@ -184,6 +186,8 @@ NEMO = {'Eiswurm': ('/mnt/user-data/uploads/dragonspack1_sd/SD/glacialserpent.pn
         'Aschenschwinge': ('/mnt/user-data/uploads/kamedran/kamedran1_glow.png', 470)}
 for name, (src, height) in NEMO.items():
     dst = f'{IMG}/enemies/{name}.png'
+    if not os.path.exists(src):
+        continue          # source art pack not uploaded: keep the image from the last build
     if not os.path.exists(dst) or os.path.getmtime(dst) < os.path.getmtime(src):
         im = Image.open(src).convert('RGBA')
         w = round(im.width * height / im.height)
@@ -192,8 +196,8 @@ for name, (src, height) in NEMO.items():
 # RTP battlers scaled up (and tinted) for bosses
 RTP_EN = '/mnt/user-data/uploads/RPGMZ/img/enemies'
 def scaled(src, dst, factor, hue=0, dark=1.0):
-    if os.path.exists(dst) and os.path.getmtime(dst) >= os.path.getmtime(__file__):
-        return
+    if os.path.exists(dst):
+        return            # built once; delete the file to rebuild it
     im = Image.open(src).convert('RGBA')
     im = im.resize((round(im.width * factor), round(im.height * factor)), Image.LANCZOS)
     if hue or dark != 1.0:
@@ -216,6 +220,10 @@ def variant(name, spec):
     import numpy as np
     src = spec['src'] if spec['src'].startswith('/') else f"{RTP_EN}/{spec['src']}.png"
     dst = f'{IMG}/enemies/{name}.png'
+    if not os.path.exists(src):
+        if not os.path.exists(dst):
+            problems.append(f'battler {name}: source {src} missing and no built image')
+        return
     stamp = max(os.path.getmtime(src), os.path.getmtime(foes.__file__))
     if os.path.exists(dst) and os.path.getmtime(dst) >= stamp:
         return
@@ -244,6 +252,16 @@ def variant(name, spec):
     Image.fromarray(a.astype('uint8'), 'RGBA').save(dst)
 for _n, _spec in foes.IMAGES.items():
     variant(_n, _spec)
+
+# story pictures made from RTP battlers (shown with Show Picture in scenes)
+PICTURES = {'Shiranui': dict(src="Dragon", f=1.2, hue=-10, sat=1.1)}
+for _n, _spec in PICTURES.items():
+    _dst = f'{IMG}/pictures/{_n}.png'
+    if not os.path.exists(_dst):
+        _src = f"{RTP_EN}/{_spec['src']}.png"
+        _tmp = f'{IMG}/enemies/_tmp_{_n}.png'
+        variant('_tmp_' + _n, _spec)
+        os.replace(_tmp, _dst)
 
 print("built", OUT, "maps:", len(maps))
 for p in problems:

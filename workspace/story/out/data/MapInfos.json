@@ -69,5 +69,15 @@ null,
 {"id":67,"expanded":false,"name":"Lazarett","order":41,"parentId":0,"scrollX":408,"scrollY":336},
 {"id":68,"expanded":false,"name":"Zeughaus","order":42,"parentId":0,"scrollX":552,"scrollY":432},
 {"id":69,"expanded":false,"name":"Frontposten 5","order":43,"parentId":0,"scrollX":600,"scrollY":1200},
-{"id":70,"expanded":false,"name":"Alte Zisterne","order":44,"parentId":0,"scrollX":552,"scrollY":648}
+{"id":70,"expanded":false,"name":"Alte Zisterne","order":44,"parentId":0,"scrollX":552,"scrollY":648},
+null,
+null,
+null,
+null,
+{"id":75,"expanded":false,"name":"Grauklamm","order":45,"parentId":0,"scrollX":864,"scrollY":1104},
+{"id":76,"expanded":false,"name":"Heerlager","order":46,"parentId":0,"scrollX":960,"scrollY":768},
+{"id":77,"expanded":false,"name":"Weißenfels","order":47,"parentId":0,"scrollX":1104,"scrollY":960},
+{"id":78,"expanded":false,"name":"Alter Aquädukt","order":48,"parentId":0,"scrollX":768,"scrollY":720},
+{"id":79,"expanded":false,"name":"Hüllenschmiede","order":49,"parentId":0,"scrollX":816,"scrollY":720},
+{"id":80,"expanded":false,"name":"Drachenhalle","order":50,"parentId":0,"scrollX":720,"scrollY":648}
 ]
