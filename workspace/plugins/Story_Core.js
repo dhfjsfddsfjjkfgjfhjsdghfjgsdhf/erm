@@ -94,6 +94,9 @@
  *                        snow; power 1-9). A map without the tag is clear.
  *   <Weather: snow 5 unless 26>   clear once switch 26 is ON
  *   <Weather: keep>      leave the weather as it is
+ * MESSAGES
+ *   A message line wider than the message window is drawn in a smaller font
+ *   (down to 18 px) for that message, instead of being cut off.
  * TAUSILIGHTING LAYERS
  *   A "Blend" layer whose image is named Ground_... (img/pictures/Ground_
  *   Eisfurt_Ice.png) is drawn on the ground: under characters and star
@@ -1783,6 +1786,30 @@
             return false;
         }
         return _Game_Interpreter_updateWaitMode.call(this);
+    };
+
+    //-------------------------------------------------------------------------
+    // Message fit: a message whose widest line is wider than the window is drawn in a smaller font (never
+    // below 18 px) instead of being cut off at the window's edge.
+    //-------------------------------------------------------------------------
+    const _Window_Message_startMessage = Window_Message.prototype.startMessage;
+    Window_Message.prototype.startMessage = function() {
+        this._storyFitSize = 0;
+        const base = $gameSystem.mainFontSize();
+        const avail = this.innerWidth - this.newLineX({ rtl: false }) - 4;
+        let widest = 0;
+        // (the message-only codes \. \| \! \> \< \^ \$ would wait or open windows while measuring: left out)
+        for (const line of $gameMessage.allText().split("\n")) {
+            widest = Math.max(widest, this.textSizeEx(line.replace(/\\[.|!><^$]/g, "")).width);
+        }
+        if (widest > avail && widest > 0) this._storyFitSize = Math.max(18, Math.floor((base * avail) / widest));
+        _Window_Message_startMessage.call(this);
+    };
+
+    const _Window_Message_resetFontSettings = Window_Message.prototype.resetFontSettings;
+    Window_Message.prototype.resetFontSettings = function() {
+        _Window_Message_resetFontSettings.call(this);
+        if (this._storyFitSize) this.contents.fontSize = this._storyFitSize;
     };
 
     //-------------------------------------------------------------------------

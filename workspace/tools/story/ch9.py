@@ -608,7 +608,7 @@ def knochenriff():
     sp = lambda near, **kw: T.spot(g, near, region=R, **kw)
     mb = MapBuild(KNOCHENRIFF, NAMES[KNOCHENRIFF], g.m, display=NAMES[KNOCHENRIFF])
     mb.props(note="<Rank: A>\n<Area Name: Knochenriff>\n<lighting: Outside>", bgm=('Dungeon5', 55),
-             bgs=('Wave2', 40), battleback=('Sea', 'Ship'), encounters=SEA_ENC(), steps=26)
+             bgs=('Wave2', 40), battleback=('Sand', 'Cliff'), encounters=SEA_ENC(), steps=26)
     el = Ev()
     el.narrate(["The Knochenriff: reefs of white bone and white coral, and",
                 "the bones are whales, mostly. Some are not."])
@@ -676,7 +676,7 @@ def versunkene_halle():
     sp = lambda near, **kw: T.spot(g, near, region=R, **kw)
     mb = MapBuild(VERSUNKENE_HALLE, NAMES[VERSUNKENE_HALLE], g.m, display=NAMES[VERSUNKENE_HALLE])
     mb.props(note="<Rank: A>\n<Area Name: Versunkene Halle>", bgm=('Dungeon6', 55), bgs=('Drips', 45),
-             battleback=('Sea', 'Ship'), encounters=HALL_ENC(), steps=30)
+             battleback=('Stone3', 'Ruins2'), encounters=HALL_ENC(), steps=30)
     for x in (15, 16, 17):
         mb.add("Out", x, 29, [pg(Ev().se('Move1', 60).transfer(KNOCHENRIFF, REEF_DOOR[0], REEF_DOOR[1] + 1, 2, 0),
                                  trigger=1, priority=0)])
