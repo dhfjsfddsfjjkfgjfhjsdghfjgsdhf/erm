@@ -2,7 +2,7 @@
 import json, os, shutil, sys
 sys.path.insert(0, os.path.dirname(__file__))
 from story.common import *
-from story import db, lighting, prologue, ch1, ch2, ch3, act2, ch4, ch5
+from story import db, lighting, prologue, ch1, ch2, ch3, act2, ch4, ch5, ch6, ch7, ch8
 from story.ids import *
 import mapinfo
 
@@ -23,7 +23,7 @@ troops = db.build_troops()
 common = db.build_common_events()
 
 # ------------------------------------------------------------- maps
-maps = prologue.build() + ch1.build() + ch2.build() + ch3.build() + act2.build() + ch4.build() + ch5.build()
+maps = prologue.build() + ch1.build() + ch2.build() + ch3.build() + act2.build() + ch4.build() + ch5.build() + ch6.build() + ch7.build() + ch8.build()
 V_REGALIA = VAR('Regalia')          # Story_Core's Rank Pierce Variable (the Dawn Regalia held)
 
 # ------------------------------------------------------------- validation
@@ -68,7 +68,13 @@ STARTS = {CAVE: (12, 8), RIDGE: (12, 10), ROAD: (1, 9), TREES: (2, 32), RABENAU:
           WALLWEG: (12, 33), MARSCHALLHALLE: (6, 5), KASERNE: (8, 12), LAZARETT: (2, 9),
           ZEUGHAUS: (11, 12), FP5_TURM: (12, 45), ZISTERNE: (11, 24), WALLFESTE: [(21, 33), (22, 18)],
           GRAUKLAMM: GRAUKLAMM_ENTRY, HEERLAGER: (20, 28), WF_UNTERSTADT: (23, 37), AQUAEDUKT: (4, 26),
-          HUELLENSCHMIEDE: (16, 27), DRACHENHALLE: (15, 24)}
+          HUELLENSCHMIEDE: (16, 27), DRACHENHALLE: (15, 24),
+          WALLFESTE_SIEGE: [(21, 32), (33, 6)], TORTURM: [(5, 25), (22, 26), (36, 21)], FP3_SIEGE: (16, 33),
+          ASCHENLAGER: (22, 37), KAISERSTRASSE: (20, 1), LICHTENHALL: (22, 2), PALAST: (13, 17), ARENA: (18, 26),
+          MORGENDOM: (11, 24), KATAKOMBEN: (20, 31), SPINNENHALLE: (14, 22), GILDE_LH: (9, 11), GASTHAUS_LH: (9, 11),
+          WALDWEG: (1, 20), HIRSCHHEIM: [(1, 30), (21, 36)], FUCHSSCHREIN: (12, 38), URWALD: (20, 1),
+          HIRSCHTHRON: (16, 1), EISENBERG: (20, 30), TIEFGRUBE: (20, 30), TIEFGRUBE_UNTEN: (5, 5),
+          TROLLHALLE: (14, 24)}
 for mb in maps:
     if mb.id in STARTS:
         check_map(mb, STARTS[mb.id])
@@ -250,7 +256,8 @@ def variant(name, spec):
         rgb = np.clip(rgb * (1 - k) + col * k, 0, 255)
     a[..., :3] = rgb
     Image.fromarray(a.astype('uint8'), 'RGBA').save(dst)
-for _n, _spec in foes.IMAGES.items():
+from story import foes3
+for _n, _spec in list(foes.IMAGES.items()) + list(foes3.IMAGES.items()):
     variant(_n, _spec)
 
 # story pictures made from RTP battlers (shown with Show Picture in scenes)

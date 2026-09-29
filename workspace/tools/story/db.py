@@ -1197,6 +1197,21 @@ def build_common_events():
                "your rank."])
     put("Tip: Stat Points", el)
 
+    # 4: travel between the hubs of Act III (only the places already unlocked are offered)
+    from story.ids import TRAVEL
+    el = Ev()
+    el.text(["Where to? (The Guild's carts and boats take you.)"])
+    opts = ", ".join('["%s", %d, %d]' % (label, i + 1, SW(swname)) for i, (label, m, x, y, d, swname) in enumerate(TRAVEL))
+    el.script("const all = [%s];\n"
+              "const list = all.filter(o => $gameSwitches.value(o[2]) && o[1] !== $gameVariables.value(%d));\n"
+              "$gameMessage.setChoices(list.map(o => o[0]).concat(['Stay']), 0, list.length);\n"
+              "$gameMessage.setChoiceCallback(n => $gameVariables.setValue(%d, n < list.length ? list[n][1] : 0));\n"
+              "this.setWaitMode('message');" % (opts, VAR('Travel: Here'), VAR('Travel: Choice')))
+    for i, (label, m, x, y, d, swname) in enumerate(TRAVEL):
+        el.if_var(VAR('Travel: Choice'), '==', i + 1,
+                  lambda b, m=m, x=x, y=y, d=d, i=i: (b.fadeout(), b.var(VAR('Travel: Here'), i + 1),
+                                                      b.transfer(m, x, y, d, 0), b.fadein()))
+    put("Reisen", el)
     while len(L) <= 20:
         put("", Ev())
     return L

@@ -114,6 +114,8 @@ def skills(put, start):
        note="<Stat: STR>\n<Save: STR states>")
     en(227, "Brass Toll", scope=2, dtype=1, element=1, formula="d8", hit=0, anim=39, icon=77, crit=False,
        msg="%1 calls in every debt at once!", note="<Stat: CHA>\n<Save: CON>")
+    from story import foes3
+    foes3.skills(put, 228)
 
 
 # =====================================================================================================================
@@ -220,6 +222,8 @@ def key_items(put, start):
     k(key(69, "Aschenkrone", 229, "[Dawn Regalia] A crown of grey iron that burns\nwhite in the dark."))
     k(key(70, "Kusakis Gabe", 182, "Bread and salt, left for the leshy of the Urwald."))
     k(key(71, "Grubenlampe", 162, "Foreman Tsurugi's lamp. His miners are down there."))
+    from story import foes3
+    foes3.key_items(put, 72)
 
 
 WEAPONS = {}
@@ -403,6 +407,8 @@ def enemies(put, start):
             [act(1, 5), act(s["Glutbiss"], 3)],
             "<Rank: D>\n<Attack Die: d8>\n<Attack Stat: DEX>\n<Miasma>\nThe courier's escort wounded it.",
             drops=[drop(1, MS["D"], 1)], extra=[weak(LIGHT), trait(11, FIRE, 0.25), trait(11, DARK, 0.5)]))
+    from story import foes3
+    foes3.enemies(put, 79)
 
 
 # =====================================================================================================================
@@ -477,4 +483,7 @@ def troops(put, start):
     t("Gargylen & Soldat", [(e["Gargyl"], 220, Y - 40), (e["Messingsoldat"], 420, Y), (e["Gargyl"], 620, Y - 40)])
     t("Oni-Hauptmann", [(e["Oni-Söldner"], 200, Y), (e["Oni-Hauptmann"], 430, Y + 10), (e["Messingsoldat"], 650, Y)])
     t("Seelenkessel", [(e["Messingkoloss"], 180, Y), (e["Seelenkessel"], 420, Y + 20), (e["Messingkoloss"], 660, Y)])
-    t("Gōen", [(e["Gōen"], 408, Y + 30)])
+    from story import ch6
+    t("Gōen", [(e["Gōen"], 408, Y + 30)], [db.troop_page(ev, turn=tn) for ev, tn in ch6.goen_troop_pages()])
+    from story import foes3
+    foes3.troops(put)
