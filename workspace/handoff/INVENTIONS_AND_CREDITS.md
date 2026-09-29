@@ -68,7 +68,7 @@ ten acts into three chapters of Act III, so a lot had to be placed, joined or in
 | TausiLighting | MelekTaus (github.com/themelektaus/rpgmz-lighting-plugin) | lights, `data/Lighting.json` |
 | WD_Quest | Winthorp Darkrites | the quest log (a minimal WD_Core stand-in was written for this project) |
 | McKathlin_DayNight | McKathlin (MIT licence) | time of day, lighting presets |
-| Eiswurm, Fubuki, Aschenschwinge battlers, one Act II dragon | the Nemo / pack, dragonspack1_sd, kamedran and rt5monster art packs you uploaded in increment 2 | Act I–II bosses (check the authors in `claude/mz-foundation.md`, where increment 2 recorded them) |
+| Eiswurm, Fubuki, Aschenschwinge and other Act I–II battlers | Nemo (@theartofnemo, RPGMakerWarehouse); DLC monster art by Yutaro Tsuyuki (the `pack`, `dragonspack1_sd`, `kamedran`, `rt5monster` and `dlc` uploads of increment 2) | Act I–II foes |
 | Portraits of Kanta, Hanma, Falin | the user | faces and pictures |
 | Rank_Core, Rank_Battle, Rank_Menus, Rank_Maps, Story_Core, WD_Core stand-in | Ten & Claude | the rules |
 
