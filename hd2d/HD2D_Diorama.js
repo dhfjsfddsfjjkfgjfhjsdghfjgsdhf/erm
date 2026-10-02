@@ -4024,9 +4024,9 @@ const BUILTIN_TIME_PHASES = [
         vignetteMult: 1, particles: "", particleAmount: 0
     },
     {
-        name: "Sunset", hour: 18, ambientTint: "#ffc090", ambientMult: 0.85, sunTint: "#ff9a50", sunMult: 1.25,
-        sunAngle: 195, sunElevation: 14, exposure: 0.02, temperature: 0.14, saturation: 1.06, contrast: 1.02,
-        fogTint: "#ffb090", fogMult: 1.35, bloomMult: 1.35, lightMult: 0.85, lightTint: "#ffc898", dofMult: 1,
+        name: "Sunset", hour: 18, ambientTint: "#ffd2ac", ambientMult: 0.85, sunTint: "#ffae6a", sunMult: 1.2,
+        sunAngle: 195, sunElevation: 14, exposure: 0.02, temperature: 0.09, saturation: 1.03, contrast: 1.02,
+        fogTint: "#ffc0a0", fogMult: 1.3, bloomMult: 1.35, lightMult: 0.85, lightTint: "#ffc898", dofMult: 1,
         vignetteMult: 1.1, particles: "motes", particleAmount: 12
     },
     {
@@ -5763,16 +5763,16 @@ const PARTICLE_TYPES = {
     light: { tex: "glow", size: [4, 9], vx: [-0.08, 0.08], vy: [-0.15, -0.02], gravity: 0, wobble: 0.3, life: [240, 480], alpha: 0.55, color: "#fff2b8", blend: 1, emissive: true, twinkle: 0.4, depth: [15, 85] },
     mist: { tex: "puff", size: [90, 170], vx: [0.08, 0.25], vy: [-0.02, 0.02], gravity: 0, wobble: 0, life: [500, 900], alpha: 0.12, color: "#e8eef8", blend: 0, emissive: false, twinkle: 0, depth: [25, 80] },
     fog: { tex: "puff", size: [150, 280], vx: [0.12, 0.3], vy: [-0.02, 0.02], gravity: 0, wobble: 0, life: [600, 1000], alpha: 0.1, color: "#e0e6ee", blend: 0, emissive: false, twinkle: 0, depth: [30, 85] },
-    rain: { tex: "streak", size: [0.9, 1.3], vx: [-2.2, -1.6], vy: [13, 17], gravity: 0, wobble: 0, life: [999, 999], alpha: 0.5, color: "#cfdcf2", blend: 0, emissive: false, twinkle: 0, depth: [5, 95], streak: true },
-    storm: { tex: "streak", size: [1, 1.5], vx: [-5, -3.5], vy: [16, 21], gravity: 0, wobble: 0, life: [999, 999], alpha: 0.55, color: "#c8d4ea", blend: 0, emissive: false, twinkle: 0, depth: [5, 95], streak: true },
-    snow: { tex: "flake", size: [2.5, 5.5], vx: [-0.4, 0.1], vy: [0.6, 1.4], gravity: 0, wobble: 1, life: [999, 999], alpha: 0.9, color: "#ffffff", blend: 0, emissive: false, twinkle: 0, depth: [5, 95], falls: true },
+    rain: { tex: "streak", size: [1, 1.4], vx: [-2.2, -1.6], vy: [13, 17], gravity: 0, wobble: 0, life: [999, 999], alpha: 0.5, color: "#dce6f6", blend: 0, emissive: true, twinkle: 0, depth: [5, 95], streak: true, maxBlur: 1 },
+    storm: { tex: "streak", size: [1.1, 1.6], vx: [-5, -3.5], vy: [16, 21], gravity: 0, wobble: 0, life: [999, 999], alpha: 0.55, color: "#d4def0", blend: 0, emissive: true, twinkle: 0, depth: [5, 95], streak: true, maxBlur: 1 },
+    snow: { tex: "flake", size: [4, 8], vx: [-0.4, 0.1], vy: [0.6, 1.4], gravity: 0, wobble: 1, life: [999, 999], alpha: 0.85, maxBlur: 2, color: "#ffffff", blend: 0, emissive: true, twinkle: 0, depth: [5, 95], falls: true },
     ash: { tex: "dot", size: [1.5, 3.5], vx: [-0.25, 0.1], vy: [0.25, 0.6], gravity: 0, wobble: 0.6, life: [999, 999], alpha: 0.7, color: "#b4aca4", blend: 0, emissive: false, twinkle: 0, depth: [10, 90], falls: true },
     embers: { tex: "spark", size: [1.5, 3.5], vx: [-0.2, 0.25], vy: [-1.1, -0.5], gravity: 0, wobble: 0.6, life: [120, 260], alpha: 0.95, color: "#ffa040", blend: 1, emissive: true, twinkle: 0.5, depth: [15, 85] },
     fireflies: { tex: "glow", size: [3, 6], vx: [-0.25, 0.25], vy: [-0.2, 0.2], gravity: 0, wobble: 1.2, life: [400, 800], alpha: 0.95, color: "#d8ff80", blend: 1, emissive: true, twinkle: 0.95, depth: [20, 80] },
     magic: { tex: "sparkle", size: [3, 7], vx: [-0.15, 0.15], vy: [-0.45, -0.1], gravity: 0, wobble: 0.6, life: [200, 420], alpha: 0.9, color: "#a8c8ff", colors: ["#a8c8ff", "#ffb8f0", "#c8ffe8", "#fff0a8"], blend: 1, emissive: true, twinkle: 0.7, depth: [15, 85] },
     leaves: { tex: "leaf", size: [5, 8], vx: [-0.6, -0.15], vy: [0.4, 0.9], gravity: 0, wobble: 1.4, life: [999, 999], alpha: 0.9, color: "#8ab060", colors: ["#8ab060", "#a8c070", "#c8b058"], blend: 0, emissive: false, twinkle: 0, depth: [10, 80], falls: true, spin: 0.04 },
     petals: { tex: "petal", size: [4, 7], vx: [-0.7, -0.2], vy: [0.35, 0.8], gravity: 0, wobble: 1.4, life: [999, 999], alpha: 0.9, color: "#ffc8dc", colors: ["#ffc8dc", "#ffd8e8", "#ffb0c8"], blend: 0, emissive: false, twinkle: 0, depth: [10, 80], falls: true, spin: 0.05 },
-    sunbeams: { tex: "beam", size: [90, 170], vx: [0, 0], vy: [0, 0], gravity: 0, wobble: 0, life: [500, 900], alpha: 0.08, color: "#fff2c8", blend: 1, emissive: true, twinkle: 0, depth: [35, 65], beam: true }
+    sunbeams: { tex: "beam", size: [90, 170], vx: [0.02, 0.06], vy: [0, 0], gravity: 0, wobble: 0, life: [500, 900], alpha: 0.16, color: "#fff2c8", blend: 1, emissive: true, twinkle: 0, depth: [35, 65], beam: true }
 };
 HD2D.PARTICLE_TYPES = PARTICLE_TYPES;
 for (const def of Object.values(PARTICLE_TYPES)) {
@@ -6340,8 +6340,8 @@ vec3 shadeColor(vec4 src, vec2 uvScr, vec2 px, out vec4 dd) {
     if (uLightOn.x > 0.0) {
         light = texture2D(uLightTex, uvScr).rgb * uLightOn.y;
         // Soft knee: overlapping lights brighten smoothly instead of clipping to white.
-        vec3 over = max(light - 0.85, 0.0);
-        light = min(light, vec3(0.85)) + over / (1.0 + over * 1.2);
+        vec3 over = max(light - 0.8, 0.0);
+        light = min(light, vec3(0.8)) + over / (1.0 + over * 1.6);
         float L = dot(light, LUMA);
         light *= mix(vec3(1.0), uTintS.rgb, uTintS.a * (1.0 - smoothstep(0.2, 0.85, L)));
         light *= mix(vec3(1.0), uTintH.rgb, uTintH.a * smoothstep(0.85, 1.35, L));
@@ -6975,7 +6975,7 @@ const GPU = (HD2D.GPU = {
                     g.addColorStop(0.7, "rgba(255,255,255,0.8)");
                     g.addColorStop(1, "rgba(255,255,255,0.2)");
                     ctx.fillStyle = g;
-                    ctx.fillRect(cx - 1, cy - 18, 2, 36);
+                    ctx.fillRect(cx - 1.5, cy - 18, 3, 36);
                 }
             }
         };
@@ -7009,22 +7009,27 @@ const GPU = (HD2D.GPU = {
             radial(200 + Math.cos(a) * r * 0.9, 240 + Math.sin(a) * r * 0.6, i === 0 ? 46 : 30, [[0, 0.35], [0.6, 0.15], [1, 0]]);
         }
         frames.puff = new PIXI.Rectangle(136, 176, 128, 128);
-        const beam = ctx.createLinearGradient(280, 0, 344, 0);
+        // The light-shaft texture is masked on its own canvas: "destination-in"
+        // would otherwise erase everything else already drawn into the atlas.
+        const beamCanvas = document.createElement("canvas");
+        beamCanvas.width = 64;
+        beamCanvas.height = 256;
+        const bctx = beamCanvas.getContext("2d");
+        const beam = bctx.createLinearGradient(0, 0, 64, 0);
         beam.addColorStop(0, "rgba(255,255,255,0)");
         beam.addColorStop(0.5, "rgba(255,255,255,1)");
         beam.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.save();
-        ctx.fillStyle = beam;
-        ctx.fillRect(280, 176, 64, 256);
-        ctx.globalCompositeOperation = "destination-in";
-        const fade = ctx.createLinearGradient(0, 176, 0, 432);
+        bctx.fillStyle = beam;
+        bctx.fillRect(0, 0, 64, 256);
+        bctx.globalCompositeOperation = "destination-in";
+        const fade = bctx.createLinearGradient(0, 0, 0, 256);
         fade.addColorStop(0, "rgba(255,255,255,0)");
         fade.addColorStop(0.25, "rgba(255,255,255,1)");
         fade.addColorStop(0.7, "rgba(255,255,255,0.6)");
         fade.addColorStop(1, "rgba(255,255,255,0)");
-        ctx.fillStyle = fade;
-        ctx.fillRect(280, 176, 64, 256);
-        ctx.restore();
+        bctx.fillStyle = fade;
+        bctx.fillRect(0, 0, 64, 256);
+        ctx.drawImage(beamCanvas, 280, 176);
         frames.beam = new PIXI.Rectangle(280, 176, 64, 256);
         const base = new PIXI.BaseTexture(canvas, { scaleMode: PIXI.SCALE_MODES.LINEAR });
         this.atlas = { base, textures: {} };
@@ -7473,7 +7478,8 @@ class Pipeline {
     }
 
     drawCharacter(renderer, plugin, sprite) {
-        if (!sprite.visible || sprite.worldAlpha <= 0) return;
+        // Mostly transparent sprites (ghosts, fading events) do not own their pixels.
+        if (!sprite.visible || sprite.worldAlpha < 0.25) return;
         const h = sprite._hd2d;
         const tint = objectTint(h.depth, h.emissive, 2, Math.round(U.saturate(h.rim) * 63));
         this.pushProxy(renderer, plugin, sprite, tint);
@@ -7483,7 +7489,9 @@ class Pipeline {
 
     /** Pictures / layer sprites / plugin sprites with an explicit depth. */
     drawWorldObject(renderer, plugin, obj, frame) {
-        if (!obj || !obj.visible || obj.worldAlpha <= 0) return;
+        // Translucent layers / pictures (mist, light overlays) keep the depth of
+        // what is behind them, otherwise they would blur the whole scene.
+        if (!obj || !obj.visible || obj.worldAlpha < 0.4) return;
         const depth = obj._hd2dDepth;
         if (depth === undefined || depth === null) {
             if (obj.children && obj.children.length && !obj._hd2dLayer) {
@@ -8465,7 +8473,8 @@ class ParticleEmitter {
             s.alpha = U.saturate(alpha);
             // Out-of-focus particles use a pre-blurred variant of their texture.
             if (!def.beam && def.tex !== "glow" && def.tex !== "puff") {
-                const level = dofW > 0 ? Math.min(3, Math.round(Math.abs(Depth.coc(p.depth, st.dof)) * 3 * dofW)) : 0;
+                const maxBlur = def.maxBlur !== undefined ? def.maxBlur : 3;
+                const level = dofW > 0 ? Math.min(maxBlur, Math.round(Math.abs(Depth.coc(p.depth, st.dof)) * 3 * dofW)) : 0;
                 if (level !== p.level) {
                     p.level = level;
                     const fr = GPU.atlasTexture(def.tex, level).frame;
@@ -8627,14 +8636,19 @@ class LayerSystem {
             acc.x += L.scrollX || 0;
             acc.y += L.scrollY || 0;
             this.scroll.set(L.id, acc);
-            // The layer point shown at the view center is (camera center * factor - offset).
-            // Positive scroll values move the image right / down over time.
-            const camCX = Camera.contX + viewW / 2;
-            const camCY = Camera.contY + viewH / 2;
+            // Placement: (x, y) is where the image sits while the camera is at the
+            // map's top-left corner; it then scrolls by camera position * factor
+            // (factor 1 = moves with the map, 0 = fixed on screen). Zoom scales
+            // the layer around the view center. Positive auto-scroll moves the
+            // image right / down.
             const bw = sprite.bitmap ? sprite.bitmap.width : 0;
             const bh = sprite.bitmap ? sprite.bitmap.height : 0;
             sprite.visible = bw > 0 && bh > 0;
             if (!sprite.visible) continue;
+            const cx = viewW / 2;
+            const cy = viewH / 2;
+            const px = L.x + acc.x - Camera.contX * fx; // unscaled left edge
+            const py = L.y + acc.y - Camera.contY * fy; // unscaled top edge
             sprite.scale.set(k);
             if (sprite instanceof TilingSprite) {
                 // A tiling sprite repeats on both axes, so a non-looping axis is
@@ -8643,20 +8657,22 @@ class LayerSystem {
                 const h = L.loopY ? viewH / k : bh;
                 sprite.move(0, 0, w, h);
                 if (L.loopX) {
-                    sprite.origin.x = camCX * fx - L.x - acc.x - w / 2;
+                    sprite.x = 0;
+                    sprite.origin.x = -px + cx - cx / k;
                 } else {
                     sprite.origin.x = 0;
-                    sprite.x = viewW / 2 + (L.x + acc.x - camCX * fx) * k;
+                    sprite.x = cx + (px - cx) * k;
                 }
                 if (L.loopY) {
-                    sprite.origin.y = camCY * fy - L.y - acc.y - h / 2;
+                    sprite.y = 0;
+                    sprite.origin.y = -py + cy - cy / k;
                 } else {
                     sprite.origin.y = 0;
-                    sprite.y = viewH / 2 + (L.y + acc.y - camCY * fy) * k;
+                    sprite.y = cy + (py - cy) * k;
                 }
             } else {
-                sprite.x = viewW / 2 + (L.x + acc.x - camCX * fx) * k;
-                sprite.y = viewH / 2 + (L.y + acc.y - camCY * fy) * k;
+                sprite.x = cx + (px - cx) * k;
+                sprite.y = cy + (py - cy) * k;
             }
         }
         for (const [id, sprite] of this.sprites) {
