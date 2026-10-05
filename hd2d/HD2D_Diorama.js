@@ -53,6 +53,19 @@
  * Changing maps cross-fades between presets ("Map Transition Frames").
  *
  * ============================================================================
+ * TIME OF DAY
+ * ============================================================================
+ * Phases: Dawn 5:30, Morning 8, Day 12, Afternoon 15:30, Sunset 18,
+ * Evening 19:30, Night 22:30 (or your own "Time Phases"). The current hour
+ * tints ambient light, sun, fog, bloom, lights and grading of the preset.
+ * - Mode Off (default): inactive until a "Set Time Of Day" command runs;
+ *   "Set Time Of Day: Off" turns it off again (saved with the game).
+ * - Mode Manual: active from the start at noon.
+ * - Mode Variable: the hour comes from a variable (e.g. a day/night
+ *   plugin's clock); "Set Time Of Day" then writes that variable.
+ * Time always moves forward: Night -> Morning passes through Dawn.
+ *
+ * ============================================================================
  * MAP NOTE TAGS
  * ============================================================================
  * <HD2DPreset: Forest>            visual preset of this map
@@ -163,6 +176,9 @@
  * perspective.nearScale farScale enabled
  * Colors: #rrggbb or r,g,b (0-255).  Angles: 0 right, 90 down, 180 left,
  * 270 up (the direction the light comes FROM).
+ * Paths ignore case, spaces, "_" and "-" ("Bloom.Intensity" and
+ * "depth of field.near blur" work). Unknown paths are ignored with a
+ * console warning.
  *
  * ============================================================================
  * SCRIPT CALLS
@@ -174,6 +190,20 @@
  * HD2D.addLight({ id: "a", attach: "player", radius: 200, intensity: 1 });
  * HD2D.removeLight("a", 30);
  * HD2D.registerSprite(mySprite, { depth: 30, emissive: 1 });
+ *
+ * ============================================================================
+ * TILE SHADOWS AND NORMAL MAPS (High / Ultra quality)
+ * ============================================================================
+ * Tile shadows: lights are blocked by regions/terrain tags listed in
+ * "Light Blocking Regions" / <HD2DBlockRegions>, by <HD2DShadowCaster>
+ * events and, with "Wall Tiles Block Light", by A3/A4 autotiles. Wall
+ * tops and roofs are solid; wall sides are treated as the visible face of
+ * the wall: lit by lights in front of (below) it, dark from behind. A light
+ * placed on a wall face (torch) lights the floor in front and beside it.
+ * Normal maps: same size and layout as the character sheet, OpenGL style
+ * (green = up), named <sheet><suffix>.png (default Actor1_normal.png) or set
+ * with <HD2DNormalMap: file>. "Auto-Detect Normal Maps" probes a file for
+ * every sheet; missing ones only log a harmless 404 in the dev console.
  *
  * ============================================================================
  * QUALITY LEVELS
@@ -194,15 +224,18 @@
  * ============================================================================
  * - No core files are changed; everything uses aliases. Works with maps,
  *   events, player, followers, vehicles, pictures, animations, weather.
- *   Battles get color grading, bloom, vignette and blurred battlebacks.
- * - TausiLighting: by default (Auto) HD2D lighting stays off on maps where
- *   Tausi lights exist, all other HD2D effects still apply. Camera zoom is
- *   not known to TausiLighting, so keep zoom at 1 on Tausi-lit maps.
+ *   Battles get color grading, bloom, vignette and blurred battlebacks
+ *   (backdrop fully, floor slightly).
+ * - TausiLighting: by default (Auto) HD2D ambient/sun/point lights stay off
+ *   on maps where Tausi lights exist (contact shadows, DOF, fog, bloom and
+ *   grading still apply). Camera zoom is not known to TausiLighting, so
+ *   keep zoom at 1 on Tausi-lit maps.
  * - McKathlin_DayNight / screen tint: HD2D keeps the map's screen tone. If
  *   you use HD2D time of day, set its "Hour Variable" to the same variable
  *   and make the tint plugin's tones neutral to avoid double darkening.
  * - If anything fails on a device, HD2D disables itself for that scene and
- *   logs the error instead of stopping the game.
+ *   logs the error instead of stopping the game (camera zoom returns to 1
+ *   until the next map). <HD2DOff> maps also ignore camera zoom.
  * - Pixel Perfect Mode keeps pixel art crisp (nearest filtering, rounded
  *   positions, camera snapped to whole pixels). Effects such as blur and
  *   bloom are smooth by nature but the sharp parts stay pixel-exact.
@@ -341,7 +374,7 @@
  *
  * @param Wall Tiles Block Light
  * @parent Lighting
- * @desc A3/A4 wall and roof autotiles block light automatically.
+ * @desc A3/A4 autotiles block light (High/Ultra quality): roofs and wall tops are solid, wall sides act as lit-from-the-front faces.
  * @type boolean
  * @default false
  *
@@ -441,7 +474,7 @@
  *
  * @param Time Of Day Mode
  * @parent TimeOfDay
- * @desc Off: no time of day. Manual: set with the Set Time Of Day command. Variable: read the hour from a variable.
+ * @desc Off: inactive until a Set Time Of Day command runs. Manual: active from the start (noon). Variable: hour from a variable.
  * @type select
  * @option Off
  * @option Manual
@@ -500,12 +533,12 @@
  *
  * @param Battle Background Blur
  * @parent Battle
- * @desc Battleback blur relative to the map DOF far blur (0 = sharp).
+ * @desc Battleback blur relative to the map DOF far blur (0 = sharp). The backdrop (battleback 2) gets it fully, the floor 30%.
  * @type number
  * @decimals 2
  * @min 0
  * @max 4
- * @default 0.50
+ * @default 0.80
  *
  * @param Debug
  * @text ---- Debug ----
@@ -593,12 +626,13 @@
  *
  * @command SetTimeOfDay
  * @text Set Time Of Day
- * @desc Manual time-of-day mode: moves the time to a phase or hour.
+ * @desc Moves the time forward to a phase or hour (turns time of day on). "Off" turns it off again.
  *
  * @arg time
  * @text Time
- * @desc Phase name or hour (0-24, decimals allowed, e.g. 18.5).
+ * @desc Phase name, hour (0-24, decimals allowed, e.g. 18.5) or Off. Time always moves forward (Night -> Morning passes Dawn).
  * @type combo
+ * @option Off
  * @option Dawn
  * @option Morning
  * @option Day
@@ -3650,7 +3684,7 @@ const P = (HD2D.Params = (() => {
 
     p.battleEffects = U.bool(RAW["Battle Effects"], true);
     p.battlePreset = U.str(RAW["Battle Preset"], "").trim();
-    p.battleBlur = U.clamp(U.num(RAW["Battle Background Blur"], 0.5), 0, 4);
+    p.battleBlur = U.clamp(U.num(RAW["Battle Background Blur"], 0.8), 0, 4);
 
     p.debugMode = U.str(RAW["Debug Mode"], "Playtest").trim().toLowerCase();
     p.debugOverlayKey = U.str(RAW["Debug Overlay Key"], "F6").trim().toUpperCase();
@@ -4048,6 +4082,36 @@ const BUILTIN_TIME_PHASES = [
 //-----------------------------------------------------------------------------
 
 /** Converts a raw (string) value to the type of DEFAULT_STATE at path. */
+/**
+ * Resolves a user-written setting path to its canonical spelling, ignoring
+ * case, spaces, "_" and "-": "Bloom.Intensity", "depth of field.near blur"
+ * and "fog.near_opacity" become "bloom.intensity", "dof.nearBlur" and
+ * "fog.nearOpacity". Unknown paths are returned trimmed but otherwise as-is.
+ */
+const PATH_ALIASES = {
+    colorgrade: "grade", grading: "grade", colorgrading: "grade", depthoffield: "dof", ambientlight: "ambient",
+    sunlight: "sun", directional: "sun", directionallight: "sun", rimlight: "rim", lighting: "lights",
+    atmospheric: "atmosphere", atmosphericperspective: "atmosphere", perspectivescaling: "perspective"
+};
+HD2D.canonicalPath = path => {
+    const p = String(path === undefined || path === null ? "" : path).trim();
+    if (!p) return "";
+    const squash = s => s.toLowerCase().replace(/[\s_-]/g, "");
+    const parts = p.split(".").map(s => s.trim());
+    let section = squash(parts[0]);
+    section = PATH_ALIASES[section] || section;
+    const sectionKey = Object.keys(DEFAULT_STATE).find(k => k.toLowerCase() === section);
+    if (!sectionKey) return p;
+    parts[0] = sectionKey;
+    const ref = DEFAULT_STATE[sectionKey];
+    if (parts.length > 1 && ref && typeof ref === "object" && !Array.isArray(ref)) {
+        const field = squash(parts[1]);
+        const fieldKey = Object.keys(ref).concat(["weight"]).find(k => k.toLowerCase() === field);
+        if (fieldKey) parts[1] = fieldKey;
+    }
+    return parts.join(".");
+};
+
 HD2D.convertValue = (path, raw) => {
     const ref = U.getPath(DEFAULT_STATE, path);
     if (path.endsWith(".weight")) return U.num(raw, null);
@@ -4084,7 +4148,7 @@ HD2D.parseSettingsString = text => {
     for (const part of String(text).split(/[,;\n]/)) {
         const m = part.match(/^\s*([A-Za-z][\w.]*)\s*[=:]\s*(.+?)\s*$/);
         if (!m) continue;
-        const path = m[1].replace(/^(\w)/, c => c.toLowerCase());
+        const path = HD2D.canonicalPath(m[1]);
         const value = HD2D.convertValue(path, m[2]);
         if (value === null || value === undefined) {
             U.warnOnce("Unknown setting '" + m[1] + "'");
@@ -4412,18 +4476,24 @@ const TimeOfDay = (HD2D.TimeOfDay = {
         };
     },
 
-    /** Current hour (0..24) or null when time of day is not active. */
+    /**
+     * Current hour (0..24) or null when time of day is not active.
+     * The saved "active" flag (set by Set Time Of Day) overrides the mode:
+     * true turns manual time on even in Off mode, false turns any mode off.
+     */
     hour() {
+        if (typeof $gameSystem === "undefined" || !$gameSystem) return null;
         const mode = P.timeMode;
-        if (!$gameSystem || mode === "off" || mode === "") return null;
-        if (mode === "variable") {
+        const t = HD2D.State.data().time || {};
+        if (t.active === false) return null;
+        if (mode === "variable" && t.active !== true) {
             if (!P.hourVariable) return null;
             const h = Number($gameVariables.value(P.hourVariable)) || 0;
             const m = P.minuteVariable ? Number($gameVariables.value(P.minuteVariable)) || 0 : 0;
             return (((h + m / 60) % 24) + 24) % 24;
         }
-        const t = HD2D.State.data().time;
-        return t && U.isNum(t.hour) ? ((t.hour % 24) + 24) % 24 : null;
+        if (mode !== "manual" && t.active !== true) return null;
+        return U.isNum(t.hour) ? ((t.hour % 24) + 24) % 24 : null;
     },
 
     /** Blended phase for an hour (cyclic interpolation between phases). */
@@ -4521,7 +4591,7 @@ const State = (HD2D.State = {
             overrides: {},
             toggles: {},
             quality: null,
-            time: { hour: 12 },
+            time: { hour: 12, active: null },
             timeTween: null,
             depth: {},
             pictures: {},
@@ -4633,7 +4703,10 @@ const State = (HD2D.State = {
             tw.t++;
             const k = U.ease(tw.ease, tw.dur > 0 ? tw.t / tw.dur : 1);
             d.time.hour = tw.from + (tw.to - tw.from) * k;
-            if (tw.t >= tw.dur) d.timeTween = null;
+            if (tw.t >= tw.dur) {
+                d.time.hour = ((d.time.hour % 24) + 24) % 24;
+                d.timeTween = null;
+            }
             changed = true;
         }
         const tk = [d.preset, MapTags.version, TimeOfDay.hour()].join("|");
@@ -4672,19 +4745,17 @@ const State = (HD2D.State = {
     //--- per-value overrides -------------------------------------------------
 
     _normPath(path) {
-        let p = String(path || "").trim();
-        if (!p) return null;
-        p = p.replace(/^(\w)/, c => c.toLowerCase());
-        const section = p.split(".")[0];
-        const alias = { colorgrade: "grade", grading: "grade", depthoffield: "dof", ambientlight: "ambient", sunlight: "sun", directional: "sun", rimlight: "rim" };
-        const fixed = alias[section.toLowerCase()];
-        if (fixed) p = fixed + p.slice(section.length);
-        return p;
+        const p = HD2D.canonicalPath(path);
+        return p || null;
     },
 
     setValue(path, value, duration = 0, easing = "smooth") {
         path = this._normPath(path);
         if (!path || value === null || value === undefined) return;
+        if (U.getPath(DEFAULT_STATE, path.replace(/\.weight$/, ".enabled")) === undefined) {
+            U.warnOnce("Unknown setting '" + path + "'");
+            return;
+        }
         const d = this.data();
         if (path.endsWith(".enabled")) {
             path = path.slice(0, -8) + ".weight";
@@ -4713,7 +4784,8 @@ const State = (HD2D.State = {
         if (!path) return;
         if (path.endsWith(".enabled")) path = path.slice(0, -8) + ".weight";
         const d = this.data();
-        const keys = Object.keys(d.overrides).filter(k => k === path || k.startsWith(path + ".") || path === "all" || path === "*");
+        const all = /^(all|\*)$/i.test(path);
+        const keys = Object.keys(d.overrides).filter(k => all || k === path || k.startsWith(path + "."));
         for (const key of keys) {
             const targetValue = U.getPath(this.target(), key);
             const cur = U.getPath(this.current(), key);
@@ -5220,8 +5292,9 @@ const Camera = (HD2D.Camera = {
         return d.camera;
     },
 
+    /** False while HD2D cannot render (GPU failure, runtime error, <HD2DOff> map). */
     enabled() {
-        return State.effectOn("camera");
+        return !HD2D.suspended && !GPU.failed && !MapTags.noHD2D && State.effectOn("camera");
     },
 
     /** Zoom that defines the visible map area (1 when camera effects are off). */
@@ -6065,6 +6138,10 @@ vec2 wrapTile(vec2 t) {
 vec4 regionAt(vec2 tile) {
     return texture2D(uRegion, wrapTile(tile) / uMapSize.xy);
 }
+// Exact (unfiltered) value of one map cell.
+vec4 regionCell(vec2 cell) {
+    return texture2D(uRegion, (wrapTile(cell) + 0.5) / uMapSize.xy);
+}
 `;
 
 // Stamps the opaque pixels of a (tiling) layer into the object buffer.
@@ -6213,22 +6290,47 @@ uniform vec4 uLightCfg; // use normals, use depth, use occlusion, light shadow s
 uniform vec2 uOcc;      // occlusion strength, zoom
 uniform float uLightScale;
 ` + GLSL.DEPTH_CHUNK + `
+// Tile shadows: marches from the pixel to the light through the blocker map
+// (b: 1 = solid roof / wall top / tagged tile, 0.5 = wall face). RPG Maker
+// walls are a top plus a vertical face that faces the camera (south), so:
+// - a pixel on a wall first leaves its own wall without being shadowed by it
+//   (tops through anything, faces only towards lights at or below them);
+// - a blocker run that touches the light is the light's own wall (wall lamps):
+//   allowed for lights in solid cells, or in faces lighting what is in front;
+// - any other blocker run between pixel and light casts a shadow.
+// Per-pixel jitter turns step aliasing into fine noise instead of stripes.
 float occlusion(vec2 px, vec2 lightPx) {
     vec2 a = localToTile(screenToLocal(px));
     vec2 b = localToTile(screenToLocal(lightPx));
+    vec2 ca = floor(a);
+    vec2 cb = floor(b);
+    if (ca == cb) return 1.0;
     vec2 delta = b - a;
-    float len = length(delta);
-    if (len < 0.6) return 1.0;
-    float vis = 1.0;
-    for (int i = 1; i <= OCC_STEPS; i++) {
-        float t = float(i) / float(OCC_STEPS + 1);
-        float da = t * len;
-        float db = (1.0 - t) * len;
-        if (da < 0.55 || db < 0.55) continue;
-        float o = regionAt(a + delta * t).b;
-        vis = min(vis, 1.0 - o);
+    float own = regionCell(ca).b;
+    float lightOwn = regionCell(cb).b;
+    bool leaving = own > 0.25 && (own > 0.75 || delta.y > -0.5);
+    bool pending = false;
+    bool pendingSolid = false;
+    float jitter = fract(52.9829189 * fract(dot(px, vec2(0.06711056, 0.00583715))));
+    for (int i = 0; i < OCC_STEPS; i++) {
+        vec2 cell = floor(a + delta * ((float(i) + jitter) / float(OCC_STEPS)));
+        if (cell == ca || cell == cb) continue;
+        float o = regionCell(cell).b;
+        if (leaving) {
+            if (o > 0.25 && (own > 0.75 || o < 0.75)) continue;
+            leaving = false;
+        }
+        if (o > 0.25) {
+            pending = true;
+            if (o > 0.75) pendingSolid = true;
+        } else if (pending) {
+            return 1.0 - uOcc.x;
+        }
     }
-    return mix(1.0, vis, uOcc.x);
+    // Wall faces are usually two rows tall: a lamp on a face also lights what
+    // is beside the face up to about its top row.
+    if (pending && !(lightOwn > 0.75 || (lightOwn > 0.25 && !pendingSolid && delta.y < 1.5))) return 1.0 - uOcc.x;
+    return 1.0;
 }
 void main(void) {
     vec2 d = vPx - vCenter;
@@ -6715,16 +6817,22 @@ const GPU = (HD2D.GPU = {
         return !this.failed;
     },
 
-    /** Checks whether half-float render targets work (HDR light / bloom). */
+    /**
+     * Checks whether half-float render targets work (HDR light / bloom).
+     * WebGL1 also needs linear filtering of half floats, otherwise the
+     * (bilinearly sampled) light and bloom buffers would read as black.
+     */
     probeHalfFloat(renderer) {
         try {
             const gl = renderer.gl;
             if (renderer.context.webGLVersion === 1) {
                 if (!gl.getExtension("OES_texture_half_float") || !gl.getExtension("EXT_color_buffer_half_float")) return false;
-                gl.getExtension("OES_texture_half_float_linear");
+                if (!gl.getExtension("OES_texture_half_float_linear")) return false;
             } else if (!renderer.context.extensions.colorBufferFloat) {
                 return false;
             }
+            // Clear errors left by earlier code so they are not blamed on the probe.
+            for (let i = 0; i < 16 && gl.getError() !== gl.NO_ERROR; i++);
             const rt = PIXI.RenderTexture.create({ width: 4, height: 4, type: PIXI.TYPES.HALF_FLOAT });
             renderer.renderTexture.bind(rt);
             const ok = gl.checkFramebufferStatus(gl.FRAMEBUFFER) === gl.FRAMEBUFFER_COMPLETE && gl.getError() === gl.NO_ERROR;
@@ -7137,13 +7245,16 @@ const RegionMap = (HD2D.RegionMap = {
                 }
                 const em = region > 0 ? MapTags.regionEmissiveOf(region) : 0;
                 if (em > 0) this.base[i + 1] = Math.round(U.saturate(em / 4) * 255);
+                // Light blockers (b): 255 = solid (roofs, wall tops, tagged
+                // regions / terrain), 128 = wall face. RPG Maker draws a wall
+                // as its top plus a vertical face below it that faces the
+                // camera; faces are lit by lights in front of (below) them and
+                // are not treated as blocking their own face.
+                const id = $gameMap.tileId(x, y, 0);
+                const wallSide = Tilemap.isWallSideTile(id);
                 let block = MapTags.isBlockingRegion(region) || MapTags.isBlockingTerrain($gameMap.terrainTag(x, y));
-                if (!block && P.wallsBlockLight) {
-                    // A3/A4 wall and roof autotiles on the bottom layer block light.
-                    const id = $gameMap.tileId(x, y, 0);
-                    block = Tilemap.isWallTile(id) || Tilemap.isRoofTile(id);
-                }
-                if (block) this.base[i + 2] = 255;
+                if (!block && P.wallsBlockLight) block = wallSide || Tilemap.isWallTopTile(id) || Tilemap.isRoofTile(id);
+                if (block) this.base[i + 2] = wallSide ? 128 : 255;
             }
         }
         this.data.set(this.base);
@@ -7332,16 +7443,31 @@ class Pipeline {
         return f;
     }
 
-    /** TausiLighting compatibility: let Tausi own the lighting on its maps. */
+    /**
+     * TausiLighting compatibility: let Tausi own the lighting on its maps.
+     * Tausi declares its classes with top-level `class` statements, which are
+     * global bindings but not window properties, so they are looked up by
+     * name. The answer is cached per map and refreshed twice a second (Tausi
+     * lights can be toggled by events).
+     */
     static tausiOwnsLighting() {
-        if (P.tausiMode === "both" || typeof window.LightingUtils === "undefined" || typeof $dataLighting === "undefined" || !$dataLighting) return false;
+        if (P.tausiMode === "both") return false;
+        if (typeof LightingUtils === "undefined" || typeof Data_Lighting_Light === "undefined") return false;
+        const data = window.$dataLighting;
+        if (!data || !$gameMap) return false;
         if (P.tausiMode === "hd2d off") return true;
+        const cache = Pipeline._tausiCache;
+        const mapId = $gameMap.mapId();
+        if (cache.mapId === mapId && cache.data === data && Graphics.frameCount - cache.frame < 30) return cache.value;
+        let value = false;
         try {
-            const map = $dataLighting.getCurrentMap();
-            return !!map && map.getMapObjectsOfType(window.Data_Lighting_Light).some(o => o.enabled !== false);
+            const map = data.getCurrentMap();
+            value = !!map && map.getMapObjectsOfType(Data_Lighting_Light).some(o => o.enabled !== false);
         } catch (e) {
-            return false;
+            value = false;
         }
+        Object.assign(cache, { mapId, data, frame: Graphics.frameCount, value });
+        return value;
     }
 
     //-------------------------------------------------------------------------
@@ -7833,10 +7959,8 @@ class Pipeline {
             .addIndex(new PIXI.Buffer(idx, true, true));
     }
 
-    renderLightQuads(renderer, frame, q, st, f) {
-        const list = Lights.list;
-        this.ensureLightGeometry(list.length);
-        const steps = q.occlusionSteps;
+    /** Point / spot light shader for a number of occlusion steps (cached). */
+    lightShader(steps) {
         const key = "light" + steps;
         if (!GPU.shaders[key]) {
             GPU.shaders[key] = PIXI.Shader.from(GLSL.LIGHT_VERT, GLSL.LIGHT_FRAG.replace("%STEPS%", String(Math.max(1, steps))), Object.assign({
@@ -7844,7 +7968,27 @@ class Pipeline {
                 uLightCfg: F32(4), uOcc: F32(2), uLightScale: 1
             }, this.depthU));
         }
-        const sh = GPU.shaders[key];
+        return GPU.shaders[key];
+    }
+
+    /**
+     * Compiles the light shader while the map loads. It is otherwise first
+     * needed when the first light appears, often mid-game (an event torch),
+     * and compiling it then would cause a visible hitch.
+     */
+    warmUp(renderer) {
+        try {
+            renderer.shader.bind(this.lightShader(State.quality().occlusionSteps), true);
+        } catch (e) {
+            // Compiled on demand instead.
+        }
+    }
+
+    renderLightQuads(renderer, frame, q, st, f) {
+        const list = Lights.list;
+        this.ensureLightGeometry(list.length);
+        const steps = q.occlusionSteps;
+        const sh = this.lightShader(steps);
         this.applyDepthUniforms(sh);
         const u = sh.uniforms;
         const cam = this.spriteset._hd2dCamera;
@@ -8289,6 +8433,7 @@ class Pipeline {
         u.uDebug[1] = st.depth.focalDepth;
     }
 }
+Pipeline._tausiCache = { mapId: -1, data: null, frame: 0, value: false };
 HD2D.Pipeline = Pipeline;
 
 //=============================================================================
@@ -8801,6 +8946,7 @@ Spriteset_Map.prototype.initialize = function() {
 
 Spriteset_Map.prototype.createHD2D = function() {
     this._hd2dPipeline = null;
+    HD2D.suspended = false;
     this._hd2dParallaxDepth = null;
     this._hd2dBackgroundMode = false;
     if (GPU.failed || !Graphics.app || !this._baseSprite || !this._tilemap) return;
@@ -8840,6 +8986,7 @@ Spriteset_Map.prototype.createHD2D = function() {
     this._hd2dPictureSprites = this._pictureContainer ? this._pictureContainer.children.filter(c => c instanceof Sprite_Picture) : [];
     // Systems.
     this._hd2dPipeline = new Pipeline(this, "map");
+    this._hd2dPipeline.warmUp(renderer);
     this._hd2dParticleSystem = new ParticleSystem(this);
     this._hd2dLayerSystem = new LayerSystem(this);
     this._hd2dGlows = new GlowSystem(this);
@@ -8858,17 +9005,48 @@ Spriteset_Map.prototype.destroy = function(options) {
 
 const _Spriteset_Map_update = Spriteset_Map.prototype.update;
 Spriteset_Map.prototype.update = function() {
-    if (this._hd2dPipeline) this.preUpdateHD2D(false);
+    if (this._hd2dPipeline) {
+        try {
+            this.preUpdateHD2D(false);
+        } catch (e) {
+            this.disableHD2D(e, "Update");
+        }
+    }
     _Spriteset_Map_update.call(this);
     if (this._hd2dPipeline) {
         try {
             this.postUpdateHD2D();
         } catch (e) {
-            console.error("[HD2D] Update error - HD2D disabled on this map.", e);
-            this._hd2dPost.filters = null;
-            this._hd2dPipeline = null;
+            this.disableHD2D(e, "Update");
         }
     }
+};
+
+/**
+ * Graceful degradation: after an unexpected error HD2D steps aside for the
+ * rest of this map and the game keeps running with the plain RPG Maker look.
+ * Camera zoom is suspended until the next map so the visible area matches.
+ */
+Spriteset_Map.prototype.disableHD2D = function(error, where) {
+    if (!this._hd2dPipeline) return;
+    console.error("[HD2D] " + where + " error - HD2D disabled on this map.", error);
+    HD2D.lastError = error;
+    HD2D.suspended = true;
+    this._hd2dPipeline = null;
+    if (this._hd2dPost) this._hd2dPost.filters = null;
+    const cam = this._hd2dCamera;
+    if (cam) {
+        cam.pivot.set(0, 0);
+        cam.position.set(0, 0);
+        cam.scale.set(1);
+        cam.rotation = 0;
+    }
+    // Animations normally render through the pipeline: show them directly.
+    if (this._hd2dUnlit) this._hd2dUnlit.renderable = true;
+    if (this._hd2dParticles) this._hd2dParticles.visible = false;
+    if (this._hd2dScreenFx) this._hd2dScreenFx.visible = false;
+    if (this._weather) this._weather._hd2dHideSprites = false;
+    if ($gamePlayer && $gameMap && $gameMap.mapId() > 0) $gamePlayer.center($gamePlayer._realX, $gamePlayer._realY);
 };
 
 /** Per-frame values needed before the character sprites update. */
@@ -8992,8 +9170,13 @@ Spriteset_Map.prototype.updateHD2DPictures = function() {
 const _Sprite_Character_update = Sprite_Character.prototype.update;
 Sprite_Character.prototype.update = function() {
     _Sprite_Character_update.call(this);
-    if (this._hd2dSpriteset && this._hd2dSpriteset._hd2dPipeline && this._character) {
-        this.updateHD2D();
+    const ss = this._hd2dSpriteset;
+    if (ss && ss._hd2dPipeline && this._character) {
+        try {
+            this.updateHD2D();
+        } catch (e) {
+            ss.disableHD2D(e, "Character update");
+        }
     }
 };
 
@@ -9026,9 +9209,15 @@ Sprite_Character.prototype.updateHD2D = function() {
         if (base && this._texture && this._texture.valid) {
             const frame = this._texture.frame;
             if (frame.x + frame.width <= base.width && frame.y + frame.height <= base.height) {
-                if (!this._hd2dNormalTex || this._hd2dNormalTex.baseTexture !== base) this._hd2dNormalTex = new PIXI.Texture(base, frame.clone());
+                if (!this._hd2dNormalTex || this._hd2dNormalTex.baseTexture !== base) {
+                    // Textures listen to their (cached, long-lived) base texture,
+                    // so replaced ones must be destroyed to be released.
+                    if (this._hd2dNormalTex) this._hd2dNormalTex.destroy(false);
+                    this._hd2dNormalTex = new PIXI.Texture(base, frame.clone());
+                }
                 const nt = this._hd2dNormalTex;
-                if (!nt.frame.equals(frame)) nt.frame = frame.clone();
+                const nf = nt.frame;
+                if (nf.x !== frame.x || nf.y !== frame.y || nf.width !== frame.width || nf.height !== frame.height) nt.frame = frame.clone();
                 h.normalTexture = nt;
                 ss._hd2dHasNormals = true;
             }
@@ -9051,6 +9240,15 @@ Sprite_Character.prototype.updateHD2D = function() {
     } else if (this._hd2dSortY !== undefined) {
         this._hd2dSortY = undefined;
     }
+};
+
+const _Sprite_Character_destroy = Sprite_Character.prototype.destroy;
+Sprite_Character.prototype.destroy = function(options) {
+    if (this._hd2dNormalTex) {
+        this._hd2dNormalTex.destroy(false);
+        this._hd2dNormalTex = null;
+    }
+    _Sprite_Character_destroy.call(this, options);
 };
 
 /** Foreground framing: moves the sprite above the map, with parallax and fading. */
@@ -9153,16 +9351,13 @@ Spriteset_Battle.prototype.createHD2D = function() {
     if (!P.battleEffects || GPU.failed || !Graphics.app || !this._baseSprite) return;
     if (!GPU.init(U.renderer())) return;
     const base = this._baseSprite;
-    // Battlebacks get a depth-of-field style blur.
-    this._hd2dBattleBack = new Sprite();
-    const index = base.children.indexOf(this._back1Sprite);
-    if (index >= 0) {
-        base.addChildAt(this._hd2dBattleBack, index);
-        for (const s of [this._back1Sprite, this._back2Sprite]) {
-            base.removeChild(s);
-            this._hd2dBattleBack.addChild(s);
-        }
-        this._hd2dBattleBlur = new PIXI.filters.BlurFilter(0, 3);
+    // Battlebacks get a depth-of-field style blur: the backdrop (battleback 2)
+    // is far away and blurs fully, the floor the battlers stand on only a
+    // little. Filters go on the sprites themselves (no reparenting), so
+    // plugins that move or replace the battlebacks keep working.
+    this._hd2dBattleBlurs = [];
+    for (const [sprite, scale] of [[this._back2Sprite, 1], [this._back1Sprite, 0.3]]) {
+        if (sprite) this._hd2dBattleBlurs.push({ sprite, scale, filter: new PIXI.filters.BlurFilter(0, 3) });
     }
     this._hd2dPost = new Sprite();
     const i = Math.max(0, this.children.indexOf(base));
@@ -9176,15 +9371,34 @@ Spriteset_Battle.prototype.createHD2D = function() {
 
 const _Spriteset_Battle_update = Spriteset_Battle.prototype.update;
 Spriteset_Battle.prototype.update = function() {
-    if (this._hd2dPipeline) State.update();
     _Spriteset_Battle_update.call(this);
     if (!this._hd2dPipeline) return;
+    try {
+        this.updateHD2D();
+    } catch (e) {
+        console.error("[HD2D] Battle update error - HD2D disabled in this battle.", e);
+        HD2D.lastError = e;
+        this._hd2dPipeline = null;
+        this._hd2dPost.filters = null;
+        for (const b of this._hd2dBattleBlurs || []) b.sprite.filters = null;
+    }
+};
+
+Spriteset_Battle.prototype.updateHD2D = function() {
+    State.update();
     const st = HD2D.state();
-    if (this._hd2dBattleBlur) {
-        const on = State.effectOn("dof") && st.dof.weight > 0;
-        const px = on ? st.dof.radius * st.dof.farBlur * st.dof.strength * st.dof.weight * P.battleBlur : 0;
-        this._hd2dBattleBlur.blur = px;
-        this._hd2dBattleBack.filters = px > 0.05 ? [this._hd2dBattleBlur] : null;
+    const on = State.effectOn("dof") && st.dof.weight > 0;
+    const px = on ? st.dof.radius * st.dof.farBlur * st.dof.strength * st.dof.weight * P.battleBlur : 0;
+    for (const b of this._hd2dBattleBlurs || []) {
+        const blur = px * b.scale;
+        b.filter.blur = blur;
+        const want = blur > 0.05;
+        const has = !!b.sprite.filters && b.sprite.filters.includes(b.filter);
+        if (want !== has) {
+            const others = (b.sprite.filters || []).filter(f => f !== b.filter);
+            const list = want ? others.concat([b.filter]) : others;
+            b.sprite.filters = list.length ? list : null;
+        }
     }
     const flags = this._hd2dPipeline.computeFlags();
     this._hd2dPost.filters = flags.any && !this._hd2dPipeline.failed ? [this._hd2dPipeline.filter] : null;
@@ -9493,15 +9707,38 @@ HD2D.setQuality = level => {
 };
 HD2D.setTime = (hour, duration = 0, easing = "smooth") => {
     const d = State.data();
-    const from = U.isNum(d.time.hour) ? d.time.hour : 12;
-    let to = hour;
-    let delta = to - from;
-    if (delta < -12) to += 24;
-    if (delta > 12) to -= 24;
-    if (duration > 0) d.timeTween = { from, to, t: 0, dur: duration, ease: easing };
-    else {
-        d.time.hour = ((hour % 24) + 24) % 24;
+    const wrap = h => ((h % 24) + 24) % 24;
+    const wasActive = TimeOfDay.hour() !== null;
+    if (hour === null || hour === false || /^(off|none)$/i.test(String(hour).trim())) {
+        // Turn time of day off, cross-fading to the plain preset look.
+        if (wasActive) State.crossfade(duration, easing);
+        d.time.active = false;
         d.timeTween = null;
+        State.invalidate();
+        return;
+    }
+    hour = Number(hour);
+    if (!isFinite(hour)) return;
+    if (P.timeMode === "variable" && P.hourVariable && d.time.active !== true) {
+        // Variable mode: the variables are the clock, so write them.
+        $gameVariables.setValue(P.hourVariable, Math.floor(wrap(hour)));
+        if (P.minuteVariable) $gameVariables.setValue(P.minuteVariable, Math.floor((wrap(hour) % 1) * 60));
+        if (d.time.active === false) d.time.active = null;
+        if (duration > 0) State.crossfade(duration, easing);
+        State.invalidate();
+        return;
+    }
+    d.time.active = true;
+    if (!wasActive || duration <= 0) {
+        // Jump (a cross-fade hides the jump when time of day was off).
+        d.time.hour = wrap(hour);
+        d.timeTween = null;
+        if (!wasActive && duration > 0) State.crossfade(duration, easing);
+    } else {
+        // Time only moves forward: Night -> Morning passes through Dawn.
+        const from = wrap(U.isNum(d.time.hour) ? d.time.hour : 12);
+        const to = from + wrap(hour - from);
+        d.timeTween = { from, to, t: 0, dur: duration, ease: easing };
     }
     State.invalidate();
 };
@@ -9564,6 +9801,10 @@ command("SetPreset", function(a) {
 
 command("SetTimeOfDay", function(a) {
     const raw = A.str(a.time, "Day");
+    if (/^(off|none)$/i.test(raw)) {
+        HD2D.setTime("off", A.dur(a.duration), A.ease(a.easing));
+        return;
+    }
     let hour = U.num(raw, null);
     if (hour === null) {
         const phase = TimeOfDay.phases.find(p => p.name.toLowerCase() === raw.toLowerCase());
