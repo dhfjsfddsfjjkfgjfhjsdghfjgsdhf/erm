@@ -47,8 +47,12 @@ module.exports = async h => {
         return out;
     });
     console.log(JSON.stringify(prog, null, 1));
-    check(prog.afterD.weapon === "Lichtklinge" && prog.afterD.armor === "Morgensilber-Rüstung", "D: sword form and Morgensilber");
-    check(prog.afterA.weapon === "Lichtkoloss" && prog.afterA.armor === "Kolosssilber-Rüstung", "A: colossus form and Kolosssilber");
+    // a breakthrough equips the new form unless another unlocked form suits her stats clearly better
+    // (Story_Core storyRefreshGear: this test's DEX-built Kanta keeps a DEX form), so check what was unlocked
+    check(prog.afterD.armor === "Morgensilber-Rüstung" && prog.forms.includes("Lichtklinge") &&
+          prog.forms.includes(prog.afterD.weapon), "D: sword form unlocked, Morgensilber");
+    check(prog.afterA.armor === "Kolosssilber-Rüstung" && prog.forms.includes("Lichtkoloss") &&
+          prog.forms.includes(prog.afterA.weapon), "A: colossus form unlocked, Kolosssilber");
     check(prog.afterA.hanmaArmor === "Offiziersuniform A" && prog.afterA.falinArmor === "Verschmolzene Platte A", "A: rank armor for Hanma and Falin");
     check(["Lichtstrahl", "Lichtdolch", "Lichtklinge", "Lichtlanze"].every(n => prog.forms.includes(n)), "earlier forms can be summoned");
     for (const n of ["Radiant Edge", "Lance Charge", "Arc Sweep", "Float", "Blade Volley", "Guardian Blade", "Lend a Blade",
@@ -202,7 +206,21 @@ module.exports = async h => {
     r = await fight("Probe Brutes", 5, "$gameActors.actor(3).setHp(Math.floor($gameActors.actor(3).mhp / 2));");
     console.log(r.log.slice(0, 60).join("\n"));
     check(has(r, /blade of light settles into Hanma/), "Lend a Blade on Hanma");
-    check(has(r, /pinned/), "Pinning Light pins");
+    // two casts in a fight can both miss the pin (STR save, then MZ's luck rate): count over many casts instead
+    const pins = await h.eval(() => {
+        const k = $gameActors.actor(1), sk = $dataSkills.find(s => s && s.name === "Pinning Light");
+        $gameTroop.setup($dataTroops.findIndex(x => x && x.name === "Probe Brutes"));
+        const t = $gameTroop.members()[0];
+        let n = 0;
+        for (let i = 0; i < 60; i++) {
+            t.recoverAll(); t.removeState(51);
+            const a = new Game_Action(k); a.setSkill(sk.id); a.apply(t);
+            if (t.isStateAffected(51)) n++;
+        }
+        $gameTroop.clear();
+        return n;
+    });
+    check(has(r, /pinned/) || pins > 0, "Pinning Light pins (" + pins + " of 60 casts)");
     check(has(r, /rides a blade/), "Blade Ride");
     check(has(r, /plants herself beside Kanta/), "Vanguard Rush wards Kanta");
     check(has(r, /Falin protected Kanta|protects|covers|Falin took the hit/i) || true, "(substitution message)");

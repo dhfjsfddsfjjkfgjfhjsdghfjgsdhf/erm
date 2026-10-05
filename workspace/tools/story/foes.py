@@ -4,7 +4,7 @@ Skills 201-320, enemies 61-160, troops 61-200, items 41-90, weapons 31-60, armor
 Rank bands the party stands at: ch.4 E (LV 15-21), ch.5 D (21-27), ch.6 D->C (27-31), ch.7 C->B (31-41),
 ch.8 B (41-47), ch.9 B->A (47-55).  Numbers are tuned with tools/scen_story_balance.js."""
 from story import db
-from story.common import Ev, KANTA, HANMA, FALIN, npc_speaker
+from story.common import Ev, KANTA, HANMA, FALIN, npc_speaker, SW
 from story.cast import RIN
 from story.db import (eff, trait, skill, passive, enemy, act, drop, stats, weak, weapon, armor, item, state,
                       BATTLEMAGIC_ST, FROST_ST, STAFF_W, ST_FROSTBODY, ST_MORGENWACHT,
@@ -463,6 +463,10 @@ def troops(put, start):
     bt.text(["The broken chain whips back into the Messingvogt, and", "its ledger-robes smoke where the light touched them."],
             background=1, position=1)
     bt.say(FALIN, ["Good. Now it bleeds. Everyone on the bailiff!"], 'fierce')
+    # once only: a rematch after a defeat must not break through a second time
+    S_BT_D = SW('C4: Breakthrough D')
+    bt.switch(S_BT_D)
+    bt = Ev().if_switch(S_BT_D, False, lambda b, inner=bt: b.splice(inner))
     t("Messingvogt", [(db.EN["Aschenhund"], 200, Y), (e["Messingvogt"], 430, Y + 20)], [db.troop_page(bt, turn=(2, 0))])
     # ---- chapter 5
     t("Wyvern", [(e["Wyvern"], 408, Y - 20)])

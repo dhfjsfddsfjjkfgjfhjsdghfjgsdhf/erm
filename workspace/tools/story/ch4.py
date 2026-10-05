@@ -300,7 +300,7 @@ def wallfeste():
                                                             priority=1, step_anime=True),
                                                          pg(None, sw=S_RAID_DONE, priority=0)]))
     vogt = mb.add("Messingvogt", 33, 6, [pg(None, priority=0)])
-    rin_raid = mb.add("Rin (raid)", 30, 12, [pg(None, priority=0),
+    rin_raid = mb.add("Rin (raid)", 33, 11, [pg(None, priority=0),     # on the gate road (30,12 was the canal)
                                              pg(None, sw=S_RAID, char=RIN.char[0], index=RIN.char[1], direction=8,
                                                 priority=1),
                                              pg(None, sw=S_RAID_DONE, priority=0)])
@@ -322,7 +322,7 @@ def wallfeste():
     el.se('Dog', 90, 60)
     el.battle(TR["Raid: Aschenhunde"])
     el.wait(10)
-    el.route(rin_raid, [(13, [])], wait=True)
+    el.route(rin_raid, [(13, [])], wait=True, skippable=True)          # she gives ground: one step back
     el.say(RIN, ["You three! Hold the gate with me, the Marshal's men",
                  "are cut off in the barracks!"])
     el.se('Chain', 90, 70)
@@ -421,7 +421,7 @@ def marschallhalle():
     el.say(HERALD, ["Her Royal Highness, the Crown Princess of Hohenwacht!"])
     el.route(herald, [(41, ['', 0])], wait=False)
     el.script("$gameMap.event(%d).setImage('%s', %d);" % (rin, RIN.char[0], RIN.char[1]))
-    el.route(rin, [(19, []), (13, []), (13, []), (14, []), (14, []), (19, [])], wait=True)
+    el.route(rin, [(19, []), (4, []), (4, [])], wait=True, skippable=True)     # she walks up the hall to the party
     el.say(RIN, ["Marshal. My father's answer."])
     el.say(KOSAKA, ["Is the same as mine, Highness. The Host is mustering on",
                     "the Aschenfeld. Gōen himself has been seen. If I send",
@@ -448,7 +448,7 @@ def marschallhalle():
                     "bought you. Find me the seller, and the princess gets",
                     "her two thousand."])
     el.say(RIN, ["…Then find him quickly. I'll be in the courtyard."])
-    el.route(rin, [(18, []), (12, []), (12, []), (13, []), (13, [])], wait=True)
+    el.route(rin, [(16, []), (1, []), (1, [])], wait=True, skippable=True)     # and back the way she came
     el.script("$gameMap.event(%d).setImage('', 0);" % rin)
     el.say(KOSAKA, ["The healer at the Lazarett laid out the dead. The",
                     "quartermaster runs the Zeughaus. My sentries walk the",

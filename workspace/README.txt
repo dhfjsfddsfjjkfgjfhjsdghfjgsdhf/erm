@@ -1,11 +1,12 @@
 Erdenkreis (RPG Maker MZ) - Claude's build workspace. Backup of 2026-09-29 21:10 (Europe/Berlin), then
-increment 3 (Chapters 5-9, the whole story) added in a cloud session the same night: start with handoff/HANDOFF.md.
+increment 3 (Chapters 5-9, the whole story) added in a cloud session the same night (handoff/HANDOFF.md), then
+tested in the engine, fixed and installed on 2026-10-05 (handoff/CHANGES_2026-10-05.md: read that first).
 
 What this is
   The source that builds the game in C:\Users\Admin\Documents\RMMZ\RPGMZ: Python builders for the database,
   maps and events, the plugins, the headless test scenarios, and the latest built output (story/out).
-  Everything after "increment 2" (portraits, the Act II-III skill kits, Chapter 4) exists only here and in
-  story/out; it has NOT been copied into the RPG Maker project yet.
+  The whole build (Prologue to the end of Act III) is installed in the project since 2026-10-05; the files it
+  replaced are in RPGMZ\_backup_increment2\increment2_backup.zip.
 
 Layout
   tools/build_story.py        builds everything into story/out (python3 tools/build_story.py)
@@ -14,6 +15,8 @@ Layout
                               ch1-ch9.py, act2.py, cast.py, ids.py, lighting.py, overlays.py
   tools/mapgen.py, autotile.py, maprender.py, tilesheet.py   map generator, autotiles, PNG previews, tile sheets
   tools/check_story.py        static checks + reachability playthrough + script syntax (no engine needed)
+  tools/check_routes.py       scripted movement routes that would block and hang a scene (no engine needed)
+  tools/story/engine_tune.py  engine corrections of Act II-III foes; tools/scen_tune.js finds them in the engine
   tools/battle_sim.py, tune_foes.py, balance_scenarios.json   balance simulator and tuner (no engine needed)
   tools/reconstruct_bases.py  story/base/: the sample-map bases recovered from the last build (+ registry.json)
   handoff/                    HANDOFF.md (read first), balance.txt, doc updates, inventions and credits
@@ -26,6 +29,9 @@ Layout
   story/img/                  portraits (Kanta, Hanma, Falin), cast sprites
   story/out/                  the latest build: data/*.json, img/, js/ (copy into the MZ project to install)
   gen/                        character-generator scripts used for the cast art
+
+orig/ (engine files and template data) and the RTP images can be rebuilt from the project itself: see
+handoff/CHANGES_2026-10-05.md ("orig/data").
 
 Inputs the builder expects (from the uploads, not included here)
   /mnt/user-data/uploads/samplemaps   RPG Maker MZ sample maps (MapNNN.json) - optional now: story/base stands in

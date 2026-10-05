@@ -45,10 +45,10 @@ IMAGES = {
     "Ertrunkener": dict(src="Sailor", f=1.0, sat=0.3, tint=(80, 140, 130, 0.45), dark=0.85),
     "Sirene": dict(src="Siren", f=1.1),
     "Riffkrabbe": dict(src="Crab", f=1.0, hue=160),
-    "Ketos": dict(src="Ketos", f=1.2),
+    "Riffketos": dict(src="Ketos", f=1.2),        # not "Ketos": that name is an RTP battler
     "Fomorer": dict(src="SF_Kappa", f=1.1, hue=200, sat=0.8),
     "Fomorer_Haeuptling": dict(src="SF_Kappa", f=1.6, hue=160, sat=0.9, dark=0.85),
-    "Kraken": dict(src="Kraken", f=1.3),
+    "Tiefenkraken": dict(src="Kraken", f=1.3),    # not "Kraken": that name is an RTP battler
     "Shigure": dict(src="Actor2_1", f=1.4, hue=-20, sat=0.8, tint=(60, 110, 140, 0.25)),
     "Glutsalamander": dict(src="Salamander", f=1.1),
     "Aschenphoenix": dict(src="SF_Phoenix", f=1.1, sat=0.5, dark=0.75),
@@ -264,7 +264,7 @@ def enemies(put, start):
     e(enemy(110, "Riffkrabbe", "Riffkrabbe", 960, stats(580, 360, 620, 200, 200, 200), 1300, 0,
             [act(1, 4), act(s["Scherenzange"], 4)], "<Rank: A>\n<Attack Die: d12>\n<Armor: 12>",
             drops=[drop(1, MS["A"], 12)], extra=[weak(THUNDER, 2.0), trait(11, WATER, 0.5)]))
-    e(enemy(111, "Ketos", "Ketos", 1550, stats(865, 660, 620, 300, 400, 720), 3200, 0,
+    e(enemy(111, "Ketos", "Riffketos", 1550, stats(865, 660, 620, 300, 400, 720), 3200, 0,
             [act(1, 3), act(s["Sturmflut"], 3), act(s["Bite"], 3)], "<Rank: A>\n<Role: elite>\n<Attack Die: d12>",
             drops=[drop(1, MS["A"], 2)], extra=[weak(THUNDER, 1.5), trait(11, WATER, 0.0)]))
     e(enemy(112, "Fomorer", "Fomorer", 1200, stats(725, 525, 580, 200, 300, 325), 1300, 400,
@@ -274,7 +274,7 @@ def enemies(put, start):
             [act(s["Trollkeule"], 4), act(1, 3), act(s["Terrible Roar"], 1), act(s["Glutodem"], 2)],
             "<Rank: B>\n<Role: boss>\n<Attack Die: d12>\n<Armor: 12>\nThe Aschenkrone burns him. He wears it anyway.",
             extra=[weak(LIGHT, 1.5), weak(ICE, 1.5)]))
-    e(enemy(114, "Kraken", "Kraken", 980, stats(475, 325, 640, 300, 360, 370), 3200, 0,
+    e(enemy(114, "Kraken", "Tiefenkraken", 980, stats(475, 325, 640, 300, 360, 370), 3200, 0,
             [act(s["Tentakelschlag"], 5), act(s["Sturmflut"], 2)], "<Rank: A>\n<Role: elite>\n<Attack Die: d10>",
             extra=[weak(THUNDER, 2.0), trait(11, WATER, 0.0)]))
     e(enemy(115, "Shigure", "Shigure", 3150, stats(540, 475, 680, 400, 520, 430), 8000, 0,

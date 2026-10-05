@@ -1,4 +1,6 @@
 // Balance runs along the story's path: BAL='[{"level":17,"walls":[12],"troops":["Höllenhund"],"n":20}]'
+//   fresh: rebuild the party before every fight; reset: switch ids to clear first (the once-only breakthrough
+//   pages of the Messingvogt, Tsumugi and Gōen, so the scripted breakthrough happens in every fight)
 //   walls: levels at which the party broke through (E at 12, D at 21, C at 31 ...); Falin joins at 15 (falin: level)
 //   members: default [1, 2, 3] once Falin has joined; guests: extra actor ids (level = party level)
 const lib = require("./storylib.js");
@@ -19,6 +21,7 @@ module.exports = async h => {
         const setup = () => h.eval(c => {
             $gameActors._data = [];
             $gameVariables.setValue(1, 0);
+            for (const s of c.reset || []) $gameSwitches.setValue(s, false);   // once-only story pages fire again
             $gameVariables.setValue(Story.P.pierceVar, c.regalia || 0);
             const k = $gameActors.actor(1), hn = $gameActors.actor(2), f = $gameActors.actor(3);
             $gameParty._actors = [1, 2];
@@ -46,6 +49,21 @@ module.exports = async h => {
         }, c);
         await setup();
         const party = await h.eval(() => party());
+        if (c.log) await h.eval(() => {          // c.log: print the battle log of the first fight of each troop
+            window.__blog = [];
+            if (!window.__blogHooked) {
+                window.__blogHooked = true;
+                const _add = Window_BattleLog.prototype.addText;
+                Window_BattleLog.prototype.addText = function(t) { if (window.__blog) window.__blog.push(t); _add.call(this, t); };
+                const _st = BattleManager.startTurn;
+                BattleManager.startTurn = function() {
+                    if (window.__blog) window.__blog.push("== turn " + ($gameTroop.turnCount() + 1) + "  party " +
+                        $gameParty.members().map(a => a.name() + " " + a.hp + "/" + a.mhp).join(", ") + "  foes " +
+                        $gameTroop.members().map(e => e.name() + " " + e.hp + "/" + e.mhp).join(", "));
+                    _st.call(this);
+                };
+            }
+        });
         for (const tname of c.troops) {
             let wins = 0, turns = 0, hpLeft = 0, n = c.n || 20;
             for (let i = 0; i < n; i++) {
@@ -64,7 +82,11 @@ module.exports = async h => {
                     const hp = $gameParty.members().reduce((s, a) => s + a.hp / a.mhp, 0) / $gameParty.size();
                     return { result: b.result, turns: b.turns, hp };
                 });
-                if (r.result === 0) { wins++; hpLeft += r.hp; }
+                if (c.log && i === 0) {
+                    console.log("---- battle log: " + tname + " (" + (r.result === 0 ? "won" : "lost") + ")");
+                    console.log((await h.eval(() => window.__blog.splice(0))).map(t => "   " + t.replace(/\\C\[\d+\]/g, "")).join("\n"));
+                } else if (c.log) await h.eval(() => { window.__blog.length = 0; });
+                if (r.result === 0 || (c.abortWin && r.result === 1)) { wins++; hpLeft += r.hp; }   // abortWin: a story page ends it
                 turns += r.turns;
             }
             const line = `L${c.level} gate ${"FEDCBA"[0]} ${tname.padEnd(24)} win ${Math.round(100 * wins / n)}%  turns ${(turns / n).toFixed(1)}  hp left ${wins ? Math.round(100 * hpLeft / wins) : 0}%`;

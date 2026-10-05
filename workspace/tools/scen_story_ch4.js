@@ -102,13 +102,23 @@ module.exports = async h => {
     await expect(await h.eval(v => $gameVariables.value(v), VAR["C4: Clues"]) === 3, "3 clues");
 
     // ---------------------------------------------------------------- Frontposten 5 (optional)
+    // the quest recommends level 19: a player who takes it on trains first (Hanma follows Kanta's level)
+    await h.eval(() => {
+        for (const id of [1, 3]) $gameActors.actor(id).changeLevel(19, false);
+        spendAll();
+        Story.autoBuild($gameActors.actor(3));
+        $gameParty.members().forEach(a => a.recoverAll());
+    });
+    await state("trained for Frontposten 5");
     await go(M.WALLFESTE, 33, 6, 8);
     await talk("North Gate", [0]);
     await expect(await h.eval(() => $gameMap.mapId()) === M.FP5, "at Frontposten 5");
     await heal();
     await talk("Gargoyle");
+    await expect(await h.eval(() => $gameMap.mapId()) === M.FP5, "gargoyle fight won (still at Frontposten 5)");
     await heal();
     await talk("Hellhound");
+    await expect(await h.eval(() => $gameMap.mapId()) === M.FP5, "hellhound fight won (still at Frontposten 5)");
     await heal();
     await talk("Top");
     await expect(await sw("C4: FP5 Relieved"), "Frontposten 5 relieved");

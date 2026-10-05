@@ -9,8 +9,12 @@ actions/attacks, enemy action ratings, MP costs by skill rank, skill forms, pass
 bonuses, Kanta's floating strikes and Halo Riposte, Falin's Rank Regen and Unbroken, Hanma's Hold the Line,
 the Dawn Regalia against <Demon>s and the Veil of Ash.
 Not modelled (the engine run is the reference): support skills (the auto-battle AI never picks them either),
-states and buffs applied by skills, barriers, items, turn-order effects, troop-page scripts (scripted
-breakthroughs are applied from the start when fresh=True is not enough).
+states and buffs applied by skills (enemy buffs like Heerruf, fear, burns), barriers, items, turn-order effects,
+troop-page scripts (scripted breakthroughs are applied from the start when fresh=True is not enough).
+Added 5 Oct 2026: HP drain heals the user; enemy skills with 2-4 random targets hit that many.
+The engine runs harsher than this simulator on foes that poison, put to sleep, buff themselves or drain (see
+tools/story/engine_tune.py and the engine table at the top of handoff/balance.txt):
+always confirm bosses with tools/scen_story_bal2.js.
 
 usage: python3 tools/battle_sim.py [scenario name ...]      (see SCENARIOS at the bottom)"""
 import json, os, re, random, sys, math
@@ -654,6 +658,10 @@ class Battle:
             mult *= 0.5
         base = roll(inf['dice']) + pw(inf['sv']) + 10 * inf['gb'] + rk['bonus'] + form.get('bonus', 0)
         v = max(1, round(base * mult))
+        if dmg_type == 5:                               # HP drain: MZ caps it at the target's HP and heals the user
+            v = min(v, max(0, target.hp))
+            if not user.dead():
+                user.hp = min(user.mhp, user.hp + v)
         self.hurt(target, v)
         return v
 
@@ -746,10 +754,14 @@ class Battle:
                     targets = self.alive('party') if s['scope'] == 2 else []
                 elif s['scope'] in (7, 11, 0):
                     targets = []
+                elif s['scope'] in (3, 4, 5, 6):           # 1-4 random targets (MZ draws each one anew)
+                    alive = self.alive('party')
+                    targets = [random.choice(alive) for _ in range(s['scope'] - 2)] if alive else []
                 else:
                     targets = [random.choice(self.alive('party'))] if self.alive('party') else []
                 for t in targets:
-                    self.act(e, sid, t)
+                    if not t.dead():
+                        self.act(e, sid, t)
 
     def breakthrough(self):
         """A scripted breakthrough (troop page): the party rises a rank, one level, and is healed."""

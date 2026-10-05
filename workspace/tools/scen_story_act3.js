@@ -13,6 +13,7 @@ const MAPS = [75, 76, 77, 78, 79, 80, 92, 90, 93, 91, 100, 101, 102, 103, 104, 1
 module.exports = async h => {
     const idle = async (tag, extra) => {
         try {
+            await h.run(20);        // let a switch just set start its autorun before checking for idle
             await h.runUntil(x => (SceneManager._scene instanceof Scene_Map && SceneManager._scene.isStarted() &&
                 !$gameMap.isEventRunning() && !$gamePlayer.isTransferring() && !$gameMessage.isBusy() &&
                 !SceneManager.isSceneChanging()) || (x && SceneManager._scene instanceof Scene_Title), 60000, extra);

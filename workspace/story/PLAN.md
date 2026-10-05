@@ -107,3 +107,14 @@ shops 130/138 | granary cellar 044 | Wolfsgrube 031 | Nordstrasse 262 | Frontpos
 - Story_Core: message fit (too-wide lines drawn smaller).
 - Engine tests NOT run (no engine files in the cloud): run tools/scen_story_act3.js (new), scen_story_ch4.js and the
   Act I scenarios locally, then install. Everything for local Claude is in handoff/HANDOFF.md.
+
+
+## BUILD STATE (2026-10-05) — increment 3 tested in the engine, fixed and INSTALLED on the PC
+- Engine tests on the project's own MZ 1.10 engine files: scen_story_act3, the new scen_story_sweep (all 419 events of
+  chapters 5–9), scen_story_ch4, the new scen_story_rematch, the Act I scenarios, kits, menu, save, msgfit: all pass.
+- Fixed: chapter 4 hangs (Rin's routes in the Marschallhalle, Rin on the canal in the night raid), in-battle
+  breakthroughs that repeated after a defeat (Nordstraße, Messingvogt), battlers that overwrote RTP Ketos/Kraken.
+- Balance: the engine is much harsher than battle_sim.py on foes with buffs, drain or multi-target skills;
+  tools/story/engine_tune.py corrects 13 foes (found with tools/scen_tune.js). Engine table in handoff/balance.txt.
+- New tools: tools/check_routes.py (static route check), tools/scen_tune.js (engine tuner), story/base/registry.json
+  now pins every switch/variable id. Details: handoff/CHANGES_2026-10-05.md.

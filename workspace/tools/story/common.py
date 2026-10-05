@@ -111,6 +111,12 @@ class Ev:
     def done(self):
         return self.cmds + [{"code": 0, "indent": 0, "parameters": []}]
 
+    def splice(self, other):
+        """Appends another Ev's commands at the current indent (e.g. inside a branch)."""
+        for c in other.cmds:
+            self.cmds.append(dict(c, indent=c["indent"] + self.indent))
+        return self
+
     def block(self, body):
         """Runs body(self) one indent deeper and closes it with code 0."""
         self.indent += 1

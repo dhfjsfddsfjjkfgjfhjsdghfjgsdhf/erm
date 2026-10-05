@@ -20,6 +20,8 @@ armors = db.build_armors()
 classes = db.build_classes()
 actors = db.build_actors()
 enemies = db.build_enemies()
+from story import engine_tune
+engine_tune.apply(enemies)          # engine corrections of Act II-III foes (see the module)
 troops = db.build_troops()
 common = db.build_common_events()
 

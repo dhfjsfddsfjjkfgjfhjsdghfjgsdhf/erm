@@ -1115,6 +1115,10 @@ def build_troops():
     bt.text(["The flare catches the smaller hounds mid-leap. They", "burst apart into drifting ash."],
             background=1, position=1)
     bt.say(HANMA, ["The light burns miasma! Press it, my Lord!"], 'command')
+    # once only: a rematch after a defeat must not break through a second time
+    S_BT_E = SW('C3: Breakthrough E')
+    bt.switch(S_BT_E)
+    bt = Ev().if_switch(S_BT_E, False, lambda b, inner=bt: b.splice(inner))
     put("Aschenhunde", [(e["Aschenhund"], 200, Y), (e["Aschenhund-Leitrüde"], 420, Y + 20), (e["Aschenhund"], 640, Y)],
         [troop_page(bt, turn=(2, 0))])
     # the guild's E trial

@@ -161,11 +161,13 @@
   "C9: Kagero Phase 1": 159,
   "C9: Kagero Phase 2": 160,
   "C9: The End": 161,
-  "C7: Breakthrough B": 162,
-  "C9: Throne Steps (go)": 163,
-  "C9: Clearing (go)": 164,
-  "C9: The Throne (go)": 165,
-  "Game Cleared": 166
+  "C3: Breakthrough E": 162,
+  "C4: Breakthrough D": 163,
+  "C7: Breakthrough B": 164,
+  "C9: Throne Steps (go)": 165,
+  "C9: Clearing (go)": 166,
+  "C9: The Throne (go)": 167,
+  "Game Cleared": 168
  },
  "variables": {
   "Breakthrough Gate": 1,
