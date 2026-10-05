@@ -14,7 +14,7 @@
  * @orderAfter TausiLighting
  * @orderAfter McKathlin_DayNight
  *
- * @help HD2D_Diorama.js  (version 1.0.0, RPG Maker MZ 1.0 - 1.9)
+ * @help HD2D_Diorama.js  (version 1.0.0, tested with RPG Maker MZ 1.7)
  * ============================================================================
  * WHAT IT DOES
  * ============================================================================
@@ -186,6 +186,7 @@
  * HD2D.setPreset("Night", 120);          HD2D.set("dof.focus", 70, 60);
  * HD2D.reset("dof", 30);                 HD2D.get("bloom.intensity");
  * HD2D.setEffect("bloom", false);        HD2D.setQuality("High");
+ * HD2D.setShadowQuality("Low");          (Off / Low / Medium / High / Auto)
  * HD2D.setTime(18.5, 600);               HD2D.Camera.setZoom(1.5, 60);
  * HD2D.addLight({ id: "a", attach: "player", radius: 200, intensity: 1 });
  * HD2D.removeLight("a", 30);
@@ -216,8 +217,9 @@
  *          walls/regions), normal maps, 4-level bloom, 3 fog layers.
  * Ultra  : full-res light, 48-tap DOF, longer occlusion rays, 5 bloom
  *          levels, more particles. Only for strong GPUs.
- * Every effect can be switched off separately ("Effects" parameter and
- * Enable/Disable Effect commands) to find performance bottlenecks.
+ * "Shadow Quality" (Off / Low / Medium / High) overrides the shadow part
+ * of the level. Every effect can be switched off separately ("Effects"
+ * parameter and Enable/Disable Effect commands) to find bottlenecks.
  *
  * ============================================================================
  * COMPATIBILITY NOTES
@@ -233,6 +235,8 @@
  * - McKathlin_DayNight / screen tint: HD2D keeps the map's screen tone. If
  *   you use HD2D time of day, set its "Hour Variable" to the same variable
  *   and make the tint plugin's tones neutral to avoid double darkening.
+ *   Clock plugins may protect their variables: change the time with their
+ *   own commands (HD2D's Set Time Of Day then only logs a warning).
  * - If anything fails on a device, HD2D disables itself for that scene and
  *   logs the error instead of stopping the game (camera zoom returns to 1
  *   until the next map). <HD2DOff> maps also ignore camera zoom.
@@ -282,6 +286,17 @@
  * @desc Automatically steps the quality down when the frame rate stays below 50 FPS.
  * @type boolean
  * @default false
+ *
+ * @param Shadow Quality
+ * @parent General
+ * @desc Auto follows Quality. Off: none. Low: contact shadows. Medium: + sun/light silhouettes. High: + tile shadows.
+ * @type select
+ * @option Auto
+ * @option Off
+ * @option Low
+ * @option Medium
+ * @option High
+ * @default Auto
  *
  * @param Effects
  * @parent General
@@ -1587,6 +1602,19 @@
  * @arg occlusion
  * @text Tile Occlusion (0-1)
  * @type string
+ * @default
+ *
+ * @arg quality
+ * @text Shadow Quality
+ * @desc Auto follows the quality level. Saved with the game.
+ * @type select
+ * @option (unchanged)
+ * @value
+ * @option Auto
+ * @option Off
+ * @option Low
+ * @option Medium
+ * @option High
  * @default
  *
  * @arg duration
@@ -3625,6 +3653,7 @@ const P = (HD2D.Params = (() => {
     p.defaultPreset = U.str(RAW["Default Preset"], "HD2D").trim() || "HD2D";
     p.quality = U.str(RAW["Quality"], "Medium").trim();
     p.adaptiveQuality = U.bool(RAW["Adaptive Quality"], false);
+    p.shadowQuality = U.str(RAW["Shadow Quality"], "Auto").trim().toLowerCase();
     const toggles = U.json(RAW["Effects"], {}) || {};
     p.toggles = {};
     const toggleNames = {
@@ -3886,10 +3915,12 @@ const BUILTIN_PRESETS = {
         particles: [{ type: "motes", amount: 20 }, { type: "leaves", amount: 6 }, { type: "sunbeams", amount: 4 }]
     },
     Town: {
+        // Towns are busy maps where readability matters: lighter haze.
         ambient: { color: "#fff8ee", intensity: 0.82 },
         sun: { intensity: 0.27 },
         dof: { radius: 4 },
-        fog: { farOpacity: 0.14 },
+        atmosphere: { farDesaturate: 0.12 },
+        fog: { farOpacity: 0.08 },
         grade: { temperature: 0.05, saturation: 1.08, contrast: 1.06 },
         particles: [{ type: "dust", amount: 12 }]
     },
@@ -4022,6 +4053,16 @@ const QUALITY = {
 };
 const QUALITY_ORDER = ["low", "medium", "high", "ultra"];
 HD2D.QUALITY = QUALITY;
+
+// Shadow quality overrides (Off / Low / Medium / High); "auto" keeps the level's.
+// shadowMode: 0 none, 1 contact blobs, 2 + sun and strongest-light silhouettes,
+// 3 + tile occlusion, 4 + two light silhouettes per character.
+const SHADOW_QUALITY = {
+    off: { shadowMode: 0, occlusionSteps: 0 },
+    low: { shadowMode: 1, occlusionSteps: 0 },
+    medium: { shadowMode: 2, occlusionSteps: 0 },
+    high: { shadowMode: 3, occlusionSteps: 14 }
+};
 
 // Bokeh quality presets (used when bokeh.quality is not "auto").
 const BOKEH_QUALITY = {
@@ -4591,6 +4632,7 @@ const State = (HD2D.State = {
             overrides: {},
             toggles: {},
             quality: null,
+            shadowQuality: null,
             time: { hour: 12, active: null },
             timeTween: null,
             depth: {},
@@ -4822,8 +4864,27 @@ const State = (HD2D.State = {
         return key;
     },
 
+    shadowQualityKey() {
+        const key = String(this.data().shadowQuality || P.shadowQuality || "auto").toLowerCase();
+        return SHADOW_QUALITY[key] ? key : "auto";
+    },
+
+    /** Quality settings of the current level, with the shadow quality override applied. */
     quality() {
-        return QUALITY[this.qualityKey()];
+        const base = QUALITY[this.qualityKey()];
+        const sq = this.shadowQualityKey();
+        if (sq === "auto") return base;
+        const key = base.name + "|" + sq;
+        if (this._qualityKey !== key) {
+            const s = SHADOW_QUALITY[sq];
+            const high = sq === "high";
+            this._quality = Object.assign({}, base, {
+                shadowMode: high ? Math.max(s.shadowMode, base.shadowMode) : s.shadowMode,
+                occlusionSteps: high ? Math.max(s.occlusionSteps, base.occlusionSteps) : s.occlusionSteps
+            });
+            this._qualityKey = key;
+        }
+        return this._quality;
     },
 
     //--- map lifecycle -------------------------------------------------------
@@ -5897,8 +5958,13 @@ const Particles = (HD2D.Particles = {
 const Layers = (HD2D.Layers = {
     /** <HD2DLayer: image, depth n, loop x|y|xy|none, scroll sx sy, x n, y n, ...> */
     parseTag(tag) {
-        const o = U.parseOptions(tag === true ? "" : tag);
-        const image = String(o.args[0] || o.opts.image || "").trim();
+        const text = tag === true ? "" : String(tag);
+        const o = U.parseOptions(text);
+        let image = String(o.args[0] || o.opts.image || "").trim();
+        // A file name with spaces ("Dark Clouds") looks like "key value":
+        // an unknown first entry is the image name.
+        const first = text.split(/[,;]/)[0].trim();
+        if (!image && first && !/^(id|image|folder|depth|loop|x|y|scroll|factor|opacity|blend|scale|zoom|front)\b/i.test(first)) image = first;
         if (!image) return null;
         const L = {
             id: o.opts.id || image,
@@ -9537,7 +9603,7 @@ const Debug = (HD2D.Debug = {
         const time = hour === null ? "off" : (st._phase || "") + " " + Math.floor(hour) + ":" + String(Math.floor((hour % 1) * 60)).padStart(2, "0");
         const particles = spriteset._hd2dParticleSystem ? spriteset._hd2dParticleSystem.count() : 0;
         return [
-            "HD2D " + HD2D.VERSION + "  quality " + q.name + (GPU.hdr ? " (HDR)" : " (LDR)") + (pipe && pipe.failed ? "  [FAILED]" : ""),
+            "HD2D " + HD2D.VERSION + "  quality " + q.name + (GPU.hdr ? " (HDR)" : " (LDR)") + "  shadows " + State.shadowQualityKey() + (pipe && pipe.failed ? "  [FAILED]" : ""),
             "FPS " + fps.toFixed(1) + "   frame " + ms.toFixed(1) + " ms   passes " + (pipe ? pipe.passes : 0),
             "preset " + d.preset + trans + "   time " + time,
             "focus " + focus.toFixed(1) + "   focal plane " + st.depth.focalDepth.toFixed(1) + " @ Y " + Depth.focalY.toFixed(2),
@@ -9705,6 +9771,11 @@ HD2D.setQuality = level => {
     const key = String(level || "").toLowerCase();
     State.data().quality = QUALITY[key] ? key : null;
 };
+/** "Off", "Low", "Medium", "High" or "Auto" (follow the quality level). */
+HD2D.setShadowQuality = level => {
+    const key = String(level || "").toLowerCase();
+    State.data().shadowQuality = SHADOW_QUALITY[key] ? key : null;
+};
 HD2D.setTime = (hour, duration = 0, easing = "smooth") => {
     const d = State.data();
     const wrap = h => ((h % 24) + 24) % 24;
@@ -9720,9 +9791,16 @@ HD2D.setTime = (hour, duration = 0, easing = "smooth") => {
     hour = Number(hour);
     if (!isFinite(hour)) return;
     if (P.timeMode === "variable" && P.hourVariable && d.time.active !== true) {
-        // Variable mode: the variables are the clock, so write them.
-        $gameVariables.setValue(P.hourVariable, Math.floor(wrap(hour)));
-        if (P.minuteVariable) $gameVariables.setValue(P.minuteVariable, Math.floor((wrap(hour) % 1) * 60));
+        // Variable mode: the variables are the clock, so write them. Clock
+        // plugins (e.g. McKathlin_DayNight) may protect their variables; the
+        // time is then changed with that plugin's own commands.
+        try {
+            $gameVariables.setValue(P.hourVariable, Math.floor(wrap(hour)));
+            if (P.minuteVariable) $gameVariables.setValue(P.minuteVariable, Math.floor((wrap(hour) % 1) * 60));
+        } catch (e) {
+            U.warnOnce("Variable " + P.hourVariable + " belongs to another plugin's clock - set the time with that plugin's commands.");
+            return;
+        }
         if (d.time.active === false) d.time.active = null;
         if (duration > 0) State.crossfade(duration, easing);
         State.invalidate();
@@ -10021,6 +10099,7 @@ command("SetColorGrade", function(a) {
 });
 
 command("SetShadows", function(a) {
+    if (A.str(a.quality, "")) HD2D.setShadowQuality(A.str(a.quality, ""));
     setOptional([
         ["shadows.enabled", a.enabled, "bool"], ["shadows.opacity", a.opacity], ["shadows.length", a.length],
         ["shadows.softness", a.softness], ["shadows.contact", a.contact], ["shadows.occlusion", a.occlusion]
