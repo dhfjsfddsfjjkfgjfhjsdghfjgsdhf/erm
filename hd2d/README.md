@@ -661,3 +661,6 @@ Erdenkreis project with RPG Maker MZ 1.7:
   WebGL 1 and the 8-bit (no half-float) fallback, all producing the same
   image within rounding;
 - CPU profiling of the update and render code.
+
+The test runner and the main scenarios are in [`test/`](test/README.md) so
+the checks can be repeated after changes.
